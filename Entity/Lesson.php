@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * IMRIM\Bundle\LmsBundle\Entity\Exam
+ * IMRIM\Bundle\LmsBundle\Entity\Lesson
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="IMRIM\Bundle\LmsBundle\Entity\ExamRepository")
+ * @ORM\Entity(repositoryClass="IMRIM\Bundle\LmsBundle\Entity\LessonRepository")
  */
-class Exam
+class Lesson
 {
     /**
      * @var integer $id
@@ -23,21 +23,40 @@ class Exam
     private $id;
 
     /**
-     * @var boolean $isFinal
+     * @var string $title
      *
-     * @ORM\Column(name = "isFinal", type = "boolean", nullable = false)
+     * @ORM\Column(name = "title", type = "string", length = 255, nullable = false)
      * @Assert\NotNull()
+     * @Assert\NotBlank()
+     * @Assert\Regex("/^[a-zA-Z0-9._-]+$/")
      */
-    private $isFinal=false;
+    private $title;
 
     /**
-     * @var integer $maxAttempts
+     * @var text $content
      *
-     * @ORM\Column(name = "maxAttempts", type = "integer", nullable = false)
+     * @ORM\Column(name = "content", type = "text", nullable = false)
      * @Assert\NotNull()
-     * @Assert\Min(1)
      */
-    private $maxAttempts;
+    private $content;
+
+    /**
+     * @var string $type
+     *
+     * @ORM\Column(name = "type", type = "string", length = 25, nullable = false)
+     * @Assert\NotNull()
+     * @Assert\Choice(callback="getPossibleTypes")
+     */
+    private $type;
+
+    /**
+     * @var string $fileAttached
+     *
+     * @ORM\Column(name = "fileAttached", type = "string", length = 255)
+     * @Assert\MaxLength(255)
+     * @Assert\NotBlank()
+     */
+    private $fileAttached;
 
     /**
      * @var integer $coursePosition
@@ -65,29 +84,15 @@ class Exam
      * @Assert\DateTime()
      */
     private $updateTime;
-
-    /**
-     * @var Question $questions
-     * 
-     * @ORM\OneToMany(targetEntity = "Question", mappedBy = "exam")
-     */
-    private $questions;
     
-    /**
-     * @var ExamAttempts $attempts
-     * 
-     * @ORM\OneToMany(targetEntity = "ExamAttempts", mappedBy = "exam")
-     */
-    private $attempts;
-
     /**
      * @var Course $course
      * 
-     * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "exams")
+     * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "lessons")
      * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id") 
      */
     private $course;
-    
+
     /**
      * Get id
      *
@@ -99,43 +104,83 @@ class Exam
     }
 
     /**
-     * Set isFinal
+     * Set title
      *
-     * @param boolean $isFinal
+     * @param string $title
      */
-    public function setIsFinal($isFinal)
+    public function setTitle($title)
     {
-        $this->isFinal = $isFinal;
+        $this->title = $title;
     }
 
     /**
-     * Get isFinal
+     * Get title
      *
-     * @return boolean 
+     * @return string 
      */
-    public function getIsFinal()
+    public function getTitle()
     {
-        return $this->isFinal;
+        return $this->title;
     }
 
     /**
-     * Set maxAttempts
+     * Set content
      *
-     * @param integer $maxAttempts
+     * @param text $content
      */
-    public function setMaxAttempts($maxAttempts)
+    public function setContent($content)
     {
-        $this->maxAttempts = $maxAttempts;
+        $this->content = $content;
     }
 
     /**
-     * Get maxAttempts
+     * Get content
      *
-     * @return integer 
+     * @return text 
      */
-    public function getMaxAttempts()
+    public function getContent()
     {
-        return $this->maxAttempts;
+        return $this->content;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set fileAttached
+     *
+     * @param string $fileAttached
+     */
+    public function setFileAttached($fileAttached)
+    {
+        $this->fileAttached = $fileAttached;
+    }
+
+    /**
+     * Get fileAttached
+     *
+     * @return string 
+     */
+    public function getFileAttached()
+    {
+        return $this->fileAttached;
     }
 
     /**
@@ -197,50 +242,19 @@ class Exam
     {
         return $this->updateTime;
     }
-    public function __construct()
-    {
-        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->attempts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
     
-    /**
-     * Add questions
-     *
-     * @param IMRIM\Bundle\LmsBundle\Entity\Question $questions
+     /**
+     * Get possible types for a lesson 
+     * 
+     * @return array
      */
-    public function addQuestion(\IMRIM\Bundle\LmsBundle\Entity\Question $questions)
-    {
-        $this->questions[] = $questions;
-    }
-
-    /**
-     * Get questions
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getQuestions()
-    {
-        return $this->questions;
-    }
-
-    /**
-     * Add attempts
-     *
-     * @param IMRIM\Bundle\LmsBundle\Entity\ExamAttempts $attempts
-     */
-    public function addExamAttempts(\IMRIM\Bundle\LmsBundle\Entity\ExamAttempts $attempts)
-    {
-        $this->attempts[] = $attempts;
-    }
-
-    /**
-     * Get attempts
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getAttempts()
-    {
-        return $this->attempts;
+    public static function getPossibleTypes(){
+        return array(
+            'text',
+            'video',
+            'picture',
+            'html',
+        );
     }
 
     /**

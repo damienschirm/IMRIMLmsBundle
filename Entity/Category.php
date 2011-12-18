@@ -6,19 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * IMRIM\Bundle\LmsBundle\Entity\UserGroup
+ * IMRIM\Bundle\LmsBundle\Entity\Category
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass = "IMRIM\Bundle\LmsBundle\Entity\UserGroupRepository")
+ * @ORM\Entity(repositoryClass="IMRIM\Bundle\LmsBundle\Entity\CategoryRepository")
  */
-class UserGroup
+class Category
 {
     /**
      * @var integer $id
      *
-     * @ORM\Column(name = "id", type = "integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy = "AUTO")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -26,26 +26,27 @@ class UserGroup
      * @var string $name
      *
      * @ORM\Column(name = "name", type = "string", length = 255, nullable = false)
+     * @Assert\MaxLength(255)
      * @Assert\NotNull()
      * @Assert\NotBlank()
-     * @Assert\Regex("/^[a-zA-Z0-9_-]$/")
+     * @Assert\Regex("/^[a-zA-Z0-9._-]+$/")
      */
     private $name;
 
     /**
-     * @var string $description
+     * @var boolean $isPublic
      *
-     * @ORM\Column(name = "description", type = "text", nullable = false)
+     * @ORM\Column(name = "isPublic", type = "boolean", nullable = false)
      * @Assert\NotNull()
      */
-    private $description;
+    private $isPublic=true;
 
     /**
      * @var datetime $creationTime
      *
      * @ORM\Column(name = "creationTime", type = "datetime", nullable = false)
-     * @Assert\DateTime()
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $creationTime;
 
@@ -53,24 +54,17 @@ class UserGroup
      * @var datetime $updateTime
      *
      * @ORM\Column(name = "updateTime", type = "datetime", nullable = false)
-     * @Assert\DateTime()
      * @Assert\NotNull()
+     * @Assert\DateTime()
      */
     private $updateTime;
 
     /**
-     * @var Doctrine\Common\Collections\Collection $members
+     * @var Doctrine\Common\Collections\Collection $courses
      * 
-        * @ORM\OneToMany(targetEntity = "GroupMembers", mappedBy = "group")
+     * @ORM\OneToMany(targetEntity = "Course", mappedBy = "category")
      */
-    private $members;
-    
-    /**
-     * @var Doctrine\Common\Collections\Collection $enrolments
-     * 
-     * @ORM\OneToMany(targetEntity = "GroupEnrolment", mappedBy = "group")
-     */
-    private $enrolments;
+    private $courses;
 
     /**
      * Get id
@@ -103,23 +97,23 @@ class UserGroup
     }
 
     /**
-     * Set description
+     * Set isPublic
      *
-     * @param string $description
+     * @param boolean $isPublic
      */
-    public function setDescription($description)
+    public function setIsPublic($isPublic)
     {
-        $this->description = $description;
+        $this->isPublic = $isPublic;
     }
 
     /**
-     * Get description
+     * Get isPublic
      *
-     * @return string 
+     * @return boolean 
      */
-    public function getDescription()
+    public function getIsPublic()
     {
-        return $this->description;
+        return $this->isPublic;
     }
 
     /**
@@ -163,46 +157,26 @@ class UserGroup
     }
     public function __construct()
     {
-        $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
-     * Add members
+     * Add courses
      *
-     * @param IMRIM\Bundle\LmsBundle\Entity\GroupMembers $members
+     * @param IMRIM\Bundle\LmsBundle\Entity\Course $courses
      */
-    public function addGroupMembers(\IMRIM\Bundle\LmsBundle\Entity\GroupMembers $members)
+    public function addCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $courses)
     {
-        $this->members[] = $members;
+        $this->courses[] = $courses;
     }
 
     /**
-     * Get members
+     * Get courses
      *
      * @return Doctrine\Common\Collections\Collection 
      */
-    public function getMembers()
+    public function getCourses()
     {
-        return $this->members;
-    }
-
-    /**
-     * Add enrolments
-     *
-     * @param IMRIM\Bundle\LmsBundle\Entity\GroupEnrolment $enrolments
-     */
-    public function addGroupEnrolment(\IMRIM\Bundle\LmsBundle\Entity\GroupEnrolment $enrolments)
-    {
-        $this->enrolments[] = $enrolments;
-    }
-
-    /**
-     * Get enrolments
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getEnrolments()
-    {
-        return $this->enrolments;
+        return $this->courses;
     }
 }

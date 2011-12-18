@@ -177,18 +177,33 @@ class User {
     private $studentRole;
    
     /**
-     * @var GroupMembers $groupsSubscription
+     * @var \Doctrine\Common\Collections\ArrayCollection $groupsSubscription
      * 
      * @ORM\OneToMany(targetEntity = "GroupMembers", mappedBy = "user")
      */
     private $groupsSubscription;
     
     /**
-     * @var ExamAttempts $examAttempts
+     * @var \Doctrine\Common\Collections\ArrayCollection $examAttempts
      * 
      * @ORM\OneToMany(targetEntity = "ExamAttempts", mappedBy = "user")
      */
     private $examAttempts;
+    
+    /**
+     * @var Doctrine\Common\Collections\Collection $courseResponsibilities
+     * 
+     * @ORM\ManyToMany(targetEntity = "Course", inversedBy = "teachers")
+     * @ORM\JoinTable(name="course_responsibilities")
+     */
+    private $courseResponsibilities;
+    
+    /**
+     * @var Doctrine\Common\Collections\Collection $enrolments
+     * 
+     * @ORM\OneToMany(targetEntity = "UserEnrolment", mappedBy = "group")
+     */
+    private $enrolments;
     
     /**
      * Get id
@@ -548,5 +563,45 @@ class User {
     public function getExamAttempts()
     {
         return $this->examAttempts;
+    }
+
+    /**
+     * Add courseResponsibilities
+     *
+     * @param IMRIM\Bundle\LmsBundle\Entity\Course $courseResponsibilities
+     */
+    public function addCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $courseResponsibilities)
+    {
+        $this->courseResponsibilities[] = $courseResponsibilities;
+    }
+
+    /**
+     * Get courseResponsibilities
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCourseResponsibilities()
+    {
+        return $this->courseResponsibilities;
+    }
+
+    /**
+     * Add enrolments
+     *
+     * @param IMRIM\Bundle\LmsBundle\Entity\UserEnrolment $enrolments
+     */
+    public function addUserEnrolment(\IMRIM\Bundle\LmsBundle\Entity\UserEnrolment $enrolments)
+    {
+        $this->enrolments[] = $enrolments;
+    }
+
+    /**
+     * Get enrolments
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getEnrolments()
+    {
+        return $this->enrolments;
     }
 }
