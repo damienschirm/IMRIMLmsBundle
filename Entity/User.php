@@ -184,6 +184,13 @@ class User {
     private $groupsSubscription;
     
     /**
+     * @var ExamAttempts $examAttempts
+     * 
+     * @ORM\OneToMany(targetEntity = "ExamAttempts", mappedBy = "user")
+     */
+    private $examAttempts;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -521,5 +528,25 @@ class User {
     public function getGroupsSubscription()
     {
         return $this->groupsSubscription;
+    }
+
+    /**
+     * Add examAttempts
+     *
+     * @param IMRIM\Bundle\LmsBundle\Entity\ExamAttempts $examAttempts
+     */
+    public function addExamAttempts(\IMRIM\Bundle\LmsBundle\Entity\ExamAttempts $examAttempts)
+    {
+        $this->examAttempts[] = $examAttempts;
+    }
+
+    /**
+     * Get examAttempts
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getExamAttempts()
+    {
+        return $this->examAttempts;
     }
 }
