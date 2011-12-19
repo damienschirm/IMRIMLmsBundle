@@ -93,6 +93,12 @@ class Lesson
      */
     private $course;
 
+    public function __construct()
+    {
+        $this->setCreationTime(new \DateTime("now"));
+        $this->setUpdateTime(new \DateTime("now"));
+    }
+    
     /**
      * Get id
      *
@@ -275,5 +281,13 @@ class Lesson
     public function getCourse()
     {
         return $this->course;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

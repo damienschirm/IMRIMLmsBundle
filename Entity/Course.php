@@ -85,7 +85,7 @@ class Course
     /**
      * @var Category $category
      * 
-     * @ORM\ManyToOne(targetEntity = "Cateogory", inversedBy = "courses")
+     * @ORM\ManyToOne(targetEntity = "Category", inversedBy = "courses")
      * @ORM\JoinColumn(name = "category_id", referencedColumnName = "id") 
      */
     private $category;
@@ -276,11 +276,13 @@ class Course
     }
     public function __construct()
     {
-        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
     $this->exams = new \Doctrine\Common\Collections\ArrayCollection();
     $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
     $this->userEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
     $this->groupEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->setUpdateTime(new \DateTime("now"));
+    $this->setCreationTime(new \DateTime("now"));
     }
     
     /**
@@ -401,5 +403,13 @@ class Course
     public function getGroupEnrolments()
     {
         return $this->groupEnrolments;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

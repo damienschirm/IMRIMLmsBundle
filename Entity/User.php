@@ -113,7 +113,7 @@ class User {
      *
      * @ORM\Column(name = "authType", type = "string", length = 25, nullable = false)
      * @Assert\NotNull()
-     * @Assert\Choice(callback = "getPossibleAuthType")
+     * @Assert\Choice(callback = "getPossibleAuthTypes")
      */
     private $authType;
 
@@ -177,14 +177,14 @@ class User {
     private $studentRole;
    
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $groupsSubscription
+     * @var Doctrine\Common\Collections\Collection $groupsSubscription
      * 
      * @ORM\OneToMany(targetEntity = "GroupMembers", mappedBy = "user")
      */
     private $groupsSubscription;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $examAttempts
+     * @var Doctrine\Common\Collections\Collection $examAttempts
      * 
      * @ORM\OneToMany(targetEntity = "ExamAttempts", mappedBy = "user")
      */
@@ -453,7 +453,7 @@ class User {
      * 
      * @return array
      */
-    public static function getPossibleAuthType() 
+    public static function getPossibleAuthTypes() 
     {
         return array(
             'ldap',
@@ -520,9 +520,12 @@ class User {
     {
         return $this->studentRole;
     }
+    
     public function __construct()
     {
         $this->groupsSubscription = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creationTime = new \DateTime("now");
+        $this->updateTime = new \DateTime("now");
     }
     
     /**
@@ -603,5 +606,13 @@ class User {
     public function getEnrolments()
     {
         return $this->enrolments;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

@@ -164,6 +164,8 @@ class UserGroup
     public function __construct()
     {
         $this->members = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creationTime = new \DateTime("now");
+        $this->updateTime = new \DateTime("now");
     }
     
     /**
@@ -204,5 +206,13 @@ class UserGroup
     public function getEnrolments()
     {
         return $this->enrolments;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

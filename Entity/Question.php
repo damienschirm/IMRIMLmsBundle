@@ -32,7 +32,7 @@ class Question
     private $text;
 
     /**
-     * @var Answer $answers
+     * @var Doctrine\Common\Collections\Collection $answers
      * 
      * @ORM\OneToMany(targetEntity = "Answer", mappedBy = "question")
     */

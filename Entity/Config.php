@@ -59,6 +59,11 @@ class Config
      */
     private $updateTime;
 
+    public function __construct()
+    {
+        $this->setCreationTime(new \DateTime("now"));
+        $this->setUpdateTime(new \DateTime("now"));
+    }
 
     /**
      * Get id
@@ -148,5 +153,13 @@ class Config
     public function getUpdateTime()
     {
         return $this->updateTime;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

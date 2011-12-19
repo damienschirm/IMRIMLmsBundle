@@ -158,6 +158,8 @@ class Category
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setCreationTime(new \DateTime("now"));
+        $this->setUpdateTime(new \DateTime("now"));
     }
     
     /**
@@ -178,5 +180,13 @@ class Category
     public function getCourses()
     {
         return $this->courses;
+    }
+   
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }

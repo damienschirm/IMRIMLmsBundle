@@ -67,14 +67,14 @@ class Exam
     private $updateTime;
 
     /**
-     * @var Question $questions
+     * @var Doctrine\Common\Collections\Collection $questions
      * 
      * @ORM\OneToMany(targetEntity = "Question", mappedBy = "exam")
      */
     private $questions;
     
     /**
-     * @var ExamAttempts $attempts
+     * @var Doctrine\Common\Collections\Collection $attempts
      * 
      * @ORM\OneToMany(targetEntity = "ExamAttempts", mappedBy = "exam")
      */
@@ -201,6 +201,8 @@ class Exam
     {
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->attempts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->updateTime = new \DateTime("now");
+        $this->creationTime = new \DateTime("now");
     }
     
     /**
@@ -261,5 +263,13 @@ class Exam
     public function getCourse()
     {
         return $this->course;
+    }
+    
+    /**
+     * Set the updateTime to now
+     */
+    public function setUpdated()
+    {
+        return $this->setUpdateTime(new \DateTime("now"));
     }
 }
