@@ -160,8 +160,8 @@ class Category
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->creationTime(new \DateTime("now"));
-        $this->updateTime(new \DateTime("now"));
+        $this->creationTime = new \DateTime("now");
+        $this->updateTime = new \DateTime("now");
     }
     
     /**

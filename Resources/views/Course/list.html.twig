@@ -1,0 +1,8 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+<h2>Les cours auxquels je suis inscrit :</h2>
+    {% for enrolment in courseEnrolments %}
+        <div>{{enrolment.course}}</div>
+    {% endfor %}    
+{% endblock %}

@@ -51,7 +51,7 @@ class Course
     /**
      * @var datetime $expirationDate
      *
-     * @ORM\Column(name = "expirationDate", type = "datetime")
+     * @ORM\Column(name = "expirationDate", type = "datetime", nullable = true)
      * @Assert\DateTime()
      */
     private $expirationDate;
@@ -281,13 +281,14 @@ class Course
     }
     public function __construct()
     {
-    $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->exams = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->userEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->groupEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->updateTime(new \DateTime("now"));
-    $this->creationTime(new \DateTime("now"));
+        $this->lessons = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->exams = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->groupEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->updateTime = new \DateTime("now");
+        $this->creationTime = new \DateTime("now");
+        $this->startDate = new \DateTime("now");
     }
     
     /**
@@ -417,5 +418,15 @@ class Course
     public function setUpdated()
     {
         return $this->setUpdateTime(new \DateTime("now"));
+    }
+    
+    /**
+     * Return the course name
+     * 
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

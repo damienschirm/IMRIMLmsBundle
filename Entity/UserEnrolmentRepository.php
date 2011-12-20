@@ -3,6 +3,7 @@
 namespace IMRIM\Bundle\LmsBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use IMRIM\Bundle\LmsBundle\Entity\User;
 
 /**
  * UserEnrolmentRepository
@@ -12,4 +13,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserEnrolmentRepository extends EntityRepository
 {
+    /**
+     * Find courses to which the user is enrolled
+     * @param User $user
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function findUserCourses(User $user)
+    {
+        $query = $this->getEntityManager()
+                ->createQuery('SELECT ue, c FROM IMRIMLmsBundle:UserEnrolment ue JOIN ue.course c WHERE ue.user= :user');
+        $query->setParameter('user', $user);
+        return $query->getResult();
+    }
 }

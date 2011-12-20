@@ -66,7 +66,7 @@ class User {
     /**
      * @var string $mail
      *
-     * @ORM\Column(name = "mail", type = "string", length = 255)
+     * @ORM\Column(name = "mail", type = "string", length = 255, nullable = true)
      * @Assert\NotBlank()
      * @Assert\Email(message = "Vous devez fournir une adresse email valide.", checkMX = true)
      * @Assert\MaxLength(255)
@@ -93,7 +93,7 @@ class User {
     /**
      * @var boolean $isSuspended
      *
-     * @ORM\Column(name = "isSuspended", type = "boolean", nullable = false)
+     * @ORM\Column(name = "isSuspended", type = "boolean")
      * @Assert\NotNull()
      * 
      */
@@ -102,7 +102,7 @@ class User {
     /**
      * @var string $avatar
      *
-     * @ORM\Column(name = "avatar", type = "string", length = 255)
+     * @ORM\Column(name = "avatar", type = "string", length = 255, nullable = true)
      * @Assert\MaxLength(255)
      * @Assert\NotBlank()
      */
@@ -111,7 +111,7 @@ class User {
     /**
      * @var string $authType
      *
-     * @ORM\Column(name = "authType", type = "string", length = 25, nullable = false)
+     * @ORM\Column(name = "authType", type = "string", length = 25)
      * @Assert\NotNull()
      * @Assert\Choice(callback = "getPossibleAuthTypes")
      */
@@ -120,7 +120,7 @@ class User {
     /**
      * @var datetime $creationTime
      *
-     * @ORM\Column(name = "creationTime", type = "datetime", nullable = false)
+     * @ORM\Column(name = "creationTime", type = "datetime")
      * @Assert\DateTime()
      * @Assert\NotNull()
      * @Assert\NotBlank()
@@ -130,7 +130,7 @@ class User {
     /**
      * @var datetime $updateTime
      *
-     * @ORM\Column(name = "updateTime", type = "datetime", nullable = false)
+     * @ORM\Column(name = "updateTime", type = "datetime")
      * @Assert\DateTime()
      * @Assert\NotNull()
      * @Assert\NotBlank()
@@ -140,7 +140,7 @@ class User {
     /**
      * @var datetime $firstAccessTime
      *
-     * @ORM\Column(name = "firstAccessTime", type = "datetime")
+     * @ORM\Column(name = "firstAccessTime", type = "datetime", nullable = true)
      * @Assert\DateTime()
      * @Assert\NotBlank()
      */
@@ -149,7 +149,7 @@ class User {
     /**
      * @var datetime $lastLoginTime
      *
-     * @ORM\Column(name = "lastLoginTime", type = "datetime")
+     * @ORM\Column(name = "lastLoginTime", type = "datetime", nullable = true)
      * @Assert\DateTime()
      * @Assert\NotBlank()
      */
@@ -479,6 +479,7 @@ class User {
     public function setAdminRole(\IMRIM\Bundle\LmsBundle\Entity\AdminRole $adminRole)
     {
         $this->adminRole = $adminRole;
+        $this->setUpdated();
     }
 
     /**
@@ -499,6 +500,7 @@ class User {
     public function setTeacherRole(\IMRIM\Bundle\LmsBundle\Entity\TeacherRole $teacherRole)
     {
         $this->teacherRole = $teacherRole;
+        $this->setUpdated();
     }
 
     /**
@@ -519,6 +521,7 @@ class User {
     public function setStudentRole(\IMRIM\Bundle\LmsBundle\Entity\StudentRole $studentRole)
     {
         $this->studentRole = $studentRole;
+        $this->setUpdated();
     }
 
     /**

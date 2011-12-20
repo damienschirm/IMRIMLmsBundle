@@ -95,8 +95,8 @@ class Lesson
 
     public function __construct()
     {
-        $this->creationTime(new \DateTime("now"));
-        $this->updateTime(new \DateTime("now"));
+        $this->creationTime = new \DateTime("now");
+        $this->updateTime = new \DateTime("now");
     }
     
     /**
