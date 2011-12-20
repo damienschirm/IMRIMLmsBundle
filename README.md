@@ -11,6 +11,7 @@ This file will help you to install and configure the project.
 ### a) Doctrine Data Fixtures for dev
 
 To use data fixtures, please add the following lines at the end of deps file : 
+    
     [doctrine-fixtures]
     git=http://github.com/doctrine/data-fixtures.git
 
@@ -26,18 +27,22 @@ and modify the following lines on the same file :
     version=origin/2.0
 
 Then, run the following command : 
+    
     php bin/vendors update
 
 Register the Doctrine\Common\DataFixtures namespace in app/autoload.php
+    
     $loader->registerNamespaces(array(
         // ...
         'Doctrine\\Common\DataFixtures' => __DIR__.'/../vendor/doctrine-fixtures/lib',
         'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
         // ...
     ));
+
 Warning !!! Be sure to register the new namespace before Doctrine\Common !
 
 Finally, register the Bundle DoctrineFixturesBundle in app/AppKernel.php
+
     public function registerBundle()
     {
         $bundle = array(
