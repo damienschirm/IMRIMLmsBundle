@@ -61,8 +61,8 @@ class Config
 
     public function __construct()
     {
-        $this->setCreationTime(new \DateTime("now"));
-        $this->setUpdateTime(new \DateTime("now"));
+        $this->creationTime(new \DateTime("now"));
+        $this->updateTime(new \DateTime("now"));
     }
 
     /**
@@ -83,6 +83,7 @@ class Config
     public function setNameParameter($nameParameter)
     {
         $this->nameParameter = $nameParameter;
+        $this->setUpdated();
     }
 
     /**
@@ -103,6 +104,7 @@ class Config
     public function setValue($value)
     {
         $this->value = $value;
+        $this->setUpdated();
     }
 
     /**

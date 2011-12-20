@@ -95,8 +95,8 @@ class Lesson
 
     public function __construct()
     {
-        $this->setCreationTime(new \DateTime("now"));
-        $this->setUpdateTime(new \DateTime("now"));
+        $this->creationTime(new \DateTime("now"));
+        $this->updateTime(new \DateTime("now"));
     }
     
     /**
@@ -117,6 +117,7 @@ class Lesson
     public function setTitle($title)
     {
         $this->title = $title;
+        $this->setUpdated();
     }
 
     /**
@@ -137,6 +138,7 @@ class Lesson
     public function setContent($content)
     {
         $this->content = $content;
+        $this->setUpdated();
     }
 
     /**
@@ -157,6 +159,7 @@ class Lesson
     public function setType($type)
     {
         $this->type = $type;
+        $this->setUpdated();
     }
 
     /**
@@ -177,6 +180,7 @@ class Lesson
     public function setFileAttached($fileAttached)
     {
         $this->fileAttached = $fileAttached;
+        $this->setUpdated();
     }
 
     /**
@@ -197,6 +201,7 @@ class Lesson
     public function setCoursePosition($coursePosition)
     {
         $this->coursePosition = $coursePosition;
+        $this->setUpdated();
     }
 
     /**
@@ -271,6 +276,7 @@ class Lesson
     public function setCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $course)
     {
         $this->course = $course;
+        $this->setUpdated();
     }
 
     /**

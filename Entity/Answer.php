@@ -116,4 +116,15 @@ class Answer
     {
         return $this->question;
     }
+    
+    /**
+     * Sets the update time
+     */
+    public function setUpdated()
+    {
+        if ($this->getQuestion()!=NULL)
+        {
+            $this->getQuestion()->setUpdated();
+        }
+    }
 }

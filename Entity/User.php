@@ -221,6 +221,7 @@ class User {
      */
     public function setLogin($login) {
         $this->login = $login;
+        $this->setUpdated();
     }
 
     /**
@@ -239,6 +240,7 @@ class User {
      */
     public function setFirstName($firstName) {
         $this->firstName = $firstName;
+        $this->setUpdated();
     }
 
     /**
@@ -257,6 +259,7 @@ class User {
      */
     public function setLastName($lastName) {
         $this->lastName = $lastName;
+        $this->setUpdated();
     }
 
     /**
@@ -275,6 +278,7 @@ class User {
      */
     public function setMail($mail) {
         $this->mail = $mail;
+        $this->setUpdated();
     }
 
     /**
@@ -293,6 +297,7 @@ class User {
      */
     public function setPassword($password) {
         $this->password = $password;
+        $this->setUpdated();
     }
 
     /**
@@ -311,6 +316,7 @@ class User {
      */
     public function setSalt($salt) {
         $this->salt = $salt;
+        $this->setUpdated();
     }
 
     /**
@@ -329,6 +335,7 @@ class User {
      */
     public function setIsSuspended($isSuspended) {
         $this->isSuspended = $isSuspended;
+        $this->setUpdated();
     }
 
     /**
@@ -347,6 +354,7 @@ class User {
      */
     public function setAvatar($avatar) {
         $this->avatar = $avatar;
+        $this->setUpdated();
     }
 
     /**
@@ -365,6 +373,7 @@ class User {
      */
     public function setAuthType($authType) {
         $this->authType = $authType;
+        $this->setUpdated();
     }
 
     /**
@@ -437,6 +446,7 @@ class User {
      */
     public function setLastLoginTime($lastLoginTime) {
         $this->lastLoginTime = $lastLoginTime;
+        $this->setUpdated();
     }
 
     /**

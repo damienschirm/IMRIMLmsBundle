@@ -106,6 +106,7 @@ class Exam
     public function setIsFinal($isFinal)
     {
         $this->isFinal = $isFinal;
+        $this->setUpdated();
     }
 
     /**
@@ -126,6 +127,7 @@ class Exam
     public function setMaxAttempts($maxAttempts)
     {
         $this->maxAttempts = $maxAttempts;
+        $this->setUpdated();
     }
 
     /**
@@ -146,6 +148,7 @@ class Exam
     public function setCoursePosition($coursePosition)
     {
         $this->coursePosition = $coursePosition;
+        $this->setUpdated();
     }
 
     /**
@@ -253,6 +256,7 @@ class Exam
     public function setCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $course)
     {
         $this->course = $course;
+        $this->setUpdated();
     }
 
     /**

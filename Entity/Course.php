@@ -143,6 +143,7 @@ class Course
     public function setName($name)
     {
         $this->name = $name;
+        $this->setUpdated();
     }
 
     /**
@@ -163,6 +164,7 @@ class Course
     public function setSummary($summary)
     {
         $this->summary = $summary;
+        $this->setUpdated();
     }
 
     /**
@@ -183,6 +185,7 @@ class Course
     public function setStartDate($startDate)
     {
         $this->startDate = $startDate;
+        $this->setUpdated();
     }
 
     /**
@@ -203,6 +206,7 @@ class Course
     public function setExpirationDate($expirationDate)
     {
         $this->expirationDate = $expirationDate;
+        $this->setUpdated();
     }
 
     /**
@@ -223,6 +227,7 @@ class Course
     public function setAutoInscription($autoInscription)
     {
         $this->autoInscription = $autoInscription;
+        $this->setUpdated();
     }
 
     /**
@@ -281,8 +286,8 @@ class Course
     $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
     $this->userEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
     $this->groupEnrolments = new \Doctrine\Common\Collections\ArrayCollection();
-    $this->setUpdateTime(new \DateTime("now"));
-    $this->setCreationTime(new \DateTime("now"));
+    $this->updateTime(new \DateTime("now"));
+    $this->creationTime(new \DateTime("now"));
     }
     
     /**
@@ -293,6 +298,7 @@ class Course
     public function setCategory(\IMRIM\Bundle\LmsBundle\Entity\Cateogory $category)
     {
         $this->category = $category;
+        $this->setUpdated();
     }
 
     /**

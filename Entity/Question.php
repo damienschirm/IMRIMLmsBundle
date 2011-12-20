@@ -119,4 +119,15 @@ class Question
     {
         return $this->exam;
     }
+    
+    /**
+     * Sets the update time
+     */
+    public function setUpdated()
+    {
+        if ($this->getExam()!=NULL) //Todo verifier la condition
+        {
+            $this->getExam()->setUpdated();
+        }
+    }
 }

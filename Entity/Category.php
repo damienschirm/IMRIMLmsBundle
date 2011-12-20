@@ -84,6 +84,7 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
+        $this->setUpdated();
     }
 
     /**
@@ -104,6 +105,7 @@ class Category
     public function setIsPublic($isPublic)
     {
         $this->isPublic = $isPublic;
+        $this->setUpdated();
     }
 
     /**
@@ -158,8 +160,8 @@ class Category
     public function __construct()
     {
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->setCreationTime(new \DateTime("now"));
-        $this->setUpdateTime(new \DateTime("now"));
+        $this->creationTime(new \DateTime("now"));
+        $this->updateTime(new \DateTime("now"));
     }
     
     /**

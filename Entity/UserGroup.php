@@ -90,6 +90,7 @@ class UserGroup
     public function setName($name)
     {
         $this->name = $name;
+        $this->setUpdated();
     }
 
     /**
@@ -110,6 +111,7 @@ class UserGroup
     public function setDescription($description)
     {
         $this->description = $description;
+        $this->setUpdated();
     }
 
     /**
