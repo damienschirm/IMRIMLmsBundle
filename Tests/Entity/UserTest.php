@@ -3,6 +3,8 @@
 namespace IMRIM\Bundle\LmsBundle\Tests\Entity;
 
 use IMRIM\Bundle\LmsBundle\Entity\User;
+use IMRIM\Bundle\LmsBundle\Entity\TeacherRole;
+use IMRIM\Bundle\LmsBundle\Entity\StudentRole;
 
 /**
  * Test class for User.
@@ -50,10 +52,25 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Lesson::getPossibleAuthTypes
+     * @covers User::getPossibleAuthTypes
      */
     public function testGetPossibleAuthTypes() 
     {
         $this->assertTrue(in_array('ldap', User::getPossibleAuthTypes()));
+    }
+    
+    /**
+     * @covers User::getRoles
+     */
+    public function testGetRoles()
+    {
+        /* Create lucie.ginette whith teacher role and student role */
+        $testUser1 = new User();
+        $testUser1->setStudentRole(new StudentRole());
+        $testUser1->setTeacherRole(new TeacherRole());
+        
+        $this->assertTrue(in_array('STUDENT_ROLE', $testUser1->getRoles()));
+        $this->assertTrue(in_array('TEACHER_ROLE', $testUser1->getRoles()));
+        $this->assertTrue(!in_array('ADMIN_ROLE', $testUser1->getRoles()));
     }
 }

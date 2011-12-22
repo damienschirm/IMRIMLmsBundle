@@ -16,8 +16,7 @@ class CourseController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine();
-        //$user = $this->get('security.context')->getToken()->getUser();
-        $user = $em->getRepository('IMRIMLmsBundle:User')->findOneByLogin("lucie.ginette"); //TODO : remove this line when authentication method will be implemented
+        $user = $this->get('security.context')->getToken()->getUser();
         $repository = $em->getRepository('IMRIMLmsBundle:UserEnrolment');
         $courseEnrolments = $repository->findUserCourses($user);
         return array('courseEnrolments' => $courseEnrolments);

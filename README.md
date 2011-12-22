@@ -52,3 +52,47 @@ Finally, register the Bundle DoctrineFixturesBundle in app/AppKernel.php
         );
         // ...
     }
+
+3) Parameters Symfony Security
+
+Please edit app/config/security.yml file to update symfony security policy
+
+    security:
+        encoders:
+            IMRIM\Bundle\LmsBundle\Entity\User:
+                algorithm:   sha1
+                iterations: 1
+                encode_as_base64: false
+
+        providers:
+            internal:
+                entity:
+                    class: IMRIM\Bundle\LmsBundle\Entity\User
+                    property: login
+
+        firewalls:
+            dev:
+                pattern:  ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+
+            login_firewall:
+                pattern:    ^/login$
+                anonymous:  ~
+
+            secured_area:
+                pattern:    ^/
+                form_login: ~
+                logout: ~
+
+And update the routing file of symfony2 : app/config/routing.yml
+
+    IMRIMLmsBundle:
+        resource: "@IMRIMLmsBundle/Controller/"
+        type:     annotation
+        prefix:   /
+
+    login:
+        pattern:   /login
+        defaults:  { _controller: IMRIMLmsBundle:Authentication:login }
+    login_check:
+        pattern:   /login_check

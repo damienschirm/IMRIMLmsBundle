@@ -24,8 +24,8 @@ class AdminRole
     /**
      * @var User $associatedUser
      * 
-     * @ORM\OneToOne(targetEntity = "User", inversedBy = "adminRole")
-     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id")
+     * @ORM\OneToOne(targetEntity = "User", inversedBy = "adminRole", cascade = {"persist"})
+     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
      */
     private $associatedUser;
 

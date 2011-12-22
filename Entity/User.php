@@ -4,6 +4,7 @@ namespace IMRIM\Bundle\LmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * IMRIM\Bundle\LmsBundle\Entity\User
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass = "IMRIM\Bundle\LmsBundle\Entity\UserRepository")
  */
-class User {
+class User implements UserInterface {
 
     /**
      * @var integer $id
@@ -158,21 +159,21 @@ class User {
     /**
      * @var AdminRole $adminRole
      * 
-     * @ORM\OneToOne(targetEntity = "AdminRole", mappedBy = "associatedUser")
+     * @ORM\OneToOne(targetEntity = "AdminRole", mappedBy = "associatedUser", cascade = {"persist"})
      */
     private $adminRole;
     
     /**
      * @var TeacherRole $teacherRole
      * 
-     * @ORM\OneToOne(targetEntity = "TeacherRole", mappedBy = "associatedUser")
+     * @ORM\OneToOne(targetEntity = "TeacherRole", mappedBy = "associatedUser", cascade = {"persist"})
      */
     private $teacherRole;
     
      /**
      * @var StudentRole $studentRole
      * 
-     * @ORM\OneToOne(targetEntity = "StudentRole", mappedBy = "associatedUser")
+     * @ORM\OneToOne(targetEntity = "StudentRole", mappedBy = "associatedUser", cascade = {"persist"})
      */
     private $studentRole;
    
@@ -479,6 +480,7 @@ class User {
     public function setAdminRole(\IMRIM\Bundle\LmsBundle\Entity\AdminRole $adminRole)
     {
         $this->adminRole = $adminRole;
+        $adminRole->setAssociatedUser($this);
         $this->setUpdated();
     }
 
@@ -500,6 +502,7 @@ class User {
     public function setTeacherRole(\IMRIM\Bundle\LmsBundle\Entity\TeacherRole $teacherRole)
     {
         $this->teacherRole = $teacherRole;
+        $teacherRole->setAssociatedUser($this);
         $this->setUpdated();
     }
 
@@ -521,6 +524,7 @@ class User {
     public function setStudentRole(\IMRIM\Bundle\LmsBundle\Entity\StudentRole $studentRole)
     {
         $this->studentRole = $studentRole;
+        $studentRole->setAssociatedUser($this);
         $this->setUpdated();
     }
 
@@ -627,5 +631,67 @@ class User {
     public function setUpdated()
     {
         return $this->setUpdateTime(new \DateTime("now"));
+    }
+    
+    /**
+     * Determines if two users are equal
+     * @param UserInterface $user
+     * @return boolean 
+     */
+    public function equals(UserInterface $user)
+    {
+        return ($this->getId() == $user->getId());
+    }
+    
+    /**
+     * Removes sensitive data from the user 
+     */
+    public function eraseCredentials()
+    {
+        $this->password = '';
+    }
+    
+    /**
+    * Returns the roles granted to the user
+    * @return array() 
+    */
+    public function getRoles()
+    {
+        $roles = array();
+        $methods = get_class_methods($this);
+        foreach ($methods as $method)
+        {
+            /* find all role getters */
+            if(preg_match('/^get(.*)Role$/', $method, $role_match))
+            {
+                $getter = $method;
+                /* Test if user has the role*/
+                if($this->$getter() != null)
+                {
+                    /* $role_match[1] is the role name like Student, Teacher, ...  */
+                    /* So now we will had the role*/
+                    $roles[] = strtoupper($role_match[1]).'_ROLE';
+                }
+            }
+        }
+        return $roles;
+    }
+    
+    /**
+     * Returns the username used to authenticate the user 
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->getLogin();
+    }
+    
+    /**
+     * Returns the login
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->getLogin();
     }
 }
