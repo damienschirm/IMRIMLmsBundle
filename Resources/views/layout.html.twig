@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
-   <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-       <title>{% block title %}IMRIM LMS{% endblock %}</title>
-       <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-   </head>
-   <body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}IMRIM LMS{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+       {% stylesheets output='css/am.min.css'
+                             '../src/IMRIM/Bundle/LmsBundle/Resources/css/*' %}
+
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+
+        {% endstylesheets %}
+    </head>
+    <body>
         {% if app.session.flash('notice') %}
             <div class="flash-message">
                 <em>Notice</em>: {{ app.session.flash('notice') }}
             </div>
         {% endif %}
-        <div class="content">
+            <div class="content">
             {% block content %}
             {% endblock %}
-        </div>
-   </body>
-</html>
+                </div>
+            </body>
+        </html>
