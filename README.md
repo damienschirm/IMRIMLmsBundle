@@ -104,3 +104,7 @@ Register the Bundle DoctrineFixturesBundle in app/AppKernel.php
 
 Finally, at the top of symfony2 directory run the following command: 
     app/console doctrine:fixtures:load
+
+
+To load the design of the site, you have to copy the content of src/IMRIM/Bundle/LmsBundle/Ressource/public
+in web/bundles/imrim
