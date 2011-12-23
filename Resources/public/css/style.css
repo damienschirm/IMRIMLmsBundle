@@ -1,0 +1,145 @@
+/* 
+    Document   : style
+    Created on : 22 déc. 2011, 12:00:45
+    Author     : Romain
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    display: block;
+    height: 100%;
+    width: 100%;
+    max-width: 1440px;
+    min-width: 600px;
+    background: #ffffff no-repeat; 
+    background-size: 100% 90%; /* w3c spec */ 
+    -moz-background-size: 100% 90%; /* firefox css*/ 
+    -webkit-background-size: 100% 90%; /* safari/chrome */ 
+    -o-background-size: 100% 90%; /* opera css */ 
+
+    /* Navigateurs récents */
+    background-image: -webkit-gradient(
+        linear,
+        left top, left bottom,
+        from(#1e7475),
+        to(#ffffff)
+        );
+
+    background-image: -webkit-linear-gradient(
+        top,
+        #1e7475,
+        #ffffff
+        );
+
+    background-image: -moz-linear-gradient(
+        top,
+        #1e7475,
+        #ffffff
+        );
+
+    background-image: -o-linear-gradient(
+        top,
+        #1e7475,
+        #ffffff
+        );
+
+    background-image: linear-gradient(
+        top,
+        #1e7475,
+        #ffffff
+        );
+    /*Prend la taille du body*/
+
+    /* IE  GradientType=1 pour horizontal, 0 pour vertical */ 
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', 
+        startColorstr=#1e7475,  
+        endColorstr=#ffffff,  
+        GradientType=0);  
+}
+
+#main-container{
+    background-color: #ffffff;
+
+    width: 60em;
+    height: auto;
+    min-height: 700px;
+    margin: auto;
+
+    /*Rendre les bords arrondis*/
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; /*a mettre pour la standardisation du CSS3*/
+    /*behavior: url(../app/Resources/public/PIE.htc);/*a mettre pour IE < 9*/
+
+    /*Mettre un effet de volume avec des ombres*/
+    /*décalage horizontal, décalage vertical, rayon du flou, rayon étendu, couleur, (insert pour ombre interne)*/
+    -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+    -o-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 2px 0px rgba(255, 255, 255, 0.5) inset;
+
+}
+
+#header{
+    background: url(../images/banner-imrim3.png) no-repeat;
+    width: 80em;
+    height: 150px;
+    /*-webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    -o-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;*/
+    margin-left: -10em;
+    
+}
+
+#menu {
+    background: url(../images/menu.png) repeat-x;
+
+    height: 50px;
+    width: 64em;
+    margin-left: -2em;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+
+    -moz-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    -o-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+
+}
+
+.content{
+    padding: 1em;
+    height: 100%;
+
+}
+
+
+
+/* Faire des bords arrondis
+    border: 1px solid #000000;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    behavior: url(../app/Resources/public/PIE.htc);*/
+
+/* Effet creux
+    background-color:#555;
+    border-radius:20px;
+    box-shadow:
+    0px 2px 2px 0px rgba(0, 0, 0, 0.5) inset,
+    0px 2px 2px 0px rgba(255, 255, 255, 0.5);
+*/
