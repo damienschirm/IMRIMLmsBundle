@@ -69,8 +69,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $testUser1->setStudentRole(new StudentRole());
         $testUser1->setTeacherRole(new TeacherRole());
         
-        $this->assertTrue(in_array('STUDENT_ROLE', $testUser1->getRoles()));
-        $this->assertTrue(in_array('TEACHER_ROLE', $testUser1->getRoles()));
-        $this->assertTrue(!in_array('ADMIN_ROLE', $testUser1->getRoles()));
+        $this->assertTrue(in_array('ROLE_STUDENT', $testUser1->getRoles()));
+        $this->assertTrue(in_array('ROLE_TEACHER', $testUser1->getRoles()));
+        $this->assertTrue(!in_array('ROLE_ADMIN', $testUser1->getRoles()));
     }
 }

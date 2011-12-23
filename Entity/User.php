@@ -5,6 +5,9 @@ namespace IMRIM\Bundle\LmsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+
+use IMRIM\Bundle\LmsBundle\LmsToolbox;
 
 /**
  * IMRIM\Bundle\LmsBundle\Entity\User
@@ -103,11 +106,10 @@ class User implements UserInterface {
     /**
      * @var string $avatar
      *
-     * @ORM\Column(name = "avatar", type = "string", length = 255, nullable = true)
+     * @ORM\Column(name = "avatar", type = "string", length = 255, nullable = false)
      * @Assert\MaxLength(255)
-     * @Assert\NotBlank()
      */
-    private $avatar;
+    private $avatar="";
 
     /**
      * @var string $authType
@@ -116,7 +118,7 @@ class User implements UserInterface {
      * @Assert\NotNull()
      * @Assert\Choice(callback = "getPossibleAuthTypes")
      */
-    private $authType;
+    private $authType="internal";
 
     /**
      * @var datetime $creationTime
@@ -143,7 +145,6 @@ class User implements UserInterface {
      *
      * @ORM\Column(name = "firstAccessTime", type = "datetime", nullable = true)
      * @Assert\DateTime()
-     * @Assert\NotBlank()
      */
     private $firstAccessTime;
 
@@ -152,7 +153,6 @@ class User implements UserInterface {
      *
      * @ORM\Column(name = "lastLoginTime", type = "datetime", nullable = true)
      * @Assert\DateTime()
-     * @Assert\NotBlank()
      */
     private $lastLoginTime;
 
@@ -543,6 +543,9 @@ class User implements UserInterface {
         $this->groupsSubscription = new \Doctrine\Common\Collections\ArrayCollection();
         $this->creationTime = new \DateTime("now");
         $this->updateTime = new \DateTime("now");
+        $this->salt = LmsToolbox::generateRandomString();
+        $encoder = new MessageDigestPasswordEncoder('sha1', false, 1);
+        $this->password = $encoder->encodePassword(LmsToolbox::generateRandomString(),$this->salt);
     }
     
     /**
@@ -670,7 +673,7 @@ class User implements UserInterface {
                 {
                     /* $role_match[1] is the role name like Student, Teacher, ...  */
                     /* So now we will had the role*/
-                    $roles[] = strtoupper($role_match[1]).'_ROLE';
+                    $roles[] = 'ROLE_'.strtoupper($role_match[1]);
                 }
             }
         }

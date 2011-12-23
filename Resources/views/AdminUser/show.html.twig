@@ -1,0 +1,73 @@
+<h1>User</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Login</th>
+            <td>{{ entity.login }}</td>
+        </tr>
+        <tr>
+            <th>Firstname</th>
+            <td>{{ entity.firstName }}</td>
+        </tr>
+        <tr>
+            <th>Lastname</th>
+            <td>{{ entity.lastName }}</td>
+        </tr>
+        <tr>
+            <th>Mail</th>
+            <td>{{ entity.mail }}</td>
+        </tr>
+        <tr>
+            <th>Issuspended</th>
+            <td>{{ entity.isSuspended }}</td>
+        </tr>
+        <tr>
+            <th>Avatar</th>
+            <td>{{ entity.avatar }}</td>
+        </tr>
+        <tr>
+            <th>Authtype</th>
+            <td>{{ entity.authType }}</td>
+        </tr>
+        <tr>
+            <th>Creationtime</th>
+            <td>{{ entity.creationTime|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Updatetime</th>
+            <td>{{ entity.updateTime|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Firstaccesstime</th>
+            <td>{{ entity.firstAccessTime|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Lastlogintime</th>
+            <td>{{ entity.lastLoginTime|date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_user') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('admin_user_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>
