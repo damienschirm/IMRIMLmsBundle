@@ -114,7 +114,7 @@ class Course
     /**
      * @var Doctrine\Common\Collections\Collection $userEnrolments
      * 
-     * @ORM\OneToMany(targetEntity = "UserEnrolment", mappedBy = "course")
+     * @ORM\OneToMany(targetEntity = "UserEnrolment", mappedBy = "course", cascade = {"persist"})
      */
     private $userEnrolments;
     
@@ -428,5 +428,37 @@ class Course
     public function __toString()
     {
         return $this->getName();
+    }
+    
+    /**
+     * Returns true if $user is enrolled for this course
+     * @param User $user
+     * @return boolean 
+     */
+    public function isFollowedBy(User $user)
+    {
+        //TODO add the groupEnrolment case
+        foreach($this->getUserEnrolments() as $userEnrolment)
+        {
+            if($userEnrolment->getUser()->equals($user))
+            {
+               return true; 
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Enrols a specific user to the course (autoinscription or forced)
+     * @param User $user
+     * @param type $isForced 
+     */
+    public function enrolUser(User $user, $isForced=false)
+    {
+        $enrolment = new UserEnrolment();
+        $enrolment->setCourse($this);
+        $enrolment->setIsForced($isForced);
+        $enrolment->setEnrolmentDate(new \DateTime('now'));
+        $enrolment->setUser($user);
     }
 }

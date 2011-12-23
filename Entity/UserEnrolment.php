@@ -36,7 +36,7 @@ class UserEnrolment
      * @ORM\Column(name = "timeSpent", type = "integer")
      * @Assert\Min(0)
      */
-    private $timeSpent;
+    private $timeSpent=0;
 
     /**
      * @var string $courseStatus
@@ -45,7 +45,7 @@ class UserEnrolment
      * @Assert\NotNull()
      * @Assert\Choice(callback="getPossibleStatuses")
      */
-    private $courseStatus;
+    private $courseStatus='Not started';
 
     /**
      * @var integer $stepProgression
@@ -54,7 +54,7 @@ class UserEnrolment
      * @Assert\NotNull()
      * @Assert\Min(0)
      */
-    private $stepProgression;
+    private $stepProgression=0;
 
     /**
      * @var datetime $enrolmentDate
@@ -68,7 +68,7 @@ class UserEnrolment
      /**
      * @var Course $course
      * 
-     * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "userEnrolments")
+     * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "userEnrolments", cascade = {"persist"})
      * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id") 
      */
     private $course;
@@ -76,7 +76,7 @@ class UserEnrolment
     /**
      * @var User $user
      * 
-     * @ORM\ManyToOne(targetEntity = "User", inversedBy = "enrolments")
+     * @ORM\ManyToOne(targetEntity = "User", inversedBy = "enrolments", cascade = {"persist"})
      * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id") 
      */
     private $user;
@@ -213,6 +213,7 @@ class UserEnrolment
     public function setCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $course)
     {
         $this->course = $course;
+        $course->addUserEnrolment($this);
     }
 
     /**
@@ -233,6 +234,7 @@ class UserEnrolment
     public function setUser(\IMRIM\Bundle\LmsBundle\Entity\User $user)
     {
         $this->user = $user;
+        $user->addUserEnrolment($this); 
     }
 
     /**

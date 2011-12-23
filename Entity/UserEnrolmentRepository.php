@@ -25,4 +25,18 @@ class UserEnrolmentRepository extends EntityRepository
         $query->setParameter('user', $user);
         return $query->getResult();
     }
+    
+    public function findOneByUserAndCourse(User $user, Course $course)
+    {
+        $query = $this->getEntityManager()
+                ->createQuery('SELECT ue FROM IMRIMLmsBundle:UserEnrolment ue WHERE ue.user= :user AND ue.course= :course');
+        $query->setParameter('user', $user);
+        $query->setParameter('course', $course);
+        $result = $query->getResult();
+        if(count($result) > 0)
+        {
+            return $result[0];  
+        }
+        return null;
+    }
 }

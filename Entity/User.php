@@ -202,7 +202,7 @@ class User implements UserInterface {
     /**
      * @var Doctrine\Common\Collections\Collection $enrolments
      * 
-     * @ORM\OneToMany(targetEntity = "UserEnrolment", mappedBy = "group")
+     * @ORM\OneToMany(targetEntity = "UserEnrolment", mappedBy = "group", cascade = {"persist"})
      */
     private $enrolments;
     

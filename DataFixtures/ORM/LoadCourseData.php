@@ -15,6 +15,7 @@ class LoadCourseData implements FixtureInterface {
         $testCourse2 = new Course();
         $testCourse2->setName("Test course 2");
         $testCourse2->setSummary("<span>Summary</span> test 2. ");
+        $testCourse2->setAutoInscription(true);
         
         $em->persist($testCourse1);
         $em->persist($testCourse2);
