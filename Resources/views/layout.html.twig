@@ -4,16 +4,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}IMRIM LMS{% endblock %}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/imrim/css/style.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/style.css') }}" type="text/css" media="all" />
 
     </head>
     <body>
         <div id="main-container">
             <div id="header">
+                <div id="platform-title">Application d'E-learning</div>
+                <div id="logo-provider"></div>
+                <div id="logo-company"></div>
+                <div id="background-banner"></div>
             </div>
             <div id="menu">   
             </div>
-            
+
         {% if app.session.flash('notice') %}
             <div class="flash-message">
                 <em>Notice</em>: {{ app.session.flash('notice') }}

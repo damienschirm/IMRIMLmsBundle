@@ -61,10 +61,11 @@ body {
 #main-container{
     background-color: #ffffff;
 
-    width: 60em;
+    width: 70em;
     height: auto;
     min-height: 700px;
     margin: auto;
+    padding: 8px;
 
     /*Rendre les bords arrondis*/
     -webkit-border-radius: 10px;
@@ -87,22 +88,113 @@ body {
 }
 
 #header{
-    background: url(../images/banner-imrim3.png) no-repeat;
-    width: 80em;
-    height: 150px;
-    /*-webkit-border-radius: 10px 10px 0px 0px;
+    background-color: #45b1b3;
+    /*background: url(../images/banner-imrim3.png) no-repeat;*/
+    /* width: 80em;*/
+    /*margin-left: -10em;*/
+    height: 120px;
+    
+    -webkit-border-radius: 10px 10px 0px 0px;
     -moz-border-radius: 10px 10px 0px 0px;
     -o-border-radius: 10px 10px 0px 0px;
-    border-radius: 10px 10px 0px 0px;*/
-    margin-left: -10em;
+    border-radius: 10px 10px 0px 0px;
+
+
+    background-image: -webkit-gradient(
+        linear,
+        left top, left bottom,
+        from(#247879),
+        to(#569697)
+        );
+
+    background-image: -webkit-linear-gradient(
+        top,
+        #247879,
+        #569697
+        );
+
+    background-image: -moz-linear-gradient(
+        top,
+        #247879,
+        #569697
+        );
+
+    background-image: -o-linear-gradient(
+        top,
+        #247879,
+        #569697
+        );
+
+    background-image: linear-gradient(
+        top,
+        #247879,
+        #569697
+        );
+
+}
+
+#platform-title{
+    float: left;
+
+    width: 500px;
+    height: 60px;
+
+    margin-left:7em;
+    margin-top: 0.5em;
+
+    color: white;
+
+    font-size: 2.5em;
+    font-family: "Comic sans MS",Arial,serif;
+    text-align: center;
+    font-weight: bold;
+    text-wrap: normal;
+}
+
+#logo-provider{
+    float:right;
+
+    width: 180px;
+    height: 100px;
+
+    margin-top: 0.6em;
+    margin-right: 0.6em;
+
+    background: url(../images/logo-imrim.png) no-repeat;
+}
+
+#logo-company{
+    position: absolute;
+
+    float: left;
+    z-index: 8000;
+
+    width: 180px;
+    height: 100px;
+
+    margin-top: 0.6em;
+    margin-left: 0.6em;
+
+    background: url(../images/logo-esial.png) no-repeat;
+}
+
+#background-banner{
+    position: absolute;
     
+    width: 800px;
+    height: 120px;
+
+    margin-left: 9em;
+
+    background: url(../images/background-banner.png) no-repeat;
 }
 
 #menu {
     background: url(../images/menu.png) repeat-x;
 
     height: 50px;
-    width: 64em;
+    width: 74em;
+    margin: 8px;
     margin-left: -2em;
 
     -webkit-border-radius: 10px;
