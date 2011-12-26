@@ -55,31 +55,31 @@ class ChartController extends Controller implements IChartController {
      * @Template()
      */
     public function ChartAction() {
-        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>\n"
-    + "<script type='text/javascript'>"
-    + "google.load('visualization', '1', {packages:['corechart']});\n"
-    + "google.setOnLoadCallback(drawChart);\n"
-    + " function drawChart() { \n"
-    + "   var data = new google.visualization.DataTable();\n"
-    + "   data.addColumn('string', 'Task');\n"
-    + "   data.addColumn('number', 'Hours per Day');\n"
-    + "   data.addRows(["
-    + "     ['Work',    11],"
-    + "     ['Eat',      2],"
-    + "     ['Commute',  2],"
-    + "     ['Watch TV', 2],"
-    + "     ['Sleep',    7]"
-    + "   ]);"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+    . "<script type='text/javascript'>"
+    . "google.load('visualization', '1', {packages:['corechart']});"
+    . "google.setOnLoadCallback(drawChart);"
+    . " function drawChart() { "
+    . "   var data = new google.visualization.DataTable();"
+    . "   data.addColumn('string', 'Tâches');"
+    . "   data.addColumn('number', 'Heures par jour');"
+    . "   data.addRows(["
+    . "     ['Travail',    11],"
+    . "     ['Manger',      2],"
+    . "     ['Trajet',  2],"
+    . "     ['TV', 2],"
+    . "     ['Dormir',    7]"
+    . "   ]);"
 
-    + "   var options = {
-          width: 450, height: 300,
-          title: 'Mes activités journalières'
-        };
+    . "   var options = {"
+    . "     width: 450, height: 300,"
+    . "     title: 'Mes activités journalières'"
+    . "   };"
 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>";
+    . "   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));"
+    . "   chart.draw(data, options);"
+    . " }"
+    ."</script>";
         
         return $this->render('IMRIMLmsBundle:Chart:chart.html.twig', array('scriptJS' => $scriptJS));
     }
