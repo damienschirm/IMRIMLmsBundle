@@ -93,7 +93,7 @@ body {
     /* width: 80em;*/
     /*margin-left: -10em;*/
     height: 120px;
-    
+
     -webkit-border-radius: 10px 10px 0px 0px;
     -moz-border-radius: 10px 10px 0px 0px;
     -o-border-radius: 10px 10px 0px 0px;
@@ -180,7 +180,7 @@ body {
 
 #background-banner{
     position: absolute;
-    
+
     width: 800px;
     height: 120px;
 
@@ -219,6 +219,85 @@ body {
 
 }
 
+.block{
+    background-image: -webkit-gradient(
+        linear,
+        left top, left bottom,
+        from(#a2c5c6),
+        to(#ffffff)
+        );
+
+    background-image: -webkit-linear-gradient(
+        top,
+        #a2c5c6,
+        #ffffff
+        );
+
+    background-image: -moz-linear-gradient(
+        top,
+        #a2c5c6,
+        #ffffff
+        );
+
+    background-image: -o-linear-gradient(
+        top,
+        #a2c5c6,
+        #ffffff
+        );
+
+    background-image: linear-gradient(
+        top,
+        #a2c5c6,
+        #ffffff
+        );
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+
+    -moz-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    -o-box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
+        0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+
+}
+
+
+/*----------------Menu block-------------------*/
+
+#menu-block{
+    float: right;
+    width: 20em;
+    height: auto;
+
+}
+
+#menu-table{
+    width: 20em;
+}
+
+#menu-table td{
+    padding:1em;
+    text-align: center;
+}
+
+caption{
+    background-color: #297b7c;
+    
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -o-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0; 
+}
 
 
 /* Faire des bords arrondis

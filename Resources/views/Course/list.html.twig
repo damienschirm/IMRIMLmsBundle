@@ -1,6 +1,9 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
 
 {% block content %} 
+
+{% include "IMRIMLmsBundle::menu.html.twig" %}
+
 <h2>Les cours auxquels je suis inscrit :</h2>
     {% for enrolment in courseEnrolments %}
         <div>{{enrolment.course}} {% if courseResponsibilities[enrolment.course.id] %}Editer{% endif %} <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
