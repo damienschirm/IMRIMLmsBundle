@@ -125,7 +125,7 @@ class Question
      */
     public function setUpdated()
     {
-        if ($this->getExam()!=NULL) //Todo verifier la condition
+        if ($this->getExam()!=NULL) // TODO verifier la condition
         {
             $this->getExam()->setUpdated();
         }

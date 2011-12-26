@@ -3,7 +3,7 @@
 {% block content %} 
 <h2>Les cours auxquels je suis inscrit :</h2>
     {% for enrolment in courseEnrolments %}
-        <div>{{enrolment.course}} <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
+        <div>{{enrolment.course}} {% if courseResponsibilities[enrolment.course.id] %}Editer{% endif %} <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
             {{ form_widget(courseEnrolmentForms[enrolment.course.id]) }}
             <button type="submit">Me d&eacute;sinscrire</button>
         </form></div>
@@ -12,7 +12,7 @@
 <h2>Les cours auxquels je peux m'inscrire :</h2>
     <ul>
     {% for id, inscriptibleCourse in inscriptibleCourses %}
-        <li>{{inscriptibleCourse}} <form action="{{ path('imrim_lms_course_subscribe', { 'id': id }) }}" method="post">
+        <li>{{inscriptibleCourse}} {% if courseResponsibilities[inscriptibleCourse.id] %}<a href="{{ path('imrim_lms_course_edit', { 'id':id }) }}">Editer</a>{% endif %} <form action="{{ path('imrim_lms_course_subscribe', { 'id': id }) }}" method="post">
             {{ form_widget(inscriptibleCourseForm[id]) }}
             <button type="submit">M'inscrire</button>
         </form></li>

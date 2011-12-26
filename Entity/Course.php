@@ -28,7 +28,7 @@ class Course
      * @ORM\Column(name = "name", type = "string", length = 255, nullable = false)
      * @Assert\NotNull()
      * @Assert\NotBlank()
-     * @Assert\Regex("/^[a-zA-Z0-9._-]+$/")
+     * @Assert\Regex("/^[a-zA-Z0-9._\s-]+$/")
      */
     private $name;
 
@@ -107,7 +107,7 @@ class Course
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection $teachers
      * 
-     * @ORM\ManyToMany(targetEntity = "User", mappedBy = "courseResponsibilities") 
+     * @ORM\ManyToMany(targetEntity = "User", mappedBy = "courseResponsibilities", cascade = {"persist"}) 
      */
     private $teachers;
     
@@ -294,9 +294,9 @@ class Course
     /**
      * Set category
      *
-     * @param IMRIM\Bundle\LmsBundle\Entity\Cateogory $category
+     * @param IMRIM\Bundle\LmsBundle\Entity\Category $category
      */
-    public function setCategory(\IMRIM\Bundle\LmsBundle\Entity\Cateogory $category)
+    public function setCategory(\IMRIM\Bundle\LmsBundle\Entity\Category $category)
     {
         $this->category = $category;
         $this->setUpdated();
@@ -305,7 +305,7 @@ class Course
     /**
      * Get category
      *
-     * @return IMRIM\Bundle\LmsBundle\Entity\Cateogory 
+     * @return IMRIM\Bundle\LmsBundle\Entity\Category 
      */
     public function getCategory()
     {
@@ -357,9 +357,10 @@ class Course
      *
      * @param IMRIM\Bundle\LmsBundle\Entity\User $teachers
      */
-    public function addUser(\IMRIM\Bundle\LmsBundle\Entity\User $teachers)
+    public function addTeacher(\IMRIM\Bundle\LmsBundle\Entity\User $teachers)
     {
         $this->teachers[] = $teachers;
+        $teachers->addCourse($this);
     }
 
     /**
@@ -437,7 +438,7 @@ class Course
      */
     public function isFollowedBy(User $user)
     {
-        //TODO add the groupEnrolment case
+        // TODO: add the groupEnrolment case
         foreach($this->getUserEnrolments() as $userEnrolment)
         {
             if($userEnrolment->getUser()->equals($user))
@@ -460,5 +461,18 @@ class Course
         $enrolment->setIsForced($isForced);
         $enrolment->setEnrolmentDate(new \DateTime('now'));
         $enrolment->setUser($user);
+    }
+    
+    /**
+     * Compare two courses and returns true if they are equal.
+     * @param Course $course
+     * @return boolean 
+     */
+    public function equals(Course $course){
+        if ($course->getId() == $this->getId())
+        {
+            return true;
+        }
+        return false;
     }
 }

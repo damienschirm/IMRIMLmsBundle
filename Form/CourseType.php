@@ -14,7 +14,11 @@ class CourseType extends AbstractType
             ->add('summary')
             ->add('startDate')
             ->add('expirationDate')
-            ->add('autoInscription')
+            ->add('autoInscription', 'checkbox', array(
+                'label' => 'Tous les utilisateurs peuvent s\'inscrire à ce cours.',
+                'required' => false,
+                'value' => true,
+            ))
             ->add('category')
         ;
     }
