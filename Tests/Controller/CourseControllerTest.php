@@ -40,9 +40,7 @@ class CourseControllerTest extends WebTestCase
         $form = $crawler->selectButton("submit")->form(array(
                 'imrim_bundle_lmsbundle_coursetype[name]' => 'UnitTest Course 1',
                 'imrim_bundle_lmsbundle_coursetype[summary]' => 'Uni &é tTest Course 1',
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][month]' => 1,
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][day]' => 1,
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][year]' => 2006,
+                'imrim_bundle_lmsbundle_coursetype[startDate]' => '20-12-2008',
                 'imrim_bundle_lmsbundle_coursetype[autoInscription]' => true,
         ));
 
@@ -58,9 +56,7 @@ class CourseControllerTest extends WebTestCase
         $form = $crawler->selectButton("submit")->form(array(
                 'imrim_bundle_lmsbundle_coursetype[name]' => 'UnitTest Course 1 Edited',
                 'imrim_bundle_lmsbundle_coursetype[summary]' => 'Uni &é tTest Course 1',
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][month]' => 1,
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][day]' => 1,
-                'imrim_bundle_lmsbundle_coursetype[startDate][date][year]' => 2006,
+                'imrim_bundle_lmsbundle_coursetype[startDate]' => '28-01-2011',
                 'imrim_bundle_lmsbundle_coursetype[autoInscription]' => true,
         ));
         

@@ -1,5 +1,21 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
 
+{% block css %}
+    {{ parent() }}
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/ui-lightness/jquery-ui.css" type="text/css" media="all"/>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(function (){
+        $("#imrim_bundle_lmsbundle_coursetype_startDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+        $("#imrim_bundle_lmsbundle_coursetype_expirationDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+    });
+</script>
+{% endblock %}
+
 {% block content %} 
 <form action="{{ path('imrim_lms_course_edit', { 'id':id } ) }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}

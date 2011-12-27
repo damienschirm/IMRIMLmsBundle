@@ -4,8 +4,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}IMRIM LMS{% endblock %}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/style.css') }}" type="text/css" media="all" />
-
+        {% block css %}
+            <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/style.css') }}" type="text/css" media="all" />
+        {% endblock %}
+        {% block js %}{% endblock %}
     </head>
     <body>
         <div id="main-container">
