@@ -3,6 +3,6 @@
 {% block content %} 
 <form action="{{ path('imrim_lms_course_create') }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
-<input type="submit">
+<input name="submit" type="submit">
 </form>
 {% endblock %}

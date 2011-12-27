@@ -3,10 +3,10 @@
 {% block content %} 
 <form action="{{ path('imrim_lms_course_edit', { 'id':id } ) }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
-<input type="submit">
+<input name="submit" type="submit">
 </form>
 <form action="{{ path('imrim_lms_course_delete', { 'id': id }) }}" method="post">
             {{ form_widget(deleteCourseForm) }}
-            <button type="submit">Supprimer</button>
+            <button name="delete" type="submit">Supprimer</button>
 </form>
 {% endblock %}
