@@ -15,7 +15,7 @@ use IMRIM\Bundle\LmsBundle\LmsToolbox;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass = "IMRIM\Bundle\LmsBundle\Entity\UserRepository")
  */
-class User implements UserInterface {
+class User implements UserInterface, \Serializable {
 
     /**
      * @var integer $id
@@ -194,7 +194,7 @@ class User implements UserInterface {
     /**
      * @var Doctrine\Common\Collections\Collection $courseResponsibilities
      * 
-     * @ORM\ManyToMany(targetEntity = "Course", inversedBy = "teachers")
+     * @ORM\ManyToMany(targetEntity = "Course", inversedBy = "teachers", cascade = {"persist"})
      * @ORM\JoinTable(name="course_responsibilities")
      */
     private $courseResponsibilities;
@@ -665,15 +665,15 @@ class User implements UserInterface {
         foreach ($methods as $method)
         {
             /* find all role getters */
-            if(preg_match('/^get(.*)Role$/', $method, $role_match))
+            if(preg_match('/^get(.*)Role$/', $method, $roleMatch))
             {
                 $getter = $method;
                 /* Test if user has the role*/
                 if($this->$getter() != null)
                 {
-                    /* $role_match[1] is the role name like Student, Teacher, ...  */
+                    /* $roleMatch[1] is the role name like Student, Teacher, ...  */
                     /* So now we will had the role*/
-                    $roles[] = 'ROLE_'.strtoupper($role_match[1]);
+                    $roles[] = 'ROLE_'.strtoupper($roleMatch[1]);
                 }
             }
         }
@@ -696,5 +696,54 @@ class User implements UserInterface {
     public function __toString()
     {
         return $this->getLogin();
+    }
+    
+    /**
+     * Returns true if the current user is responsible for the course
+     * @param Course $course
+     * @return boolean 
+     */
+    public function isResponsibleFor(Course $course){
+        // If the user is not a teacher, return false
+        if($this->getTeacherRole() == null)
+        {
+            return false;
+        }
+        foreach($this->getCourseResponsibilities() as $c) 
+        {
+            if($c->equals($course))
+            {
+                return true;
+            }     
+        }
+      return false;  
+    }
+    
+    // TODO: improve to serialize all variables
+    /**
+     * Returns a string which represents the current user.
+     * @return string 
+     */
+    public function serialize() {
+        $data = array();
+        
+        $data['id'] = $this->getId();
+        $data['login'] = $this->getLogin();
+        $data['firstName'] = $this->getFirstName();
+        $data['lastName'] = $this->getLastName();        
+        
+        return serialize($data);
+    }
+
+    /**
+     * Unserializes a string. 
+     * @param string $serialized 
+     */
+    public function unserialize($serialized) {
+        $data = unserialize($serialized);
+        foreach($data as $key => $value)
+        {
+            $this->$key = $value;
+        }
     }
 }

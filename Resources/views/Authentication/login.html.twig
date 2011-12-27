@@ -2,16 +2,25 @@
 
 {% block content %} 
 {% if error %}
-    <div>{{ error.message }}</div>
+<div>{{ error.message }}</div>
 {% endif %}
-
-<form action="{{ path('login_check') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" />
-    <input type="submit" name="login" />
-</form>
+<div id="login-block">
+    <div class="block">
+        <form action="{{ path('login_check') }}" method="post">
+            <table id="login-table">
+                <caption>Connexion</caption>
+                <tr>
+                    <td> <label for="username">Username:</label></td>
+                    <td><input type="text" id="username" name="_username" value="{{ last_username }}" /></td>
+                </tr>
+                <tr>
+                    <td> <label for="password">Password:</label></td>
+                    <td> <input type="password" id="password" name="_password" /></td>
+                </tr>
+            </table>
+            <input type="submit" name="login" />
+        </form>
+    </div>
+</div>
 
 {% endblock %}

@@ -54,7 +54,27 @@ And update the routing file of symfony2 : app/config/routing.yml
 
 ### b) Database schema creation
 
+Please edit the app/config/parameters.ini (check if "locale" parameter value is "fr") : 
+
+    [parameters]
+        database_driver   = "pdo_mysql"
+        database_host     = <host>
+        database_port     =
+        database_name     = <name of the database>
+        database_user     = <name of the database user>
+        database_password = <password of the database user>
+
+        mailer_transport  = 
+        mailer_host       = 
+        mailer_user       = 
+        mailer_password   = 
+
+        locale            = "fr"
+
+        secret            = <to change>
+
 At the top of symfony2 directory run the following command: 
+    
     app/console doctrine:schema:create
 
 ### c) Doctrine Data Fixtures for dev
@@ -102,9 +122,12 @@ Register the Bundle DoctrineFixturesBundle in app/AppKernel.php
         // ...
     }
 
-Finally, at the top of symfony2 directory run the following command: 
+Finally, at the top of symfony2 directory run the following command :
+ 
     app/console doctrine:fixtures:load
 
+### d) Design installation
 
-To load the design of the site, you have to copy the content of src/IMRIM/Bundle/LmsBundle/Ressource/public
-in web/bundles/imrim
+To load the design of the site, please run the following command :
+
+    app/console assets:install web
