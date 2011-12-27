@@ -5,7 +5,7 @@
         <title>{% block title %}IMRIM LMS{% endblock %}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block css %}
-            <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/style.css') }}" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/style.css') }}" type="text/css" media="all" />
         {% endblock %}
         {% block js %}{% endblock %}
     </head>
@@ -17,18 +17,22 @@
                 <div id="logo-company"></div>
                 <div id="background-banner"></div>
             </div>
-            <div id="menu">   
-            </div>
+            <div id="menu">
+                <div id="menu-path">
+                {% block menu %}
+                {% endblock %}
+                    </div>
+                </div>
 
         {% if app.session.flash('notice') %}
-            <div class="flash-message">
-                <em>Notice</em>: {{ app.session.flash('notice') }}
-            </div>
+                <div class="flash-message">
+                    <em>Notice</em>: {{ app.session.flash('notice') }}
+                </div>
         {% endif %}
-            <div class="content">
+                <div class="content">
             {% block content %}
             {% endblock %}
+                    </div>
                 </div>
-            </div>
-        </body>
-    </html>
+            </body>
+        </html>
