@@ -14,7 +14,7 @@ class LessonHtmlType extends AbstractType
             ->add('title','text', array(
                 'label' => 'Titre de la leçon',
             ))
-            ->add('content', 'textarea')   
+            ->add('content', 'textarea', array('attr' => array('class' => 'tinymce')))   
             ->add('type', 'hidden', array(
                 'required' => true,
             ))

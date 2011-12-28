@@ -1,8 +1,10 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
-
 {% block content %} 
 <form action="{{ path('imrim_lms_lesson_edit', {'courseId':courseId, 'lessonId': lessonId}) }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
 <input name="submit" type="submit">
 </form>
+{% endblock %}
+{% block bottom %}
+{{ tinymce_init() }}
 {% endblock %}
