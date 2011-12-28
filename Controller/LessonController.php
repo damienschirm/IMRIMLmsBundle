@@ -29,13 +29,7 @@ class LessonController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
-        if ($course == null) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-        }
-        if (!$user->isResponsibleFor($course)) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-        }
+        $course = $this->findCheckedCourse($courseId, $user);
 
         // Creation of the lesson
         $lesson = new Lesson();
@@ -80,19 +74,10 @@ class LessonController extends Controller {
         $user = $this->get('security.context')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
-        if ($course == null) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-        }
-        if (!$user->isResponsibleFor($course)) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-        }
+        $course = $this->findCheckedCourse($courseId, $user);
 
         // Creation of the lesson
-        $lesson = $em->getRepository('IMRIMLmsBundle:Lesson')->find($lessonId);
-        if ($lesson == null) {
-            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-        }
+        $lesson = $this->findCheckedLesson($lessonId, $course);
 
         // Creation of the associated form
         $formType = $this->createLessonFormType($lesson->getType());
@@ -142,22 +127,10 @@ class LessonController extends Controller {
         $form->bindRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
-            $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+            $course = $this->findCheckedCourse($courseId, $user);
 
-            // Verifications
-            if ($course == null) {
-                throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-            }
-            if (!$user->isResponsibleFor($course)) {
-                throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-            }
-
-            $lesson = $em->getRepository('IMRIMLmsBundle:Lesson')->find($lessonId);
-
-            if ($lesson == null) {
-                throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
-            }
-
+            $lesson = $this->findCheckedLesson($lessonId, $course);
+            // Deletes the lesson
             $em->remove($lesson);
             $em->flush();
             return $this->redirect($this->generateUrl('imrim_lms_course_edit', array(
@@ -193,6 +166,49 @@ class LessonController extends Controller {
                         ->add('lessonId', 'hidden')
                         ->getForm()
         ;
+    }
+
+    /**
+     * Find a lesson and checks the associated course.
+     * @param integer $lessonId
+     * @param Course $course
+     * @return Lesson
+     * @throws AccessDeniedException 
+     */
+    private function findCheckedLesson($lessonId, $course) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $lesson = $em->getRepository('IMRIMLmsBundle:Lesson')->find($lessonId);
+
+        // Verifications
+        if ($lesson == null) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+        if ($lesson->getCourse()->equals($course)) {
+            return $lesson;
+        } else {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+    }
+
+    /**
+     * Find a course and checks the related responsibilities.
+     * @param integer $courseId
+     * @param User $user
+     * @return Course
+     * @throws AccessDeniedException 
+     */
+    private function findCheckedCourse($courseId, $user) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+
+        // Verifications
+        if ($course == null) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+        if (!$user->isResponsibleFor($course)) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+        return $course;
     }
 
 }
