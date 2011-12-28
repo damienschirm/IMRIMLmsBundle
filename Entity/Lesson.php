@@ -28,7 +28,7 @@ class Lesson
      * @ORM\Column(name = "title", type = "string", length = 255, nullable = false)
      * @Assert\NotNull()
      * @Assert\NotBlank()
-     * @Assert\Regex("/^[a-zA-Z0-9._-]+$/")
+     * @Assert\Regex("/^[a-zA-Z0-9._\s-]+$/")
      */
     private $title;
 
@@ -38,7 +38,7 @@ class Lesson
      * @ORM\Column(name = "content", type = "text", nullable = false)
      * @Assert\NotNull()
      */
-    private $content;
+    private $content='';
 
     /**
      * @var string $type
@@ -54,9 +54,8 @@ class Lesson
      *
      * @ORM\Column(name = "fileAttached", type = "string", length = 255)
      * @Assert\MaxLength(255)
-     * @Assert\NotBlank()
      */
-    private $fileAttached;
+    private $fileAttached="";
 
     /**
      * @var integer $coursePosition
@@ -261,10 +260,8 @@ class Lesson
      */
     public static function getPossibleTypes(){
         return array(
-            'text',
-            'video',
-            'picture',
-            'html',
+            'Vidéo' => 'video',
+            'Texte enrichi' => 'html',
         );
     }
 

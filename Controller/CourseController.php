@@ -231,12 +231,15 @@ class CourseController extends Controller
             {
                 $em->persist($course);
                 $em->flush();
-                return $this->redirect($this->generateUrl('imrim_lms_course_list'));
             }
         }
+        
+        $ressources = $this->getDoctrine()->getRepository("IMRIMLmsBundle:Lesson")->findByCourse($course->getId());
+        
         return array('form'=>$form->createView(),
             'id' => $id,
             'deleteCourseForm' => $this->createDeleteForm($id)->createView(),
+            'associatedRessources' => $ressources,
             );
     }
     
