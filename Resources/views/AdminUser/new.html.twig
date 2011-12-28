@@ -1,3 +1,7 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+
 <h1>User creation</h1>
 
 <form action="{{ path('admin_user_create') }}" method="post" {{ form_enctype(form) }}>
@@ -14,3 +18,5 @@
         </a>
     </li>
 </ul>
+
+{% endblock %} 
