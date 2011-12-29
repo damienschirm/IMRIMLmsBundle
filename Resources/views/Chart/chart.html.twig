@@ -1,13 +1,11 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
 
 {% block content %}
-<h1>Pie Chart using artichow!</h1>
-<img src= {{ path('pieChart') }} alt="PieChart" width="400" height="250" />
+{#<img src= {{ path('pieChart') }} alt="PieChart" width="400" height="250" />#}
 
-<h1>Pie Chart using the google API!</h1>
+<h1>Nombre d'inscrits à la plateforme: {{ nbOfUsers }}</h1>
 
-<div id="chart_div">
-  {{ scriptJS | raw }}
-</div> {# display the pie chart created with the api google #}
+  {{ scriptJSGeo | raw }}
+ {# display the pie chart created with the api google #}
 
 {% endblock %}
