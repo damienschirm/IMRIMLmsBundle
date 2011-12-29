@@ -43,8 +43,11 @@ class LessonController extends Controller {
         if ($request->getMethod() == 'POST') {
             // Fills the form with what was in the parameters
             $form->bindRequest($request);
-        
+
             if ($form->isValid()) {
+                if ($lesson->getType() == 'video') {
+                    $this->setContent('<video width="400" height="222" controls="controls"> <source src="___WEB_PATH___" type="___MIME_TYPE___" /> </video> ');
+                }
                 $em->persist($lesson);
                 $em->flush();
                 return $this->redirect($this->generateUrl('imrim_lms_lesson_edit', array(
@@ -143,6 +146,28 @@ class LessonController extends Controller {
     }
 
     /**
+     * Return the view of the lesson
+     * @Route("course/{courseId}/lesson/{lessonId}/view", name = "imrim_lms_lesson_view")
+     * @Secure(roles="ROLE_STUDENT")
+     * @Template()
+     * @Method({"GET"})
+     * @param type $courseId
+     * @param type $lessonId
+     * @return Array() 
+     */
+    public function viewAction($courseId, $lessonId) {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $course = $this->findCourse($courseId, $user);
+
+        // Creation of the lesson
+        $lesson = $this->findCheckedLesson($lessonId, $course);
+
+        return array('lesson' => $lesson);
+    }
+
+    /**
      * Returns a new instance of corresponding form to edit a lesson.
      * @param type $lessonType
      * @return \IMRIM\Bundle\LmsBundle\Form\LessonHtmlType| \IMRIM\Bundle\LmsBundle\Form\LessonType
@@ -208,6 +233,27 @@ class LessonController extends Controller {
         }
         if (!$user->isResponsibleFor($course)) {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+        return $course;
+    }
+
+    /**
+     * Find a course and check if the user is able to consult it. 
+     * @param integer $courseId
+     * @param User $user
+     * @return Course
+     * @throws AccessDeniedException 
+     */
+    private function findCourse($courseId, $user) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+
+        // Verifications
+        if ($course == null) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation de consulter ce cours.");
+        }
+        if (!$em->getRepository('IMRIMLmsBundle:UserEnrolment')->findOneByUserAndCourse($user, $course)) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation de consulter ce cours.");
         }
         return $course;
     }

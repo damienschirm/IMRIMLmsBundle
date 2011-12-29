@@ -60,11 +60,18 @@ class Lesson {
     private $fileAttached = "";
 
     /**
-     * @var type 
+     * @var binary 
      * 
      * @Assert\File(maxSize="10000000")
      */
     public $file;
+    
+    /**
+     * @var string $fileMimeType
+     * 
+     * @ORM\Column(name = "fileMimeType", type = "string", length = 255, nullable = true)
+     */
+    private $fileMimeType="";
 
     /**
      * @var integer $coursePosition
@@ -304,7 +311,7 @@ class Lesson {
         if (null === $this->getFileAttached()) {
             return null;
         } else {
-            return $this->getUploadDir() . '/' . $this->getFileAttached();
+            return '/' . $this->getUploadDir() . '/' . $this->getFileAttached();
         }
     }
 
@@ -335,7 +342,9 @@ class Lesson {
             // Remove the older file
             $this->removeUpload();
             // Generate a unique name (based on the course id and the current timestamp)
-            $this->fileAttached = $this->getCourse()->getId() . '-' . time() . '.' . $this->file->guessExtension();
+            preg_match("/\.(\w+)$/",$this->file->getClientOriginalName(),$match);
+            $this->fileAttached = $this->getCourse()->getId() . '-' . time() . '.' . $match[1];
+            $this->fileMimeType = $this->file->getMimeType();
         }
     }
 
@@ -369,4 +378,31 @@ class Lesson {
         }
     }
 
+
+    /**
+     * Set fileMimeType
+     *
+     * @param string $fileMimeType
+     */
+    public function setFileMimeType($fileMimeType)
+    {
+        $this->fileMimeType = $fileMimeType;
+    }
+
+    /**
+     * Get fileMimeType
+     *
+     * @return string 
+     */
+    public function getFileMimeType()
+    {
+        return $this->fileMimeType;
+    }
+    
+    
+    public function getFormattedContent(){
+        $formattedContent = str_replace('___WEB_PATH___', $this->getWebPath(), $this->getContent());
+        $formattedContent = str_replace('___MIME_TYPE___', $this->getFileMimeType(), $formattedContent);
+        return $formattedContent;
+    }
 }

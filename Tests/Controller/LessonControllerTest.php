@@ -46,7 +46,7 @@ class LessonControllerTest extends WebTestCase {
 
         $client->submit($form);
         $crawler = $client->followRedirect();
-        $this->assertRegExp('/UnitTest Course 1/', $client->getResponse()->getContent());
+        $this->assertRegExp('/UnitTest CourseLesson 1/', $client->getResponse()->getContent());
 
         $link = $crawler->filter('a:contains("Editer")')->eq(0)->link();
         $crawler = $client->click($link);

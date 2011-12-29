@@ -24,7 +24,9 @@ class LessonVideoType extends AbstractType
                 'required' => true,
                 'choices' => array_flip(Lesson::getPossibleTypes()),
             ))
-            ->add('content', 'hidden')
+            ->add('content', 'hidden',array(
+                'data' => 
+            ))
             ->add('file', 'file', array(
                     'label' => 'Fichier vidéo',
                     'required' => true,

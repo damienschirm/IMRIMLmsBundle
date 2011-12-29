@@ -1,0 +1,9 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+<h2>{{ lesson.title }}</h2>
+
+<br/>
+
+<div>{{ lesson.getFormattedContent() | raw }}</div>
+{% endblock %}

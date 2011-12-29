@@ -139,11 +139,16 @@ Then, run this command :
 
 
 
-### d) Design installation
+### d) Environment installation
 
 To load the design of the site, please run the following command :
 
     app/console assets:install web
+
+To allow upload of documents, please run enter the following lines : 
+
+    mkdir -p web/uploads/documents
+    chmod 777 web/uploads/documents # do not use in production environment
 
 ### e) Doctrine Data Fixtures for dev
 

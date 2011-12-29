@@ -484,4 +484,14 @@ class Course
     {
         return count($this->getExams()) + count($this->getLessons()) +1;
     }
+
+    /**
+     * Add teachers
+     *
+     * @param IMRIM\Bundle\LmsBundle\Entity\User $teachers
+     */
+    public function addUser(\IMRIM\Bundle\LmsBundle\Entity\User $teachers)
+    {
+        $this->teachers[] = $teachers;
+    }
 }
