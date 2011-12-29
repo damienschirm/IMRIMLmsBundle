@@ -4,22 +4,15 @@
 {#<img src= {{ path('pieChart') }} alt="PieChart" width="400" height="250" />#}
 
 <h1>Nombre d'inscrits à la plateforme: {{ nbOfUsers }}</h1>
-
-  {{ scriptJSGeo | raw }}
+  {{ scriptJSCol | raw }}
  {# display the pie chart created with the api google #}
 
 <h1>Pourcentage d'utilisateurs inscrits à un cours: </h1>
-<select name='course' onChange="update(this.value)">
-{% for course in courses %}
-        <option value='{{ course.id }}'>{{ course.name }}</option>
-{% endfor %}
-    </select>
-<script style="text\javascript">
-function update(value)
-{ 
-     //Ar = value;
-    //document.form2.vue.value = Ar;
-}
-</script> 
   {{ scriptJSPie | raw }}
+
+<h1>Durée moyenne d'utilisation d'un cours par utilisateur: </h1>
+  {{ scriptJSBar | raw }}
+
+<h1>Liste des utilisateurs n'ayant pas fini le cours avant le date de fin imposée: </h1>
+
 {% endblock %}
