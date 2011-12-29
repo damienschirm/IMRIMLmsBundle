@@ -7,6 +7,7 @@
 interface IChart {
     
     function numberOfUsers();
+    function usersEnrolledInCourse(Controller $ctrl);
 }
 
 ?>
