@@ -43,7 +43,7 @@ class LessonController extends Controller {
         if ($request->getMethod() == 'POST') {
             // Fills the form with what was in the parameters
             $form->bindRequest($request);
-
+        
             if ($form->isValid()) {
                 $em->persist($lesson);
                 $em->flush();
@@ -89,6 +89,7 @@ class LessonController extends Controller {
             $form->bindRequest($request);
 
             if ($form->isValid()) {
+                $lesson->setUpdated();
                 $em->persist($lesson);
                 $em->flush();
             }

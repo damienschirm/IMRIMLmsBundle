@@ -37,8 +37,8 @@ class LessonControllerTest extends WebTestCase {
 
         preg_match('#<option value="(\d+)">testCategory0</option>#', $client->getResponse()->getContent(), $match);
         $form = $crawler->selectButton("submit")->form(array(
-            'imrim_bundle_lmsbundle_coursetype[name]' => 'UnitTest Course 1',
-            'imrim_bundle_lmsbundle_coursetype[summary]' => 'Uni &é tTest Course 1',
+            'imrim_bundle_lmsbundle_coursetype[name]' => 'UnitTest CourseLesson 1',
+            'imrim_bundle_lmsbundle_coursetype[summary]' => 'Uni &é tTest CourseLesson 1',
             'imrim_bundle_lmsbundle_coursetype[startDate]' => '20-12-2008',
             'imrim_bundle_lmsbundle_coursetype[autoInscription]' => true,
             'imrim_bundle_lmsbundle_coursetype[category]' => $match[1],
