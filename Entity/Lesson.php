@@ -88,7 +88,7 @@ class Lesson
      * @var Course $course
      * 
      * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "lessons")
-     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id") 
+     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id", onDelete="CASCADE") 
      */
     private $course;
 
