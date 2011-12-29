@@ -18,7 +18,6 @@ body {
     -webkit-background-size: 100% 90%; /* safari/chrome */ 
     -o-background-size: 100% 90%; /* opera css */ 
 
-    /* Navigateurs récents */
     background-image: -webkit-gradient(
         linear,
         left top, left bottom,
@@ -49,9 +48,8 @@ body {
         #1e7475,
         #ffffff
         );
-    /*Prend la taille du body*/
 
-    /* IE  GradientType=1 pour horizontal, 0 pour vertical */ 
+    /* IE  GradientType=1 for horizontal, 0 for vertical */ 
     filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', 
         startColorstr=#1e7475,  
         endColorstr=#ffffff,  
@@ -67,12 +65,13 @@ body {
     margin: auto;
     padding: 8px;
 
-    /*Rendre les bords arrondis*/
+    /*Rounded borders*/
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -o-border-radius: 10px;
-    border-radius: 10px; /*a mettre pour la standardisation du CSS3*/
-    /*behavior: url(../app/Resources/public/PIE.htc);/*a mettre pour IE < 9*/
+    border-radius: 10px; 
+    /*behavior: url(../app/Resources/public/PIE.htc);/*put that for IE < 9*/
+
 
     /*Mettre un effet de volume avec des ombres*/
     /*décalage horizontal, décalage vertical, rayon du flou, rayon étendu, couleur, (insert pour ombre interne)*/
@@ -131,6 +130,11 @@ body {
         #569697
         );
 
+    /* IE  GradientType=1 for horizontal, 0 for vertical */ 
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', 
+        startColorstr=#247879,  
+        endColorstr=#569697,  
+        GradientType=0);  
 }
 
 #platform-title{
@@ -210,12 +214,32 @@ body {
         0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
         0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
+}
 
+#menu-path{
+    position: absolute;
+
+    margin-top: 15px;
+    margin-left: 20px;
+
+    color: rgba(13,46,46,1);
+    font-size: 16px;
+}
+
+#menu-path a{
+    color: rgba(255,255,255,1); 
+    text-decoration: none;
+}
+
+#menu-path a:hover{
+    color: rgba(34,59,60,1);
 }
 
 .content{
     padding: 1em;
     height: 100%;
+
+    color: #247879;
 
 }
 
@@ -251,6 +275,12 @@ body {
         #ffffff
         );
 
+    /* IE  GradientType=1 for horizontal, 0 for vertical */ 
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', 
+        startColorstr=#a2c5c6,  
+        endColorstr=#ffffff,  
+        GradientType=0);  
+
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -o-border-radius: 10px;
@@ -265,6 +295,15 @@ body {
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.5),
         0px 2px 1px 0px rgba(255, 255, 255, 0.5) inset;
 
+}
+
+ a{
+    color:#297b7c;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
 }
 
 
@@ -282,22 +321,114 @@ body {
 }
 
 #menu-table td{
+    width: 60px;
     padding:1em;
     text-align: center;
 }
 
-caption{
+#menu-table td:hover{
+    background-color: #83b2b3;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+}
+
+#menu-table caption{
     background-color: #297b7c;
-    
+
     font-size: 30px;
     font-weight: bold;
     color: white;
-    
+
     -webkit-border-radius: 10px 10px 0 0;
     -moz-border-radius: 10px 10px 0 0;
     -o-border-radius: 10px 10px 0 0;
     border-radius: 10px 10px 0 0; 
 }
+
+#menu-table a{
+    color:#297b7c;
+    text-decoration: none;
+}
+
+#menu-table a:hover{
+    text-decoration: underline;
+}
+
+/*-------------------------------------------------*/
+
+/*---------------Courses tables--------------------*/
+
+.course-table{
+
+    width:60%;
+}
+
+.course-table td {
+    border: 1px solid rgba(13,46,46,0.2);
+}
+/*------------------------------------------------*/
+/*---------------Login block--------------------*/
+
+#login-block{
+    float: right;
+    width: 20em;
+    height: auto;
+}
+
+#login-table{
+    width: 20em;
+}
+
+#login-table td{
+    padding:1em;
+    text-align: center;
+}
+
+#login-table caption{
+    background-color: #297b7c;
+
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -o-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0; 
+}
+
+#login-block input{
+
+}
+
+/*------------------------------------------------*/
+
+/*---------------Admin section--------------------*/
+
+.records_list{
+    border:1px solid rgba(13,46,46,0.2);
+}
+
+.records_list thead{
+    background-color: #369697;
+    color: #ffffff;
+}
+
+.records_list tbody .positionA{
+    background-color: #c3dada;
+}
+.records_list tbody .positionB{
+   background-color: white; 
+}
+
+.records_list tbody .positionA:hover,.records_list tbody .positionB:hover{
+    background-color: #91bbbb;
+}
+
+
+/*----------------------------------------------*/
 
 
 /* Faire des bords arrondis

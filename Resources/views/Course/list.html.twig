@@ -9,47 +9,47 @@
         {% for enrolment in courseEnrolments %}
             <tr>
                 <td width = 60% >{{enrolment.course}} </td>
-{% if courseResponsibilities[enrolment.course.id] %}
-                <td>Editer</td>
-{% endif %} 
+
                 <td style="text-align: center">   <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
             {{ form_widget(courseEnrolmentForms[enrolment.course.id]) }}
                                 <button type="submit">Me d&eacute;sinscrire</button>
                             </form>
                         </td>
-                        </td>
-                    <tr>
+                       {% if courseResponsibilities[enrolment.course.id] %}
+                        <td> <a href="{{ path('imrim_lms_course_edit', { 'id': enrolment.course.id }) }}">Editer</a></td>
+{% endif %} 
+                    </tr>
     {% endfor %} 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-<h2>Les cours auxquels je peux m'inscrire :</h2>
-                <table class="course-table">
-                    <tbody>
+            <h2>Les cours auxquels je peux m'inscrire :</h2>
+            <table class="course-table">
+                <tbody>
     {% for id, inscriptibleCourse in inscriptibleCourses %}
-                            <tr>
-                                <td width = 60%>
+                        <tr>
+                            <td width = 60%>
                         {{inscriptibleCourse}} 
-                                    </td>
+                                </td>
 {% if courseResponsibilities[inscriptibleCourse.id] %}
-                                    <td>
-                                        <a href="{{ path('imrim_lms_course_edit', { 'id':id }) }}">Editer</a>
-                                    </td>
+                                <td>
+                                    <a href="{{ path('imrim_lms_course_edit', { 'id':id }) }}">Editer</a>
+                                </td>
 {% endif %} 
 
-                                    <td style="text-align: center">
-                                        <form action="{{ path('imrim_lms_course_subscribe', { 'id': id }) }}" method="post">
+                                <td style="text-align: center">
+                                    <form action="{{ path('imrim_lms_course_subscribe', { 'id': id }) }}" method="post">
             {{ form_widget(inscriptibleCourseForm[id]) }}
-                                                <button type="submit">M'inscrire</button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                            <button type="submit">M'inscrire</button>
+                                        </form>
+                                    </td>
+                                </tr>
     {% endfor %}
-                                </tbody>
+                            </tbody>
 
-                            </table>
+                        </table>
 {% endblock %}
 
 {% block menu %} 
-<a href="../">Accueil</a>
+                        <a href="../">Accueil</a>
 {% endblock %}

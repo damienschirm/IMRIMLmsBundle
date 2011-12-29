@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %} 
+<h2> &Eacute;dition du cours </h2>
 <form action="{{ path('imrim_lms_course_edit', { 'id':id } ) }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
 <input name="submit" type="submit">
@@ -25,4 +26,24 @@
             {{ form_widget(deleteCourseForm) }}
             <button name="delete" type="submit">Supprimer</button>
 </form>
+
+<a href="{{ path('imrim_lms_course_list') }}">
+                Back to the list
+            </a>
+<h2>D&eacute;roulement du cours </h2>
+<a href="{{ path('imrim_lms_lesson_create', {'courseId': id}) }}">Ajouter une le&ccedil;on</a>
+<table>
+    <tr>
+        <th>Position</th>
+        <th>Titre</th>
+        <th>Type</th>
+    </tr>
+    {% for item in associatedRessources %}
+    <tr>
+        <td>{{ item.getCoursePosition() }}</td>
+        <td><a href="{{ path('imrim_lms_lesson_edit', {'courseId' : id, 'lessonId' : item.getId})}}">{{ item.getTitle() }}</a></td>
+        <td>{{ item.getType() }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

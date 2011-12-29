@@ -475,4 +475,13 @@ class Course
         }
         return false;
     }
+    
+    /**
+     * Return the position for the next component of the course (lesson or exam)
+     * @return integer 
+     */
+    public function getNextPosition()
+    {
+        return count($this->getExams()) + count($this->getLessons()) +1;
+    }
 }
