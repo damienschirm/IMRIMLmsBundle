@@ -1,6 +1,9 @@
 <?php
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 include('Chart' . DIRECTORY_SEPARATOR . "IChart.php");
+
 /**
  * Description of Chart
  *
@@ -38,19 +41,19 @@ class Chart implements IChart {
                 ->getRepository('IMRIMLmsBundle:Course')
                 ->findAll();
         $i = 0;
-        $temp="";
+        $temp = "";
         foreach ($courses as $course) {
             $i++;
             $qb = $ctrl->getDoctrine()->getEntityManager()->createQueryBuilder()
                     ->select('COUNT(ue.user)') //$i[0][1] 
                     ->from('IMRIMLmsBundle:UserEnrolment', 'ue')
                     ->where('ue.course = :course')
-                    ->setParameter('course',$course);
+                    ->setParameter('course', $course);
             $q = $qb->getQuery();
             $result = $q->getSingleScalarResult();
-            
-            $temp = $temp."['" . $course->getName() . "'," . $result . "]";
-            if ($i<count($courses)){
+
+            $temp = $temp . "['" . $course->getName() . "'," . $result . "]";
+            if ($i < count($courses)) {
                 $temp = $temp . ",";
             }
         }
@@ -80,31 +83,31 @@ class Chart implements IChart {
         return $scriptJS;
     }
 
-    public function averageOfTimeSpentByCourse(Controller $ctrl) {
+    public function averageOfTimeSpentByUser(Controller $ctrl) {
         $users = $ctrl->getDoctrine()
                 ->getRepository('IMRIMLmsBundle:User')
                 ->findAll();
-        
+
         $temp = "";
         $i = 0;
-        foreach($users as $u){
+        foreach ($users as $u) {
             $i++;
             $qb = $ctrl->getDoctrine()->getEntityManager()->createQueryBuilder()
-                    ->select('AVG(ue.timeSpent)')  
+                    ->select('AVG(ue.timeSpent)')
                     ->from('IMRIMLmsBundle:UserEnrolment', 'ue')
                     ->where('ue.user = :user')
-                    ->setParameter('user',$u);
+                    ->setParameter('user', $u);
             $q = $qb->getQuery();
             $result = $q->getSingleScalarResult();
-            if (!isset($result)){
+            if (!isset($result)) {
                 $result = 0;
             }
-            $temp = $temp."['" . $u->getLogin() . "'," . $result . "]";
-            if ($i<count($users)){
+            $temp = $temp . "['" . $u->getFirstName() . " " . $u->getLastName() . "'," . $result . "]";
+            if ($i < count($users)) {
                 $temp = $temp . ",";
             }
         }
-        
+
         $scriptJS = "<div id='barchart_div'>"
                 . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
@@ -119,18 +122,120 @@ class Chart implements IChart {
                 . "   ]);"
                 . "   var options = {"
                 . "     width: 400, height: 240,"
+                . "     title: 'Temps moyen passé par un utilisateur sur tous ses cours'"
                 . "   };"
                 . "   var chart = new google.visualization.BarChart(document.getElementById('barchart_div'));"
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
                 . "</div>";
-        
+
+        return $scriptJS;
+    }
+
+    public function averageOfTimeSpentByCourse(Controller $ctrl) {
+        $courses = $ctrl->getDoctrine()
+                ->getRepository('IMRIMLmsBundle:Course')
+                ->findAll();
+
+        $temp = "";
+        $i = 0;
+        foreach ($courses as $c) {
+            $i++;
+            $qb = $ctrl->getDoctrine()->getEntityManager()->createQueryBuilder()
+                    ->select('AVG(ue.timeSpent)')
+                    ->from('IMRIMLmsBundle:UserEnrolment', 'ue')
+                    ->where('ue.course = :course')
+                    ->setParameter('course', $c);
+            $q = $qb->getQuery();
+            $result = $q->getSingleScalarResult();
+            if (!isset($result)) {
+                $result = 0;
+            }
+            $temp = $temp . "['" . $c->getName() . "'," . $result . "]";
+            if ($i < count($courses)) {
+                $temp = $temp . ",";
+            }
+        }
+
+        $scriptJS = "<div id='bar2chart_div'>"
+                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+                . "<script type='text/javascript'>"
+                . "google.load('visualization', '1', {packages:['corechart']});"
+                . "google.setOnLoadCallback(drawChart);"
+                . " function drawChart() { "
+                . "   var data = new google.visualization.DataTable();"
+                . "   data.addColumn('string', 'Utilisateurs');"
+                . "   data.addColumn('number', 'Temps moyen');"
+                . "   data.addRows(["
+                . $temp
+                . "   ]);"
+                . "   var options = {"
+                . "     width: 400, height: 240,"
+                . "     title: 'Temps moyen passé par tous les utilisateurs sur un cours'"
+                . "   };"
+                . "   var chart = new google.visualization.BarChart(document.getElementById('bar2chart_div'));"
+                . "   chart.draw(data, options);"
+                . " }"
+                . "</script>"
+                . "</div>";
+
         return $scriptJS;
     }
 
     public function listOfUsersNotHavingFinishedCourse(Controller $ctrl) {
+        $date = new DateTime('now');
         
+        $qb = $ctrl->getDoctrine()->getEntityManager()
+                ->createQuery('SELECT ue, u, c FROM IMRIMLmsBundle:UserEnrolment ue JOIN ue.course c JOIN ue.user u WHERE NOT(UPPER(ue.courseStatus) LIKE \'FINISHED\') AND c IN (SELECT cc FROM IMRIMLmsBundle:Course cc WHERE cc.expirationDate <= :date)')
+                ->setParameter('date',$date);
+                /*->createQueryBuilder()
+                ->select('ue.user , ue.course')
+                ->from('IMRIMLmsBundle:UserEnrolment', 'ue')
+                ->where('NOT(UPPER(ue.courseStatus) LIKE \'FINISHED\')')
+                ->andwhere('ue.course IN (SELECT c.* FROM IMRIMLmsBundle:Course c WHERE c.expirationDate <= :date)')
+                ->setParameter('date',$date)*/;
+        $q = $qb;//->getQuery();
+        $result = $q->getResult();
+        if (!isset($result) || $result == null) {
+            return "NULL: list of users wh have not finished a course before its expiration date";
+        }
+
+        $temp = "";
+        $i = 0;
+        foreach ($result[1] as $u) {
+            $i++;
+            $temp = $temp . "['" . $u->getFirstName() . " " . $u->getLastName() . "'," . $result[2][$i-1] . ",false]";
+            if ($i < count($courses)) {
+                $temp = $temp . ",";
+            }
+        }
+
+        $scriptJS = "<div id='tablechart_div'>"
+                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+                . "<script type='text/javascript'>"
+                . "google.load('visualization', '1', {packages:['table']});"
+                . "google.setOnLoadCallback(drawChart);"
+                . " function drawChart() { "
+                . "   var data = new google.visualization.DataTable();"
+                . "   data.addColumn('string', 'Utilisateurs');"
+                . "   data.addColumn('number', 'Date d\'expiration');"
+                . "   data.addColumn('boolean', 'Terminé');"
+                . "   data.addRows(["
+                . $temp
+                . "   ]);"
+                . "   var options = {"
+                . "     width: 400, height: 240,"
+                . "     title: 'Liste des utilisateurs',"
+                . "     showRowNumber: true"
+                . "   };"
+                . "   var chart = new google.visualization.Table(document.getElementById('tablechart_div'));"
+                . "   chart.draw(data, options);"
+                . " }"
+                . "</script>"
+                . "</div>";
+
+        return $scriptJS;
     }
 
 }
