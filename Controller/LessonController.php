@@ -46,7 +46,7 @@ class LessonController extends Controller {
 
             if ($form->isValid()) {
                 if ($lesson->getType() == 'video') {
-                    $this->setContent('<video width="400" height="222" controls="controls"> <source src="___WEB_PATH___" type="___MIME_TYPE___" /> </video> ');
+                    $lesson->setContent('<video width="400" height="222" controls="controls"> <source src="___WEB_PATH___" type="___MIME_TYPE___" /> </video> ');
                 }
                 $em->persist($lesson);
                 $em->flush();
