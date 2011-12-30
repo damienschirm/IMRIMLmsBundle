@@ -37,12 +37,19 @@ class ChartController extends Controller {
         $scriptJSPie = $p->usersEnrolledInCourse($this);
         //-----------------------------------------------------
         //------- Statistic : average of the time spent by user by course ---- -------
-        $scriptJSBar = $p->averageOfTimeSpentByCourse($this);
+        $scriptJSBar = $p->averageOfTimeSpentByUser($this);
+        $scriptJSBar2 = $p->averageOfTimeSpentByCourse($this);
+        //--------------------------------------------------------
+        //------- Statistic : list of users who have not finished the course before the expiration date -----
+        $scriptJSTable = $p->listOfUsersNotHavingFinishedCourse($this);
+        //------------------------------------------------------------------
         
         return $this->render('IMRIMLmsBundle:Chart:chart.html.twig', array('nbOfUsers' => $i,
             'scriptJSCol' => $scriptJSCol,
             'scriptJSPie' => $scriptJSPie,
-            'scriptJSBar' => $scriptJSBar));
+            'scriptJSBar' => $scriptJSBar,
+            'scriptJSBar2' => $scriptJSBar2,
+            'scriptJSTable' => $scriptJSTable));
     }
     
 }
