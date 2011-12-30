@@ -15,8 +15,8 @@ use IMRIM\Bundle\LmsBundle\Form\UserType;
  *
  * @Route("/admin/user")
  */
-class AdminUserController extends Controller
-{
+class AdminUserController extends Controller {
+
     /**
      * Lists all User entities.
      *
@@ -24,13 +24,25 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entities = $em->getRepository('IMRIMLmsBundle:User')->findAll();
 
-        return array('entities' => $entities);
+        $studentRoleForms = array();
+        $teacherRoleForms = array();
+        $adminRoleForms = array();
+
+        foreach ($entities as $user) {
+            $studentRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
+            $teacherRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
+            $adminRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
+        }
+        return array('entities' => $entities,
+            'studentRoleForms' => $studentRoleForms,
+            'teacherRoleForms' => $teacherRoleForms,
+            'adminRoleForms' => $adminRoleForms,
+        );
     }
 
     /**
@@ -40,8 +52,7 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('IMRIMLmsBundle:User')->find($id);
@@ -53,8 +64,8 @@ class AdminUserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+            'entity' => $entity,
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -64,14 +75,13 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template()
      */
-    public function newAction()
-    {
+    public function newAction() {
         $entity = new User();
-        $form   = $this->createForm(new UserType(), $entity);
+        $form = $this->createForm(new UserType(), $entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         );
     }
 
@@ -83,11 +93,10 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template("IMRIMLmsBundle:AdminUser:new.html.twig")
      */
-    public function createAction()
-    {
-        $entity  = new User();
+    public function createAction() {
+        $entity = new User();
         $request = $this->getRequest();
-        $form    = $this->createForm(new UserType(), $entity);
+        $form = $this->createForm(new UserType(), $entity);
         $form->bindRequest($request);
 
         if ($form->isValid()) {
@@ -96,12 +105,11 @@ class AdminUserController extends Controller
             $em->flush();
 
             return $this->redirect($this->generateUrl('admin_user_show', array('id' => $entity->getId())));
-            
         }
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form' => $form->createView()
         );
     }
 
@@ -112,8 +120,7 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template()
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('IMRIMLmsBundle:User')->find($id);
@@ -126,8 +133,8 @@ class AdminUserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -140,8 +147,7 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Template("IMRIMLmsBundle:AdminUser:edit.html.twig")
      */
-    public function updateAction($id)
-    {
+    public function updateAction($id) {
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('IMRIMLmsBundle:User')->find($id);
@@ -150,7 +156,7 @@ class AdminUserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $editForm   = $this->createForm(new UserType(), $entity);
+        $editForm = $this->createForm(new UserType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -165,8 +171,8 @@ class AdminUserController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -178,8 +184,7 @@ class AdminUserController extends Controller
      * @Secure(roles="ROLE_ADMIN")
      * @Method("post")
      */
-    public function deleteAction($id)
-    {
+    public function deleteAction($id) {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
@@ -200,11 +205,51 @@ class AdminUserController extends Controller
         return $this->redirect($this->generateUrl('admin_user'));
     }
 
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
-            ->getForm()
+                        ->add('id', 'hidden')
+                        ->getForm()
         ;
     }
+
+    /**
+     * Create a button to switch on / off a role for the user. 
+     * @param integer $userId
+     * @return type 
+     */
+    private function createSwitchRoleForm($userId) {
+        return $this->createFormBuilder(array('userId' => $userId))
+                        ->add('userId', 'hidden')
+                        ->getForm()
+        ;
+    }
+
+    /**
+     * Switch on / off the role for the user
+     * @param integer $userId 
+     * @Route("/admin/user/{userId}/{role}/switch", name = "admin_user_role_switch")
+     */
+    public function switchRoleAction($userId, $role) {
+        $className = ucfirst($role) . 'Role';
+        $fullClassName = '\\IMRIM\\Bundle\\LmsBundle\\Entity\\' . $className;
+        if (!class_exists($fullClassName)) {
+            return $this->redirect($this->generateUrl('admin_user'));
+        }
+        $setter = 'set' . $className;
+        $getter = 'get' . $className;
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('IMRIMLmsBundle:User')->find($userId);
+        if ($user == null) {
+            return $this->redirect($this->generateUrl('admin_user'));
+        }
+        if ($user->$getter()) {
+            $em->remove($user->$getter());
+        } else {
+            $user->$setter(new $fullClassName());
+            $em->persist($user);
+        }
+        $em->flush();
+        return $this->redirect($this->generateUrl('admin_user'));
+    }
+
 }

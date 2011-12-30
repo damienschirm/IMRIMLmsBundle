@@ -7,47 +7,49 @@
 <table class="records_list">
     <thead>
         <tr>
-            <!--th>Id</th-->
             <th>Login</th>
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Mail</th>
             <th>Status</th>
-            <!--th>Avatar</th-->
             <th>Authtype</th>
-            <th>Creationtime</th>
-            <!--th>Updatetime</th-->
-            <!--th>Firstaccesstime</th-->
-            <th>Lastlogintime</th>
-            <!--th>Actions</th-->
+            <th>R&ocirc;les</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
     {% set i = 0 %}
     {% for entity in entities %}
             <tr class="{%if i%2 == 0 %} positionA {%else%} positionB {%endif%}" >
-                <!--td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td-->
                 <td><a href="{{ path('admin_user_show', { 'id': entity.id }) }}">{{ entity.login }}</a></td>
                 <td>{{ entity.firstName }}</td>
                 <td>{{ entity.lastName }}</td>
                 <td>{{ entity.mail }}</td>
                 <td>{% if entity.isSuspended %}<img src="{{ asset('bundles/imrimlms/images/cancel.png') }}" />{% else %}<img src="{{ asset('bundles/imrimlms/images/check.png') }}" />{%endif%}</td>
-                <!--td>{{ entity.avatar }}</td-->
                 <td>{{ entity.authType }}</td>
-                <td>{% if entity.creationTime %}{{ entity.creationTime|date('Y-m-d H:i:s') }}{% endif%}</td>
-                <!--td>{% if entity.updateTime %}{{ entity.updateTime|date('Y-m-d H:i:s') }}{% endif%}</td-->
-                <!--td>{% if entity.firstAccessTime %}{{ entity.firstAccessTime|date('Y-m-d H:i:s') }}{% endif%}</td-->
-                <td>{% if entity.lastLoginTime %}{{ entity.lastLoginTime|date('Y-m-d H:i:s') }}{% endif%}</td>
-                <!--td>
+                <td><form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'student' }) }}" method="post" {{ form_enctype(studentRoleForms[entity.id]) }}>
+                {{ form_widget(studentRoleForms[entity.id]) }}
+            <button type="submit" class="{% if entity.getStudentRole() %}button_on{% else %}button_off{% endif %}">Apprenant</button>
+    </form>
+<form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'teacher' }) }}" method="post" {{ form_enctype(teacherRoleForms[entity.id]) }}>
+                {{ form_widget(teacherRoleForms[entity.id]) }}
+            <button type="submit" class="{% if entity.getTeacherRole() %}button_on{% else %}button_off{% endif %}">Enseignant</button>
+    </form>
+<form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'admin' }) }}" method="post" {{ form_enctype(adminRoleForms[entity.id]) }}>
+                {{ form_widget(adminRoleForms[entity.id]) }}
+            <button type="submit" class="{% if entity.getAdminRole() %}button_on{% else %}button_off{% endif %}">Admin</button>
+    </form>
+</td>
+                <td>
                     <ul>
                         <li>
-                            <a href="{//{ path('admin_user_show', { 'id': entity.id } }}">show</a>
+                            <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{//{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
+                            <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
                         </li>
                     </ul>
-                </td-->
+                </td>
             </tr>
             {% set i=i+1 %}
     {% endfor %}
