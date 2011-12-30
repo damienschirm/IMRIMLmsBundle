@@ -34,14 +34,16 @@ class AdminUserController extends Controller {
         $adminRoleForms = array();
 
         foreach ($entities as $user) {
-            $studentRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
-            $teacherRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
-            $adminRoleForms[$user->getId()] = $this->createSwitchRoleForm($user->getId())->createView();
+            $studentRoleForms[$user->getId()] = $this->createSwitchForm($user->getId())->createView();
+            $teacherRoleForms[$user->getId()] = $this->createSwitchForm($user->getId())->createView();
+            $adminRoleForms[$user->getId()] = $this->createSwitchForm($user->getId())->createView();
+            $statusForms[$user->getId()] = $this->createSwitchForm($user->getId())->createView();
         }
         return array('entities' => $entities,
             'studentRoleForms' => $studentRoleForms,
             'teacherRoleForms' => $teacherRoleForms,
             'adminRoleForms' => $adminRoleForms,
+            'statusForms' => $statusForms,
         );
     }
 
@@ -213,11 +215,11 @@ class AdminUserController extends Controller {
     }
 
     /**
-     * Create a button to switch on / off a role for the user. 
+     * Create a button to switch on / off a boolean attribute for the user (role, status...). 
      * @param integer $userId
      * @return type 
      */
-    private function createSwitchRoleForm($userId) {
+    private function createSwitchForm($userId) {
         return $this->createFormBuilder(array('userId' => $userId))
                         ->add('userId', 'hidden')
                         ->getForm()
@@ -227,7 +229,7 @@ class AdminUserController extends Controller {
     /**
      * Switch on / off the role for the user
      * @param integer $userId 
-     * @Route("/admin/user/{userId}/{role}/switch", name = "admin_user_role_switch")
+     * @Route("/{userId}/{role}/switch", name = "admin_user_role_switch")
      */
     public function switchRoleAction($userId, $role) {
         $className = ucfirst($role) . 'Role';
@@ -248,6 +250,27 @@ class AdminUserController extends Controller {
             $user->$setter(new $fullClassName());
             $em->persist($user);
         }
+        $em->flush();
+        return $this->redirect($this->generateUrl('admin_user'));
+    }
+
+    /**
+     * Switch on / off the status for the user
+     * @param integer $userId 
+     * @Route("/{userId}/status_switch", name = "admin_user_status_switch")
+     */
+    public function switchStatusAction($userId) {
+        $em = $this->getDoctrine()->getEntityManager();
+        $user = $em->getRepository('IMRIMLmsBundle:User')->find($userId);
+        if ($user == null) {
+            return $this->redirect($this->generateUrl('admin_user'));
+        }
+        if ($user->getIsSuspended()) {
+            $user->setIsSuspended(false);
+        } else {
+            $user->setIsSuspended(true);
+        }
+        $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl('admin_user'));
     }

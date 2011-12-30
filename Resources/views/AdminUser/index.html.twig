@@ -25,7 +25,10 @@
                 <td>{{ entity.firstName }}</td>
                 <td>{{ entity.lastName }}</td>
                 <td>{{ entity.mail }}</td>
-                <td>{% if entity.isSuspended %}<img src="{{ asset('bundles/imrimlms/images/cancel.png') }}" />{% else %}<img src="{{ asset('bundles/imrimlms/images/check.png') }}" />{%endif%}</td>
+                <td><form action="{{ path('admin_user_status_switch', { 'userId': entity.id }) }}" method="post" {{ form_enctype(statusForms[entity.id]) }}>
+                {{ form_widget(statusForms[entity.id]) }}
+            <button type="submit" class="{% if entity.getIsSuspended() %}suspended_img{% else %}unsuspended_img{% endif %}">D&eacute;sactiv&eacute;</button>
+    </form></td>
                 <td>{{ entity.authType }}</td>
                 <td><form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'student' }) }}" method="post" {{ form_enctype(studentRoleForms[entity.id]) }}>
                 {{ form_widget(studentRoleForms[entity.id]) }}
