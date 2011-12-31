@@ -52,7 +52,7 @@ class Chart implements IChart {
             $q = $qb->getQuery();
             $result = $q->getSingleScalarResult();
 
-            $temp = $temp . "['" . $course->getName() . "'," . $result . "]";
+            $temp = $temp . "['Effectif: " . $course->getName() . "'," . $result . "]";
             if ($i < count($courses)) {
                 $temp = $temp . ",";
             }
@@ -198,15 +198,15 @@ class Chart implements IChart {
         $q = $qb;//->getQuery();
         $result = $q->getResult();
         if (!isset($result) || $result == null) {
-            return "NULL: list of users wh have not finished a course before its expiration date";
+            return "NULL: list of users who have not finished a course before its expiration date";
         }
 
         $temp = "";
         $i = 0;
-        foreach ($result[1] as $u) {
-            $i++;
-            $temp = $temp . "['" . $u->getFirstName() . " " . $u->getLastName() . "'," . $result[2][$i-1] . ",false]";
-            if ($i < count($courses)) {
+        foreach ($result as $ue) {
+            $i++;            
+            $temp = $temp . "['" . $ue->getUser()->getFirstName() . " " . $ue->getUser()->getLastName() . "','" . $ue->getCourse()->getName() . "','" . $ue->getCourse()->getExpirationDate()->format('d/m/Y') . "',false]";
+            if ($i < count($result)) {
                 $temp = $temp . ",";
             }
         }
@@ -219,7 +219,8 @@ class Chart implements IChart {
                 . " function drawChart() { "
                 . "   var data = new google.visualization.DataTable();"
                 . "   data.addColumn('string', 'Utilisateurs');"
-                . "   data.addColumn('number', 'Date d\'expiration');"
+                . "   data.addColumn('string', 'Cours');"
+                . "   data.addColumn('string', 'Date d\'expiration');"
                 . "   data.addColumn('boolean', 'Terminé');"
                 . "   data.addRows(["
                 . $temp
