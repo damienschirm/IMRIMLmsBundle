@@ -22,8 +22,16 @@ class LoadCourseData extends AbstractFixture implements OrderedFixtureInterface 
         $testCourse2->setAutoInscription(true);
         //$testCourse2->setCategory($em->merge($this->getReference('category-2')));
 
+        $testCourse3 = new Course();
+        $testCourse3->setName("Test course 3 (expiré)");
+        $testCourse3->setSummary("<span>Summary</span> test 3. ");
+        $testCourse3->setAutoInscription(true);
+        $now = new \DateTime("now");
+        $testCourse3->setExpirationDate($now->modify( '-1 day' ));
+        
         $em->persist($testCourse1);
         $em->persist($testCourse2);
+        $em->persist($testCourse3);
 
         $em->flush();
     }
