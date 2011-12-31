@@ -4,15 +4,17 @@ namespace IMRIM\Bundle\LmsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * IMRIM\Bundle\LmsBundle\Entity\Lesson
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="IMRIM\Bundle\LmsBundle\Entity\LessonRepository")
+ * @ORM\HasLifecycleCallbacks
  */
-class Lesson
-{
+class Lesson {
+
     /**
      * @var integer $id
      *
@@ -38,7 +40,7 @@ class Lesson
      * @ORM\Column(name = "content", type = "text", nullable = false)
      * @Assert\NotNull()
      */
-    private $content='';
+    private $content = '';
 
     /**
      * @var string $type
@@ -55,7 +57,21 @@ class Lesson
      * @ORM\Column(name = "fileAttached", type = "string", length = 255)
      * @Assert\MaxLength(255)
      */
-    private $fileAttached="";
+    private $fileAttached = "";
+
+    /**
+     * @var binary 
+     * 
+     * @Assert\File(maxSize="10000000")
+     */
+    public $file;
+    
+    /**
+     * @var string $fileMimeType
+     * 
+     * @ORM\Column(name = "fileMimeType", type = "string", length = 255, nullable = true)
+     */
+    private $fileMimeType="";
 
     /**
      * @var integer $coursePosition
@@ -83,28 +99,26 @@ class Lesson
      * @Assert\DateTime()
      */
     private $updateTime;
-    
+
     /**
      * @var Course $course
      * 
      * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "lessons")
-     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id") 
+     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id", onDelete="CASCADE") 
      */
     private $course;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->creationTime = new \DateTime("now");
         $this->updateTime = new \DateTime("now");
     }
-    
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -113,8 +127,7 @@ class Lesson
      *
      * @param string $title
      */
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         $this->title = $title;
         $this->setUpdated();
     }
@@ -124,8 +137,7 @@ class Lesson
      *
      * @return string 
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
@@ -134,8 +146,7 @@ class Lesson
      *
      * @param text $content
      */
-    public function setContent($content)
-    {
+    public function setContent($content) {
         $this->content = $content;
         $this->setUpdated();
     }
@@ -145,8 +156,7 @@ class Lesson
      *
      * @return text 
      */
-    public function getContent()
-    {
+    public function getContent() {
         return $this->content;
     }
 
@@ -155,8 +165,7 @@ class Lesson
      *
      * @param string $type
      */
-    public function setType($type)
-    {
+    public function setType($type) {
         $this->type = $type;
         $this->setUpdated();
     }
@@ -166,8 +175,7 @@ class Lesson
      *
      * @return string 
      */
-    public function getType()
-    {
+    public function getType() {
         return $this->type;
     }
 
@@ -176,8 +184,7 @@ class Lesson
      *
      * @param string $fileAttached
      */
-    public function setFileAttached($fileAttached)
-    {
+    public function setFileAttached($fileAttached) {
         $this->fileAttached = $fileAttached;
         $this->setUpdated();
     }
@@ -187,8 +194,7 @@ class Lesson
      *
      * @return string 
      */
-    public function getFileAttached()
-    {
+    public function getFileAttached() {
         return $this->fileAttached;
     }
 
@@ -197,8 +203,7 @@ class Lesson
      *
      * @param integer $coursePosition
      */
-    public function setCoursePosition($coursePosition)
-    {
+    public function setCoursePosition($coursePosition) {
         $this->coursePosition = $coursePosition;
         $this->setUpdated();
     }
@@ -208,8 +213,7 @@ class Lesson
      *
      * @return integer 
      */
-    public function getCoursePosition()
-    {
+    public function getCoursePosition() {
         return $this->coursePosition;
     }
 
@@ -218,8 +222,7 @@ class Lesson
      *
      * @param datetime $creationTime
      */
-    public function setCreationTime($creationTime)
-    {
+    public function setCreationTime($creationTime) {
         $this->creationTime = $creationTime;
     }
 
@@ -228,8 +231,7 @@ class Lesson
      *
      * @return datetime 
      */
-    public function getCreationTime()
-    {
+    public function getCreationTime() {
         return $this->creationTime;
     }
 
@@ -238,8 +240,7 @@ class Lesson
      *
      * @param datetime $updateTime
      */
-    public function setUpdateTime($updateTime)
-    {
+    public function setUpdateTime($updateTime) {
         $this->updateTime = $updateTime;
     }
 
@@ -248,17 +249,16 @@ class Lesson
      *
      * @return datetime 
      */
-    public function getUpdateTime()
-    {
+    public function getUpdateTime() {
         return $this->updateTime;
     }
-    
-     /**
+
+    /**
      * Get possible types for a lesson 
      * 
      * @return array
      */
-    public static function getPossibleTypes(){
+    public static function getPossibleTypes() {
         return array(
             'Vidéo' => 'video',
             'Texte enrichi' => 'html',
@@ -270,8 +270,7 @@ class Lesson
      *
      * @param IMRIM\Bundle\LmsBundle\Entity\Course $course
      */
-    public function setCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $course)
-    {
+    public function setCourse(\IMRIM\Bundle\LmsBundle\Entity\Course $course) {
         $this->course = $course;
         $this->setUpdated();
     }
@@ -281,16 +280,129 @@ class Lesson
      *
      * @return IMRIM\Bundle\LmsBundle\Entity\Course 
      */
-    public function getCourse()
-    {
+    public function getCourse() {
         return $this->course;
     }
-    
+
     /**
      * Set the updateTime to now
      */
-    public function setUpdated()
-    {
+    public function setUpdated() {
         return $this->setUpdateTime(new \DateTime("now"));
+    }
+
+    /**
+     * Return the absolute path to access to the file attached.
+     * @return null 
+     */
+    public function getAbsolutePath() {
+        if (null === $this->getFileAttached()) {
+            return null;
+        } else {
+            return $this->getUploadRootDir() . '/' . $this->getFileAttached();
+        }
+    }
+
+    /**
+     * Return the web path to access to the file (path in the url)
+     * @return null 
+     */
+    public function getWebPath() {
+        if (null === $this->getFileAttached()) {
+            return null;
+        } else {
+            return '/' . $this->getUploadDir() . '/' . $this->getFileAttached();
+        }
+    }
+
+    /**
+     * Return the absolute directory path where uploaded documents should be saved
+     * @return type 
+     */
+    protected function getUploadRootDir() {
+        return __DIR__ . '/../../../../../web/' . $this->getUploadDir();
+    }
+
+    /**
+     * Return the path of uploaded files
+     * @return type 
+     */
+    protected function getUploadDir() {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded documents in the view
+        return 'uploads/documents';
+    }
+
+    /**
+     * Prepare the upload file.
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload() {
+        if (null !== $this->file) {
+            // Remove the older file
+            $this->removeUpload();
+            // Generate a unique name (based on the course id and the current timestamp)
+            preg_match("/\.(\w+)$/",$this->file->getClientOriginalName(),$match);
+            $this->fileAttached = $this->getCourse()->getId() . '-' . time() . '.' . $match[1];
+            $this->fileMimeType = $this->file->getMimeType();
+        }
+    }
+
+    /**
+     * Upload a file.
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload() {
+        
+        // TODO : check the file's extension
+        if (null === $this->file) {
+            return;
+        }
+
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->file->move($this->getUploadRootDir(), $this->getFileAttached());
+
+        unset($this->file);
+    }
+
+    /**
+     * Remove the former uploaded file (to upload a new one)
+     * @ORM\PostRemove()
+     */
+    public function removeUpload() {
+        if (is_file($this->getAbsolutePath())) {
+            unlink($this->getAbsolutePath());
+        }
+    }
+
+
+    /**
+     * Set fileMimeType
+     *
+     * @param string $fileMimeType
+     */
+    public function setFileMimeType($fileMimeType)
+    {
+        $this->fileMimeType = $fileMimeType;
+    }
+
+    /**
+     * Get fileMimeType
+     *
+     * @return string 
+     */
+    public function getFileMimeType()
+    {
+        return $this->fileMimeType;
+    }
+    
+    
+    public function getFormattedContent(){
+        $formattedContent = str_replace('___WEB_PATH___', $this->getWebPath(), $this->getContent());
+        $formattedContent = str_replace('___MIME_TYPE___', $this->getFileMimeType(), $formattedContent);
+        return $formattedContent;
     }
 }

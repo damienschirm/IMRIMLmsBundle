@@ -4,17 +4,20 @@
 {% if error %}
 <div>{{ error.message }}</div>
 {% endif %}
+<div class="welcome_message">
+    Bienvenue sur l'application d'E-learning, veuillez vous identifiez !
+</div>
 <div id="login-block">
     <div class="block">
         <form action="{{ path('login_check') }}" method="post">
             <table id="login-table">
-                <caption>Connection</caption>
+                <caption>Connexion</caption>
                 <tr>
-                    <td> <label for="username">Username:</label></td>
+                    <td> <label for="username">Identifiant:</label></td>
                     <td><input type="text" id="username" name="_username" value="{{ last_username }}" /></td>
                 </tr>
                 <tr>
-                    <td> <label for="password">Password:</label></td>
+                    <td> <label for="password">Mot de passe:</label></td>
                     <td> <input type="password" id="password" name="_password" /></td>
                 </tr>
             </table>

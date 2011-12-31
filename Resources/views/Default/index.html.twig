@@ -1,6 +1,11 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
 
 {% block content %}
-<h1>Hello!</h1>
+{% include "IMRIMLmsBundle::menu.html.twig" %}
+
+<div class="welcome_message">
+    Bienvenue {{ last_username }}. Votre dernière connexion remonte au {{ last_login_time }}. Nous vous invitons à consulter les listes des cours
+    <a href={{ path('imrim_lms_course_list') }}>ici</a>
+</div>
 
 {% endblock %}

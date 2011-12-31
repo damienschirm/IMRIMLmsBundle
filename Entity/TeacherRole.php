@@ -25,7 +25,7 @@ class TeacherRole
      * @var User $associatedUser
      * 
      * @ORM\OneToOne(targetEntity = "User", inversedBy = "teacherRole", cascade = {"persist"})
-     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, onDelete="CASCADE")
      */
     private $associatedUser;
 
