@@ -16,4 +16,6 @@
 
 <h1>Liste des utilisateurs n'ayant pas fini le cours avant le date de fin imposée: </h1>
   {{ scriptJSTable | raw }}
+
+<input type="button" name="dllink" value="Télécharger le pdf" onclick="self.location.href='{{ path('export2pdf') }}'" style="background-color:#3cb371" style="color:white; font-weight:bold"onclick> 
 {% endblock %}

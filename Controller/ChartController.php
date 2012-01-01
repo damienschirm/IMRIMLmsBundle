@@ -6,8 +6,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-//require_once('lib' . DIRECTORY_SEPARATOR . 'artichow' . DIRECTORY_SEPARATOR . 'Pie.class.php');
 include('Chart' . DIRECTORY_SEPARATOR . "Chart.php");
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dompdf.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame_Tree.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Stylesheet.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Style.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Attribute_Translator.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame_Factory.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Page_Frame_Decorator.cls.php');
 
 /**
  * Description of ChartController
@@ -43,15 +50,32 @@ class ChartController extends Controller {
         //------- Statistic : list of users who have not finished the course before the expiration date -----
         $scriptJSTable = $p->listOfUsersNotHavingFinishedCourse($this);
         //------------------------------------------------------------------
-        
+
         return $this->render('IMRIMLmsBundle:Chart:chart.html.twig', array('nbOfUsers' => $i,
-            'scriptJSCol' => $scriptJSCol,
-            'scriptJSPie' => $scriptJSPie,
-            'scriptJSBar' => $scriptJSBar,
-            'scriptJSBar2' => $scriptJSBar2,
-            'scriptJSTable' => $scriptJSTable));
+                    'scriptJSCol' => $scriptJSCol,
+                    'scriptJSPie' => $scriptJSPie,
+                    'scriptJSBar' => $scriptJSBar,
+                    'scriptJSBar2' => $scriptJSBar2,
+                    'scriptJSTable' => $scriptJSTable));
     }
-    
+
+    /**
+     * @Route("/chart/exportpdf", name="export2pdf")
+     * @Template()
+     */
+    public function ExportPdfAction() {
+        //$p = new \Chart();
+        //$html = $p->get_content("http://localhost/symfony/web/app_dev.php/chart");
+        require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
+        spl_autoload_register('DOMPDF_autoload');
+        $dompdf = new \DOMPDF();
+        $dompdf->load_html($this->ChartAction()->getContent());//$html);
+        $dompdf->set_paper("a4", "portrait");
+        //$dompdf-> // prendre en compte le css
+        $dompdf->render();
+        $dompdf->stream("document.pdf", array("Attachment" => true));
+    }
+
 }
 
 ?>
