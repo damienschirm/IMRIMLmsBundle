@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
-use IMRIM\Bundle\LmsBundle\LmsToolbox;
+use IMRIM\Bundle\LmsBundle\UserManager;
 
 /**
  * IMRIM\Bundle\LmsBundle\Entity\User
@@ -543,9 +543,9 @@ class User implements UserInterface, \Serializable {
         $this->groupsSubscription = new \Doctrine\Common\Collections\ArrayCollection();
         $this->creationTime = new \DateTime("now");
         $this->updateTime = new \DateTime("now");
-        $this->salt = LmsToolbox::generateRandomString();
+        $this->salt = UserManager::generateRandomString();
         $encoder = new MessageDigestPasswordEncoder('sha1', false, 1);
-        $this->password = $encoder->encodePassword(LmsToolbox::generateRandomString(),$this->salt);
+        $this->password = $encoder->encodePassword(UserManager::generateRandomString(),$this->salt);
     }
     
     /**
