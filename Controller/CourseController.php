@@ -80,7 +80,24 @@ class CourseController extends Controller
             'courseResponsibilities' => $courseResponsibilities,
             );
     }
-    
+   
+    /**
+     * Lists all teacher courses
+     * @Route("course/list/teacher", name = "imrim_lms_course_list_teacher")
+     * @Template()
+     * @Secure(roles="ROLE_TEACHER")
+     * @Method({"GET"})
+     */
+    public function teacherListAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $courses = $user->getCourseResponsibilities();
+
+        return array(
+            'courses' => $courses,
+        );
+    }
+ 
     private function createEnrolmentForm($courseId)
     {
         return $this->createFormBuilder(array('courseId' => $courseId))
