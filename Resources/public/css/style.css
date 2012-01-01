@@ -423,10 +423,64 @@ a:hover{
    background-color: white; 
 }
 
-.records_list tbody .positionA:hover,.records_list tbody .positionB:hover{
+.records_list tbody .positionA:hover,.records_list tbody .positionB:hover {
     background-color: #91bbbb;
 }
 
+.admin-buttons {
+    display:block;
+    float:left;
+    background-color:#f5f5f5;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:12px;
+    line-height:130%;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+
+    width:auto;
+    overflow:visible;
+}
+
+.button_on {
+    display:block;
+    float:left;
+    background-color:#64fe2e;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:10px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+    width: 80px;
+    overflow:visible;
+}
+
+.button_off {
+    display:block;
+    float:left;
+    background-color:#fe2e2e;
+    border:1px solid #dedede;
+    border-top:1px solid #eee;
+    border-left:1px solid #eee;
+
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:10px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#565656;
+    cursor:pointer;
+    width: 80px;
+    overflow:visible;
+}
 
 /*----------------------------------------------*/
 
