@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class LessonRepository extends EntityRepository
 {
+    public function findOneByCourseAndCoursePosition($course, $position) {
+        $query = $this->getEntityManager()
+                ->createQuery('SELECT l FROM IMRIMLmsBundle:Lesson l WHERE l.coursePosition = :position AND l.course= :course');
+        $query->setParameter('position', $position);
+        $query->setParameter('course', $course);
+        $result = $query->getResult();
+        if(count($result) > 0)
+        {
+            return $result[0];
+        }
+        return null;
+    }
 }

@@ -1,0 +1,14 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %}
+<span class="course_title">{{ course.name }}</span> {% if edit %}<a href="{{ path("imrim_lms_course_edit",{'id':course.id}) }}">&Eacute;diter</a> {% endif %}
+<br/>
+<span class="lesson_title">{{ lesson.title }}</span> {% if edit %}<a href="{{ path("imrim_lms_lesson_edit",{'courseId':course.id, 'lessonId':lesson.id}) }}">&Eacute;diter</a> {% endif %}
+{% if hasprevius %}<a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': position-1}) }}">Pr&eacute;c&eacute;dent</a> {% endif %}
+{% if hasnext %}<a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': position+1}) }}">Suivant</a>{% endif %}
+<br/>
+<br/>
+
+<div class="lesson_content">{{ lesson.getFormattedContent() | raw }}</div>
+
+{% endblock %}

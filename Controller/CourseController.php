@@ -207,7 +207,7 @@ class CourseController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($course);
                 $em->flush();
-                return $this->redirect($this->generateUrl('imrim_lms_course_list'));
+                return $this->redirect($this->generateUrl('imrim_lms_course_list_teacher'));
             }
         }
         return array('form'=>$form->createView());
@@ -294,7 +294,7 @@ class CourseController extends Controller
                 
             $em->remove($course);
             $em->flush();
-            return $this->redirect($this->generateUrl('imrim_lms_course_list'));
+            return $this->redirect($this->generateUrl('imrim_lms_course_list_teacher'));
         }
        
         throw new AccessDeniedException();
@@ -306,5 +306,56 @@ class CourseController extends Controller
             ->add('courseId', 'hidden')
             ->getForm()
         ;   
+    }
+
+    /**
+     * View
+     * @Route("course/{courseId}/view/position/{position}", name = "imrim_lms_course_view")
+     * @Secure(roles="ROLE_TEACHER, ROLE_STUDENT")
+     * @Method({"GET"})
+     * @Template()
+     * @param integer $courseId
+     * @param integer $positionId
+     * @throws AccessDeniedException
+     */
+    public function viewAction($courseId, $position) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getEntityManager();
+	$hasnext = true;
+	$hasprevius = true;
+	$edit = false;
+        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+	if($course == null) {
+		throw new AccessDeniedException();
+	}
+        $lesson = $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position);
+	if($lesson == null) {
+		throw new AccessDeniedException();
+        }
+	
+	if(null == $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position-1)) {
+		$hasprevius = false;
+	}
+	if(null == $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position+1)) {
+		$hasnext = false;
+	}
+
+	if($user->isResponsibleFor($course)) {
+		$edit = true;
+	} else {
+		if(!$course->isFollowedBy($user)){
+			throw new AccessDeniedException();
+		}
+	}
+
+	
+        return array(
+            'course' => $course,
+            'lesson' => $lesson,
+            'hasnext' => $hasnext,
+            'hasprevius' => $hasprevius,
+            'position' => $position,
+            'edit' => $edit
+        );
     }
 }

@@ -48,7 +48,7 @@ class CourseControllerTest extends WebTestCase {
         $crawler = $client->followRedirect();
         $this->assertRegExp('/UnitTest Course 1/', $client->getResponse()->getContent());
 
-        $link = $crawler->filter('a:contains("Editer")')->eq(0)->link();
+        $link = $crawler->filter('a:contains("éditer")')->eq(0)->link();
         $crawler = $client->click($link);
 
         $this->assertTrue(200 === $client->getResponse()->getStatusCode());

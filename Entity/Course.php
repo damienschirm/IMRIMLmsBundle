@@ -494,4 +494,13 @@ class Course
     {
         $this->teachers[] = $teachers;
     }
+
+    public function haveLesson()
+    {
+	if(count($this->getLessons()) > 0)
+        {
+		return true;
+        } 
+	return false;
+    }
 }
