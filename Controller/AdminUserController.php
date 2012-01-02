@@ -229,6 +229,7 @@ class AdminUserController extends Controller {
     /**
      * Import a CSV
      * @Route("/csv/import", name = "admin_user_csv_import")
+     * @Secure(roles="ROLE_ADMIN")
      * @Template()
      */
     public function csvImportAction() {
@@ -284,6 +285,7 @@ class AdminUserController extends Controller {
     /**
      * Switch on / off the role for the user
      * @param integer $userId 
+     * @Secure(roles="ROLE_ADMIN")
      * @Route("/{userId}/{role}/switch", name = "admin_user_role_switch")
      */
     public function switchRoleAction($userId, $role) {
@@ -312,6 +314,7 @@ class AdminUserController extends Controller {
     /**
      * Switch on / off the status for the user
      * @param integer $userId 
+     * @Secure(roles="ROLE_ADMIN")
      * @Route("/{userId}/status_switch", name = "admin_user_status_switch")
      */
     public function switchStatusAction($userId) {

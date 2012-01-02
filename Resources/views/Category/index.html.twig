@@ -1,0 +1,40 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+
+{% include "IMRIMLmsBundle::menu.html.twig" %}
+
+<h1>Gestion des cat&eacute;gories</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Nom de la cat&eacute;gorie</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.name }}</td>
+            <td>
+                <a href="{{ path('admin_category_edit', { 'id': entity.id }) }}">edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('admin_category_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>
+
+{% endblock %}
+
+{% block menu %} 
+                        <a href="../">Accueil</a>
+{% endblock %}

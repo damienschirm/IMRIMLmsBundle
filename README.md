@@ -51,6 +51,8 @@ And update the routing file of symfony2 : app/config/routing.yml
         defaults:  { _controller: IMRIMLmsBundle:Authentication:login }
     login_check:
         pattern:   /login_check
+    logout:
+        pattern:   /logout
 
 ### b) Database schema creation
 
