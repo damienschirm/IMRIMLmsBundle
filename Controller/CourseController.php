@@ -80,7 +80,43 @@ class CourseController extends Controller
             'courseResponsibilities' => $courseResponsibilities,
             );
     }
-    
+   
+    /**
+     * Lists all teacher courses
+     * @Route("course/list/teacher", name = "imrim_lms_course_list_teacher")
+     * @Template()
+     * @Secure(roles="ROLE_TEACHER")
+     * @Method({"GET"})
+     */
+    public function teacherListAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $courses = $user->getCourseResponsibilities();
+
+        return array(
+            'courses' => $courses,
+        );
+    }
+
+    /**
+     * Lists all courses for admin
+     * @Route("course/list/admin", name = "imrim_lms_course_list_admin")
+     * @Template()
+     * @Secure(roles="ROLE_ADMIN")
+     * @Method({"GET"})
+     */
+    public function adminListAction()
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $courses = $em->getRepository('IMRIMLmsBundle:Course')->findAll();
+
+        return array(
+            'courses' => $courses,
+        );
+    }
+
+ 
     private function createEnrolmentForm($courseId)
     {
         return $this->createFormBuilder(array('courseId' => $courseId))
@@ -169,7 +205,7 @@ class CourseController extends Controller
      * Creates a course
      * @Route("course/create", name = "imrim_lms_course_create")
      * @Template()
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      */
     public function createAction(){
@@ -190,7 +226,7 @@ class CourseController extends Controller
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($course);
                 $em->flush();
-                return $this->redirect($this->generateUrl('imrim_lms_course_list'));
+                return $this->redirect($this->generateUrl('imrim_lms_course_list_teacher'));
             }
         }
         return array('form'=>$form->createView());
@@ -200,7 +236,7 @@ class CourseController extends Controller
      * Edit a course
      * @Route("course/{id}/edit", name = "imrim_lms_course_edit")
      * @Template()
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      */
     public function editAction($id){
@@ -215,7 +251,7 @@ class CourseController extends Controller
         {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
-        if (!$user->isResponsibleFor($course))
+        if (!$user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
@@ -246,7 +282,7 @@ class CourseController extends Controller
     /**
      * Deletes the course.
      * @Route("course/{id}/delete", name = "imrim_lms_course_delete")
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"POST"})
      * @param integer $id
      * @throws AccessDeniedException 
@@ -270,14 +306,14 @@ class CourseController extends Controller
             {
                 throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
             }
-            if (!$user->isResponsibleFor($course))
+            if (!$user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN'))
             {
                 throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
             }
                 
             $em->remove($course);
             $em->flush();
-            return $this->redirect($this->generateUrl('imrim_lms_course_list'));
+            return $this->redirect($this->generateUrl('imrim_lms_course_list_teacher'));
         }
        
         throw new AccessDeniedException();
@@ -289,5 +325,56 @@ class CourseController extends Controller
             ->add('courseId', 'hidden')
             ->getForm()
         ;   
+    }
+
+    /**
+     * View
+     * @Route("course/{courseId}/view/position/{position}", name = "imrim_lms_course_view")
+     * @Secure(roles="ROLE_TEACHER, ROLE_STUDENT")
+     * @Method({"GET"})
+     * @Template()
+     * @param integer $courseId
+     * @param integer $positionId
+     * @throws AccessDeniedException
+     */
+    public function viewAction($courseId, $position) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getEntityManager();
+	$hasnext = true;
+	$hasprevius = true;
+	$edit = false;
+        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+	if($course == null) {
+		throw new AccessDeniedException();
+	}
+        $lesson = $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position);
+	if($lesson == null) {
+		throw new AccessDeniedException();
+        }
+	
+	if(null == $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position-1)) {
+		$hasprevius = false;
+	}
+	if(null == $em->getRepository('IMRIMLmsBundle:Lesson')->findOneByCourseAndCoursePosition($course, $position+1)) {
+		$hasnext = false;
+	}
+
+	if($user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+		$edit = true;
+	} else {
+		if(!$course->isFollowedBy($user)){
+			throw new AccessDeniedException();
+		}
+	}
+
+	
+        return array(
+            'course' => $course,
+            'lesson' => $lesson,
+            'hasnext' => $hasnext,
+            'hasprevius' => $hasprevius,
+            'position' => $position,
+            'edit' => $edit
+        );
     }
 }

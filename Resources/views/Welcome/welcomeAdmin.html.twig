@@ -1,0 +1,35 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %}
+{% include "IMRIMLmsBundle::menu.html.twig" %}
+
+<div class="page-title">
+<h1>Administration</h1>
+</div>
+
+<div class="welcome_message">
+    Bienvenue {{ app.security.getToken().getUser().getFirstName() }} {{ app.security.getToken().getUser().getLastName() }}.<br/> 
+    {% if app.security.getToken().getUser().getLastLoginTime() %}
+Votre dernière connexion remonte au {{ app.security.getToken().getUser().getLastLoginTime()|date("m/d/Y")}}.
+    {% else %}
+Ceci est votre premiere connexion sur la plateforme
+    {% endif %}
+</div>
+
+<div class="action_icon_list">
+	<div class="action-icon_elem">
+		<a href="{{ path('admin_user') }}">
+		<div class="action-icon_elem_img"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="Gestion des Utilisateurs"/></div>
+                <div class="action-icon_elem_txt">Gestion des Utilisateurs</div>
+		</a>
+        </div>
+        <div class="action-icon_elem">
+                <a href="#">
+                <div class="action-icon_elem_img"><img src="{{ asset('bundles/imrimlms/images/category.png') }}" alt="Gestion des Cat&eacute;gories"/></div>
+                <div class="action-icon_elem_txt">Gestion des Cat&eacute;gories</div>
+                </a>
+        </div>
+</div>
+
+{% endblock %}
+

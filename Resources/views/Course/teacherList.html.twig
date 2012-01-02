@@ -1,0 +1,19 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+
+{% include "IMRIMLmsBundle::menu.html.twig" %}
+<h2>Mes cours</h2>
+{% for course in courses %}
+<div class="course_outline">
+	<div class="course_outline_img"><img src="{{ asset('bundles/imrimlms/images/course.png') }}" alt="{{course}}"/></div>
+	<div><span class="course_outline_title"><a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': 1}) }}">{{course}}</a></span> <a href="{{ path("imrim_lms_course_edit", {'id':course.id}) }}">&eacute;diter</a></div>
+	<div>{{ course.summary | raw }}</div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block menu %} 
+                        <a href="../">Accueil</a>
+{% endblock %}

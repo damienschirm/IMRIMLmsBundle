@@ -1,0 +1,15 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}i
+
+{% block content %} 
+
+<form action="{{ path('admin_user_csv_import') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+        <p>
+            <button type="submit">Creer les utilisateurs</button>
+        </p>
+    </form>
+
+{% for log in logs %}
+  <div class="log-{{ log.priorityName }}">{{ log.message }}</div><br/>
+{% endfor %}
+{% endblock %}
