@@ -69,7 +69,7 @@ class UserEnrolment
      * @var Course $course
      * 
      * @ORM\ManyToOne(targetEntity = "Course", inversedBy = "userEnrolments", cascade = {"persist"})
-     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id") 
+     * @ORM\JoinColumn(name = "course_id", referencedColumnName = "id", onDelete="CASCADE") 
      */
     private $course;
     
@@ -77,7 +77,7 @@ class UserEnrolment
      * @var User $user
      * 
      * @ORM\ManyToOne(targetEntity = "User", inversedBy = "enrolments", cascade = {"persist"})
-     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id") 
+     * @ORM\JoinColumn(name = "user_id", referencedColumnName = "id", onDelete="CASCADE") 
      */
     private $user;
     
