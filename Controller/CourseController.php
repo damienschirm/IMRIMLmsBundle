@@ -97,6 +97,25 @@ class CourseController extends Controller
             'courses' => $courses,
         );
     }
+
+    /**
+     * Lists all courses for admin
+     * @Route("course/list/admin", name = "imrim_lms_course_list_admin")
+     * @Template()
+     * @Secure(roles="ROLE_ADMIN")
+     * @Method({"GET"})
+     */
+    public function adminListAction()
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $courses = $em->getRepository('IMRIMLmsBundle:Course')->findAll();
+
+        return array(
+            'courses' => $courses,
+        );
+    }
+
  
     private function createEnrolmentForm($courseId)
     {
@@ -186,7 +205,7 @@ class CourseController extends Controller
      * Creates a course
      * @Route("course/create", name = "imrim_lms_course_create")
      * @Template()
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      */
     public function createAction(){
@@ -217,7 +236,7 @@ class CourseController extends Controller
      * Edit a course
      * @Route("course/{id}/edit", name = "imrim_lms_course_edit")
      * @Template()
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      */
     public function editAction($id){
@@ -232,7 +251,7 @@ class CourseController extends Controller
         {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
-        if (!$user->isResponsibleFor($course))
+        if (!$user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN'))
         {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
@@ -263,7 +282,7 @@ class CourseController extends Controller
     /**
      * Deletes the course.
      * @Route("course/{id}/delete", name = "imrim_lms_course_delete")
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure("ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"POST"})
      * @param integer $id
      * @throws AccessDeniedException 
@@ -287,7 +306,7 @@ class CourseController extends Controller
             {
                 throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
             }
-            if (!$user->isResponsibleFor($course))
+            if (!$user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN'))
             {
                 throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
             }
@@ -340,7 +359,7 @@ class CourseController extends Controller
 		$hasnext = false;
 	}
 
-	if($user->isResponsibleFor($course)) {
+	if($user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
 		$edit = true;
 	} else {
 		if(!$course->isFollowedBy($user)){
