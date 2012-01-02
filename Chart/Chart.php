@@ -12,8 +12,7 @@ include('Chart' . DIRECTORY_SEPARATOR . "IChart.php");
 class Chart implements IChart {
 
     public function numberOfUsers($numberOfEnrolment) {
-        $scriptJS = "<div id='colchart_div'>"
-                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
                 . "google.load('visualization', '1', {packages:['corechart']});"
                 . "google.setOnLoadCallback(drawChart);"
@@ -31,6 +30,7 @@ class Chart implements IChart {
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
+                . "<div id='colchart_div'>"
                 . "</div>";
 
         return $scriptJS;
@@ -58,8 +58,7 @@ class Chart implements IChart {
             }
         }
 
-        $scriptJS = "<div id='piechart_div'>"
-                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
                 . "google.load('visualization', '1', {packages:['corechart']});"
                 . "google.setOnLoadCallback(drawChart);"
@@ -78,6 +77,7 @@ class Chart implements IChart {
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
+                . "<div id='piechart_div'>"
                 . "</div>";
 
         return $scriptJS;
@@ -108,8 +108,7 @@ class Chart implements IChart {
             }
         }
 
-        $scriptJS = "<div id='barchart_div'>"
-                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
                 . "google.load('visualization', '1', {packages:['corechart']});"
                 . "google.setOnLoadCallback(drawChart);"
@@ -128,6 +127,7 @@ class Chart implements IChart {
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
+                . "<div id='barchart_div'>"
                 . "</div>";
 
         return $scriptJS;
@@ -158,8 +158,7 @@ class Chart implements IChart {
             }
         }
 
-        $scriptJS = "<div id='bar2chart_div'>"
-                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
                 . "google.load('visualization', '1', {packages:['corechart']});"
                 . "google.setOnLoadCallback(drawChart);"
@@ -178,6 +177,7 @@ class Chart implements IChart {
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
+                . "<div id='bar2chart_div'>"
                 . "</div>";
 
         return $scriptJS;
@@ -186,16 +186,9 @@ class Chart implements IChart {
     public function listOfUsersNotHavingFinishedCourse(Controller $ctrl) {
         $date = new DateTime('now');
         
-        $qb = $ctrl->getDoctrine()->getEntityManager()
+        $q = $ctrl->getDoctrine()->getEntityManager()
                 ->createQuery('SELECT ue, u, c FROM IMRIMLmsBundle:UserEnrolment ue JOIN ue.course c JOIN ue.user u WHERE NOT(UPPER(ue.courseStatus) LIKE \'FINISHED\') AND c IN (SELECT cc FROM IMRIMLmsBundle:Course cc WHERE cc.expirationDate <= :date)')
                 ->setParameter('date',$date);
-                /*->createQueryBuilder()
-                ->select('ue.user , ue.course')
-                ->from('IMRIMLmsBundle:UserEnrolment', 'ue')
-                ->where('NOT(UPPER(ue.courseStatus) LIKE \'FINISHED\')')
-                ->andwhere('ue.course IN (SELECT c.* FROM IMRIMLmsBundle:Course c WHERE c.expirationDate <= :date)')
-                ->setParameter('date',$date)*/;
-        $q = $qb;//->getQuery();
         $result = $q->getResult();
         if (!isset($result) || $result == null) {
             return "NULL: list of users who have not finished a course before its expiration date";
@@ -211,8 +204,7 @@ class Chart implements IChart {
             }
         }
 
-        $scriptJS = "<div id='tablechart_div'>"
-                . "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
+        $scriptJS = "<script type='text/javascript' src='https://www.google.com/jsapi'></script>"
                 . "<script type='text/javascript'>"
                 . "google.load('visualization', '1', {packages:['table']});"
                 . "google.setOnLoadCallback(drawChart);"
@@ -234,6 +226,7 @@ class Chart implements IChart {
                 . "   chart.draw(data, options);"
                 . " }"
                 . "</script>"
+                . "<div id='tablechart_div'>"
                 . "</div>";
 
         return $scriptJS;
