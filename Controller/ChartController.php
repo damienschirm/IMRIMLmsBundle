@@ -7,14 +7,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 include('Chart' . DIRECTORY_SEPARATOR . "Chart.php");
+
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
 require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dompdf.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame_Tree.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Stylesheet.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Style.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Attribute_Translator.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Frame_Factory.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'Page_Frame_Decorator.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame_tree.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'stylesheet.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'style.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'attribute_translator.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame_factory.cls.php');
+require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'page_frame_decorator.cls.php');
 
 /**
  * Description of ChartController
