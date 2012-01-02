@@ -1,0 +1,78 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block css %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/jquery.autocomplete.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/humanmsg.css') }}"/>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{{ asset('bundles/imrimlms/js/jquery.autocomplete.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('bundles/imrimlms/js/humanmsg.js')}}"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+
+  // detection de la saisie dans le champ de recherche
+  $('#form_searchText').keyup( function(){
+    $field = $(this);
+    $('#results').html(''); // purge des resultats
+    $('#ajax-loader').remove(); // on retire le loader
+ 
+    // traitement à partir du deuxieme caractère saisi
+    if( $field.val().length > 1 )
+    {
+      // on envoie la valeur recherchée en POST au fichier de traitement
+      $.ajax({
+  	type : 'POST', // envoi des données en POST
+	url : '{{ path('imrim_lms_course_users_search', {'courseId': id}) }}' , // url du fichier de traitement
+        dataType: 'json',
+	data : 'form[searchText]='+$(this).val() , // données à envoyer en POST
+	beforeSend : function() { // traitements JS à faire AVANT l'envoi
+		$field.after('<img src="ajax-loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
+	},
+	success : function(data){ // traitements JS à faire APRES le retour de la fonction
+		$('#ajax-loader').remove(); // on enleve le loader
+		 $('#form_searchText').autocomplete(data, {
+                    formatItem: function(item) {
+                    return item.text;
+                 }}).result(function(event, item) {
+                    $.ajax({
+                        type : 'POST', // envoi des données en POST
+                        url : '{{ path('imrim_lms_course_users_enrol', {'courseId': id}) }}',
+                        data : 'form[searchText]='+item.login,
+                        success : function(data){
+                            humanMsg.displayMsg(data);
+                            $('#userList').append('<tr><td>'+item.login+'</td><td>'+item.firstName+'</td><td>'+item.lastName+'</td><td>Oui</td></tr>');
+                        }});
+                }); // affiche les resultats dans l'autocompletion
+	}
+      });
+    }		
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<form action="{{ path('imrim_lms_course_users', {'courseId': id, 'searchForm': searchForm }) }}" method="post" {{ form_enctype(searchForm) }}>
+    {{ form_widget(searchForm) }}
+<div id="results"></div>
+</form>
+<table id='userList'>
+    <tr>
+        <th>Login</th>
+        <th>Prénom</th>
+        <th>NOM</th>
+        <th>Inscription forcée</th> 
+    </tr>
+ {% for enrolledUser in usersEnrolled %}
+    <tr>
+        <td>{{ enrolledUser.getUser().getLogin() }}</td>
+        <td>{{ enrolledUser.getUser().getFirstName() }}</td>
+        <td>{{ enrolledUser.getUser().getLastName() }}</td>
+        <td>{% if enrolledUser.getIsForced()==1 %} Oui {% else %} Non {% endif %}</td> 
+    </tr>
+    {% endfor %}
+{% endblock %}

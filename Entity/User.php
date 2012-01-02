@@ -746,4 +746,12 @@ class User implements UserInterface, \Serializable {
             $this->$key = $value;
         }
     }
+    
+    /**
+     * Return a string containing the first name and the last name of the user.
+     * @return string 
+     */
+    public function getIdentity(){
+        return ucfirst(strtolower($this->getFirstName())).' '.strtoupper($this->getLastName());
+    }
 }
