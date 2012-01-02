@@ -2,19 +2,19 @@
 
 {% block content %} 
 
-<h1>User creation</h1>
+<h1>Cr&eacute;ation d'un utilisateur</h1>
 
 <form action="{{ path('admin_user_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+        <button type="submit">Cr&eacute;er</button>
     </p>
 </form>
 
 <ul class="record_actions">
     <li>
         <a href="{{ path('admin_user') }}">
-            Back to the list
+            Retour aux utilisateurs
         </a>
     </li>
 </ul>

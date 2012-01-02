@@ -2,7 +2,7 @@
 
 {% block content %} 
 
-<h1>User</h1>
+<h1>Utilisateur {{ entity.login }}</h1>
 
 <table class="record_properties">
     <tbody>
@@ -11,15 +11,15 @@
             <td>{{ entity.id }}</td>
         </tr>
         <tr>
-            <th>Login</th>
+            <th>Identifiant</th>
             <td>{{ entity.login }}</td>
         </tr>
         <tr>
-            <th>Firstname</th>
+            <th>Pr&eacute;nom</th>
             <td>{{ entity.firstName }}</td>
         </tr>
         <tr>
-            <th>Lastname</th>
+            <th>Nom</th>
             <td>{{ entity.lastName }}</td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
             <td>{{ entity.mail }}</td>
         </tr>
         <tr>
-            <th>Issuspended</th>
+            <th>Inactif</th>
             <td>{{ entity.isSuspended }}</td>
         </tr>
         <tr>
@@ -35,23 +35,23 @@
             <td>{{ entity.avatar }}</td>
         </tr>
         <tr>
-            <th>Authtype</th>
+            <th>Authentification</th>
             <td>{{ entity.authType }}</td>
         </tr>
         <tr>
-            <th>Creationtime</th>
+            <th>Date de cr&eacute;ation</th>
             <td>{{ entity.creationTime|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Updatetime</th>
+            <th>Date de mise &agrave; jour</th>
             <td>{{ entity.updateTime|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Firstaccesstime</th>
+            <th>Premi&egrave;re connexion</th>
             <td>{{ entity.firstAccessTime|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-            <th>Lastlogintime</th>
+            <th>Derni&egrave;re connexion</th>
             <td>{{ entity.lastLoginTime|date('Y-m-d H:i:s') }}</td>
         </tr>
     </tbody>
@@ -60,18 +60,18 @@
 <ul class="record_actions">
     <li>
         <a href="{{ path('admin_user') }}">
-            Back to the list
+            Retour aux utilisateurs
         </a>
     </li>
     <li>
         <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">
-            Edit
+            Editer
         </a>
     </li>
     <li>
         <form action="{{ path('admin_user_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button type="submit">Supprimer</button>
         </form>
     </li>
 </ul>

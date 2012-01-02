@@ -3,18 +3,18 @@
         <table id="menu-table" column="2">
             <caption>Menu</caption>
             <tr>
-                <td><a href="{{ path('imrim_lms_course_list') }}"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="Account"/><br>Mon Compte</a></td>
+                <td><a href="{{ path('imrim_lms_course_list') }}"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="Compte"/><br>Mon Compte</a></td>
                 <td><a href="{{ path('logout') }}"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="D&eacute;connexion"/><br>D&eacute;connexion</a></td>
 
                 <!--td><a href="{# {{ path('imrim_lms_course_list') }}"><img src="{{ asset('bundles/imrimlms/images/messages.png') }} #}" alt="Messages"/><br>My Messages</a></td-->
             </tr>
-    
-            <!--tr>
-                <td>Onglet3</td>
-                <td>Onglet4</td>
-            </tr>
-
+     {% if is_granted('ROLE_ADMIN') %}
             <tr>
+                <td><a href="{{ path('admin_category') }}"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="Cat&eacute;gories"/><br>Cat&eacute;gories</a></td>
+                <td><a href="{{ path('admin_user') }}"><img src="{{ asset('bundles/imrimlms/images/account.png') }}" alt="Utiliateurs"/><br>Utilisateurs</a></td>
+            </tr>
+    {% endif %}
+            <!--<tr>
                 <td>Onglet5</td>
                 <td>Onglet6</td>
             </tr-->  

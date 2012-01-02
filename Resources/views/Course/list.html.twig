@@ -8,7 +8,7 @@
     <tbody>
         {% for enrolment in courseEnrolments %}
             <tr>
-                <td width = 60% >{% if enrolment.course.haveLesson() %}<a href="{{ path("imrim_lms_course_view", {'courseId': enrolment.course.id, 'position': 1}) }}">{{enrolment.course}}</a>{% else %}{{enrolment.course}} (Le cours est vide){% endif %}</td>
+                <td width = 60% >{% if enrolment.course.haveLesson() %}<a href="{{ path("imrim_lms_course_view", {'courseId': enrolment.course.id, 'position': 1}) }}">{{enrolment.course}}</a>{% else %}{{enrolment.course}} (indisponnible){% endif %}</td>
 
                 <td style="text-align: center">   <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
             {{ form_widget(courseEnrolmentForms[enrolment.course.id]) }}
@@ -51,5 +51,5 @@
 {% endblock %}
 
 {% block menu %} 
-                        <a href="../">Accueil</a>
+                        <a href="{{ path('welcome_student') }}">Accueil</a>
 {% endblock %}

@@ -2,17 +2,17 @@
 
 {% block content %} 
 
-<h1>User list</h1>
+<h1>Liste des utilisateurs</h1>
 
 <table class="records_list">
     <thead>
         <tr>
-            <th>Login</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>Identifiant</th>
+            <th>Pr&eacute;nom</th>
+            <th>Nom</th>
             <th>Mail</th>
-            <th>Status</th>
-            <th>Authtype</th>
+            <th>Statut</th>
+            <th>Authentification</th>
             <th>R&ocirc;les</th>
             <th>Actions</th>
         </tr>
@@ -27,50 +27,56 @@
                 <td>{{ entity.mail }}</td>
                 <td><form action="{{ path('admin_user_status_switch', { 'userId': entity.id }) }}" method="post" {{ form_enctype(statusForms[entity.id]) }}>
                 {{ form_widget(statusForms[entity.id]) }}
-            <button type="submit" class="admin-buttons">
+                                <button type="submit" class="admin-buttons">
 {% if entity.getIsSuspended() %}
-        <img src="{{ asset('bundles/imrimlms/images/cancel.png') }}" alt=""/>
+                                        <img src="{{ asset('bundles/imrimlms/images/cancel.png') }}" alt=""/>
 {% else %}
-        <img src="{{ asset('bundles/imrimlms/images/check.png') }}" alt=""/>
+                                        <img src="{{ asset('bundles/imrimlms/images/check.png') }}" alt=""/>
 {% endif %}
-</button>
-    </form></td>
-                <td>{{ entity.authType }}</td>
-                <td><form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'student' }) }}" method="post" {{ form_enctype(studentRoleForms[entity.id]) }}>
+                                    </button>
+                                </form></td>
+                            <td>{{ entity.authType }}</td>
+                            <td><form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'student' }) }}" method="post" {{ form_enctype(studentRoleForms[entity.id]) }}>
                 {{ form_widget(studentRoleForms[entity.id]) }}
-            <button type="submit" class="{% if entity.getStudentRole() %}button_on{% else %}button_off{% endif %}">Apprenant</button>
-    </form>
-<form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'teacher' }) }}" method="post" {{ form_enctype(teacherRoleForms[entity.id]) }}>
+                                            <button type="submit" class="{% if entity.getStudentRole() %}button_on{% else %}button_off{% endif %}">Apprenant</button>
+                                        </form>
+                                        <form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'teacher' }) }}" method="post" {{ form_enctype(teacherRoleForms[entity.id]) }}>
                 {{ form_widget(teacherRoleForms[entity.id]) }}
-            <button type="submit" class="{% if entity.getTeacherRole() %}button_on{% else %}button_off{% endif %}">Enseignant</button>
-    </form>
-<form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'admin' }) }}" method="post" {{ form_enctype(adminRoleForms[entity.id]) }}>
+                                                <button type="submit" class="{% if entity.getTeacherRole() %}button_on{% else %}button_off{% endif %}">Enseignant</button>
+                                            </form>
+                                            <form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'admin' }) }}" method="post" {{ form_enctype(adminRoleForms[entity.id]) }}>
                 {{ form_widget(adminRoleForms[entity.id]) }}
-            <button type="submit" class="{% if entity.getAdminRole() %}button_on{% else %}button_off{% endif %}">Admin</button>
-    </form>
-</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_user_show', { 'id': entity.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+                                                    <button type="submit" class="{% if entity.getAdminRole() %}button_on{% else %}button_off{% endif %}">Admin</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <a href="{{ path('admin_user_show', { 'id': entity.id }) }}"> <img src="{{ asset('bundles/imrimlms/images/show_user.png') }}" alt="Voir"/></a>
+
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/imrimlms/images/edit.png') }}" alt="Editer"/></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
             {% set i=i+1 %}
     {% endfor %}
-        </tbody>
-    </table>
+                                    </tbody>
+                                </table>
+                                <h1>Cr&eacute;ation d'un utilisateur</h1>
+                                <ul>
+                                    <li>
+                                        <a href="{{ path('admin_user_new') }}">
+                                             Cr&eacute;er un nouvel utilisateur <img src="{{ asset('bundles/imrimlms/images/add_user.png') }}" alt="Cr&eacute;er"/>
+                                        </a>
+                                    </li>
+                                </ul>
 
-    <ul>
-        <li>
-            <a href="{{ path('admin_user_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-
+{% endblock %}
+{% block menu %} 
+                        <a href="{{ path('welcome_admin') }}">Accueil</a>
 {% endblock %}

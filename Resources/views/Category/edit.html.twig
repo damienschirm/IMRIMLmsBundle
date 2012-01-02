@@ -1,25 +1,25 @@
 {% extends "IMRIMLmsBundle::layout.html.twig" %}
 
 {% block content %} 
-<h2>Category edit</h2>
+<h2>Edition de la cat&eacute;gorie {{ entity.name }}</h2>
 
 <form action="{{ path('admin_category_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
     <p>
-        <button type="submit">Edit</button>
+        <button type="submit">Editer</button>
     </p>
 </form>
 
 <ul class="record_actions">
     <li>
         <a href="{{ path('admin_category') }}">
-            Back to the list
+            Retour aux catégories
         </a>
     </li>
     <li>
         <form action="{{ path('admin_category_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button type="submit">Supprimer</button>
         </form>
     </li>
 </ul>

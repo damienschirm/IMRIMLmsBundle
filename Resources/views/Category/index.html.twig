@@ -18,17 +18,18 @@
         <tr>
             <td>{{ entity.name }}</td>
             <td>
-                <a href="{{ path('admin_category_edit', { 'id': entity.id }) }}">edit</a>
+                <a href="{{ path('admin_category_edit', { 'id': entity.id }) }}"><img src="{{ asset('bundles/imrimlms/images/edit.png') }}" alt="Editer"/></a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 
+<h1>Cr&eacute;ation de cat&eacute;gorie</h1>
 <ul>
     <li>
         <a href="{{ path('admin_category_new') }}">
-            Create a new entry
+            Cr&eacute;er une nouvelle cat&eacute;gorie <img src="{{ asset('bundles/imrimlms/images/add_category.png') }}" alt="Cr&eacute;er"/>
         </a>
     </li>
 </ul>
@@ -36,5 +37,5 @@
 {% endblock %}
 
 {% block menu %} 
-                        <a href="../">Accueil</a>
+                        <a href="{{ path('welcome_admin') }}">Accueil</a>
 {% endblock %}
