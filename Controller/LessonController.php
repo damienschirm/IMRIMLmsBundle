@@ -18,7 +18,7 @@ class LessonController extends Controller {
      * Creates a lesson into a specific course
      * @Route("course/{courseId}/lesson/create", name = "imrim_lms_lesson_create")
      * @Template()
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure(roles="ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      * @param integer $courseId
      * @return Array()
@@ -65,7 +65,7 @@ class LessonController extends Controller {
     /**
      * Edit a lesson into a specific course
      * @Route("course/{courseId}/lesson/{lessonId}/edit", name = "imrim_lms_lesson_edit")
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure(roles="ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"GET","POST"})
      * @param integer $courseId
      * @param integer $lessonId
@@ -114,7 +114,7 @@ class LessonController extends Controller {
     /**
      * Deletes the lesson.
      * @Route("course/{courseId}/lesson/{lessonId}/delete", name = "imrim_lms_lesson_delete")
-     * @Secure(roles="ROLE_TEACHER")
+     * @Secure(roles="ROLE_TEACHER, ROLE_ADMIN")
      * @Method({"POST"})
      * @param integer $courseId
      * @param integer $lessonId
@@ -231,7 +231,7 @@ class LessonController extends Controller {
         if ($course == null) {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
-        if (!$user->isResponsibleFor($course)) {
+        if (!$user->isResponsibleFor($course) && !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
         }
         return $course;

@@ -27,7 +27,13 @@
                 <td>{{ entity.mail }}</td>
                 <td><form action="{{ path('admin_user_status_switch', { 'userId': entity.id }) }}" method="post" {{ form_enctype(statusForms[entity.id]) }}>
                 {{ form_widget(statusForms[entity.id]) }}
-            <button type="submit" class="{% if entity.getIsSuspended() %}suspended_img{% else %}unsuspended_img{% endif %}">D&eacute;sactiv&eacute;</button>
+            <button type="submit" class="admin-buttons">
+{% if entity.getIsSuspended() %}
+        <img src="{{ asset('bundles/imrimlms/images/cancel.png') }}" alt=""/>
+{% else %}
+        <img src="{{ asset('bundles/imrimlms/images/check.png') }}" alt=""/>
+{% endif %}
+</button>
     </form></td>
                 <td>{{ entity.authType }}</td>
                 <td><form action="{{ path('admin_user_role_switch', { 'userId': entity.id, 'role': 'student' }) }}" method="post" {{ form_enctype(studentRoleForms[entity.id]) }}>

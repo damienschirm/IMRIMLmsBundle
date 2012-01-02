@@ -8,7 +8,7 @@
     <tbody>
         {% for enrolment in courseEnrolments %}
             <tr>
-                <td width = 60% >{{enrolment.course}} </td>
+                <td width = 60% >{% if enrolment.course.haveLesson() %}<a href="{{ path("imrim_lms_course_view", {'courseId': enrolment.course.id, 'position': 1}) }}">{{enrolment.course}}</a>{% else %}{{enrolment.course}} (indisponnible){% endif %}</td>
 
                 <td style="text-align: center">   <form action="{{ path('imrim_lms_course_unsubscribe', { 'id': enrolment.course.id }) }}" method="post">
             {{ form_widget(courseEnrolmentForms[enrolment.course.id]) }}
@@ -29,7 +29,7 @@
     {% for id, inscriptibleCourse in inscriptibleCourses %}
                         <tr>
                             <td width = 60%>
-                        {{inscriptibleCourse}} 
+                                {{inscriptibleCourse}}
                                 </td>
 {% if courseResponsibilities[inscriptibleCourse.id] %}
                                 <td>

@@ -227,8 +227,65 @@ class AdminUserController extends Controller {
     }
 
     /**
+     * Import a CSV
+     * @Route("/csv/import", name = "admin_user_csv_import")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template()
+     */
+    public function csvImportAction() {
+        $request = $this->getRequest();
+	$form = $this->createFormBuilder()
+            ->add('file', 'file', array(
+               'label' => 'CSV &agrave; importer',
+            ))
+            ->add('role', 'choice', array(
+               'label' => 'Role des utilisateurs',
+               'choices' => array(
+                    'student' => 'Etudiant',
+                    'teacher' => 'Enseignant',
+                    'admin' => 'Administrateur',
+               ),
+            ))
+            ->getForm();
+	$logs = array();
+
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+		$data = $form->getData();
+                $roleName = $data['role'];
+		$fileName = 'submit_user_' . $roleName . '_' . date('Y-m-d') . '_' . time() . '.csv';
+                $dir = dirname(__FILE__) . '/../Resources/doc/';
+                $userManager = $this->get('imrim_lms.user_manager');
+
+                $form['file']->getData()->move($dir, $fileName);
+
+		$userManager->csvUserImport($dir . '/' . $fileName, $roleName, true);
+
+		// get resulting logs
+                $logger = $this->get('logger');
+                $logs = $logger->getLogs();
+            }
+        }
+	
+	$printableLogs = array();
+	foreach( $logs as $log ) {
+		if($log['priority'] > 200) {
+			$printableLogs[] = $log;
+		}
+        }
+
+        return array(
+            'form' => $form->createView(),
+            'logs' => $printableLogs,
+        );
+    }
+
+    /**
      * Switch on / off the role for the user
      * @param integer $userId 
+     * @Secure(roles="ROLE_ADMIN")
      * @Route("/{userId}/{role}/switch", name = "admin_user_role_switch")
      */
     public function switchRoleAction($userId, $role) {
@@ -257,6 +314,7 @@ class AdminUserController extends Controller {
     /**
      * Switch on / off the status for the user
      * @param integer $userId 
+     * @Secure(roles="ROLE_ADMIN")
      * @Route("/{userId}/status_switch", name = "admin_user_status_switch")
      */
     public function switchStatusAction($userId) {
