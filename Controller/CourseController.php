@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use IMRIM\Bundle\LmsBundle\Entity\Course;
 use IMRIM\Bundle\LmsBundle\Form\CourseType;
+use IMRIM\Bundle\LmsBundle\Entity\TeacherRole;
+use IMRIM\Bundle\LmsBundle\Entity\StudentRole;
 
 class CourseController extends Controller {
 
@@ -375,7 +377,33 @@ class CourseController extends Controller {
             'id' => $courseId,
         );
     }
-    
+
+    /**
+     * Management page of the course teacher
+     * @Route("course/{courseId}/teachers", name = "imrim_lms_course_teachers")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Template()
+     * @param integer $courseId
+     */
+    public function manageTeacherAction($courseId) {
+        // Form to list the users enrolled in the current course
+        $em = $this->getDoctrine()->getEntityManager();
+        $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId); // get the current course
+
+        if ($course == null) {
+            throw new AccessDeniedException("Vous n'avez pas l'autorisation d'éditer ce cours.");
+        }
+
+        $users = $course->getTeachers(); // get the user enrolled
+        // Execute the request to list the user enrolments for the current course
+        $searchForm = $this->createSearchUserForm()->createView();
+
+        return array('searchForm' => $searchForm,
+            'users' => $users,
+            'id' => $courseId,
+        );
+    }
+ 
     /**
      * Search a specific user.
      * @Route("course/{courseId}/users/search", name = "imrim_lms_course_users_search")
@@ -404,6 +432,7 @@ class CourseController extends Controller {
                     $users[] = array(
                         'text' => $user->getLogin() . ' - ' . $user->getIdentity(),
                         'login' => $user->getLogin(),
+                        'id' => $user->getId(),
                         'lastName' => $user->getLastName(),
                         'firstName' => $user->getFirstName(),
                     );
@@ -449,12 +478,113 @@ class CourseController extends Controller {
                     //return new Response('L\'utilisateur ' . $userToEnrol->getLogin() . ' suit d&eacute;j&agrave; ce cours');
                 }
                 $course->enrolUser($userToEnrol, true);
+		if( $userToEnrol->getStudentRole() != null) {
+			$userToEnrol->setStudentRole(new StudentRole());
+                }
                 $em->persist($course); // TODO check if user is allowed to enrol
                 $em->flush();
                 return new Response('L\'utilisateur ' . $userToEnrol->getLogin() . ' a &eacute;t&eacute; inscrit au cours');
             }
             return new Response('L\'utilisateur ' . $login . ' n\'a pas pu &ecirc;tre inscrit au cours.');
         }
+    }
+
+    /**
+     * Add a teacher on course
+     * @Route("course/{courseId}/teachers/add", name = "imrim_lms_course_teachers_add")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Method({"POST"})
+     * @param integer $courseId
+     */
+    public function ajaxAddTeacher($courseId) {
+
+        $request = $this->getRequest();
+        $form = $this->createSearchUserForm();
+
+        if ($request->getMethod() == 'POST') {
+
+            $form->bindRequest($request);
+
+            $data = $form->getData();
+            $login = utf8_encode($data['searchText']);
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('IMRIMLmsBundle:User')->findOneByLogin($login);
+
+            if ($user != null) {
+                $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+
+                if (!$course) {
+                    throw $this->createNotFoundException('Unable to find Course entity.');
+                }
+
+                if ($user->isResponsibleFor($course)) {
+                    throw $this->createNotFoundException('User already a teacher for that course');
+                }
+                
+		if ($user->getTeacherRole() == null) {
+                    $user->setTeacherRole(new TeacherRole());
+                    $em->persist($user);
+                }
+		$course->addTeacher($user);
+		$em->persist($course); // TODO check if user is allowed to enrol
+                $em->flush();
+                return new Response('L\'utilisateur ' . $user->getLogin() . ' est maintenant professeur de ce cours');
+            }
+            return new Response('L\'utilisateur ' . $login . ' n\'a pas pu &ecirc;tre inscrit au cours.');
+        }
+    }
+
+    /**
+     * Remove a teacher on course
+     * @Route("course/{courseId}/teachers/remove", name = "imrim_lms_course_teachers_del")
+     * @Secure(roles="ROLE_ADMIN")
+     * @Method({"POST"})
+     * @param integer $courseId
+     */
+    public function ajaxRemoveTeacher($courseId) {
+        $request = $this->getRequest();
+        $form = $this->createSearchUserForm();
+
+        if ($request->getMethod() == 'POST') {
+
+            $form->bindRequest($request);
+
+            $data = $form->getData();
+            $login = utf8_encode($data['searchText']);
+
+            $em = $this->getDoctrine()->getEntityManager();
+            $user = $em->getRepository('IMRIMLmsBundle:User')->findOneByLogin($login);
+
+            if ($user != null) {
+                $course = $em->getRepository('IMRIMLmsBundle:Course')->find($courseId);
+
+                if (!$course) {
+                    throw $this->createNotFoundException('Unable to find Course entity.');
+                }
+
+                if (!$user->isResponsibleFor($course)) {
+                    throw $this->createNotFoundException('User not a teacher for that course');
+                }
+
+                $course->removeTeacher($user);
+		print_r($course);
+                $em->persist($course); // TODO check if user is allowed to enrol
+                $em->flush();
+                return new Response('L\'utilisateur ' . $user->getLogin() . ' n\'est plus professeur de ce cours');
+            }
+            return new Response('L\'utilisateur ' . $login . ' n\'a pas pu &ecirc;tre inscrit au cours.');
+        }
+    }
+
+    /**
+     * Unenrol a specific user.
+     * @Route("course/{courseId}/users/unenrol", name = "imrim_lms_course_users_unenrol")
+     * @Secure(roles="ROLE_TEACHER, ROLE_ADMIN")
+     * @Method({"POST"})
+     * @param integer $courseId
+     */
+    public function ajaxUnenrolUser($courseId) {
     }
 
     function createSearchUserForm() {

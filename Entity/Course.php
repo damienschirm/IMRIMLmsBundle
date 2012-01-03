@@ -364,6 +364,20 @@ class Course
     }
 
     /**
+     * Remove teacher
+     *
+     * @param IMRIM\Bundle\LmsBundle\Entity\User $teachers
+     */
+    public function removeTeacher(\IMRIM\Bundle\LmsBundle\Entity\User $user)
+    {
+        foreach($this->teachers as $key => $teacher) {
+            if($teacher->equals($user)) {
+		unset($this->teachers[$key]);
+            }
+        }
+    }
+
+    /**
      * Get teachers
      *
      * @return Doctrine\Common\Collections\Collection 
