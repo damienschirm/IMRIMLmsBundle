@@ -8,16 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 include('Chart' . DIRECTORY_SEPARATOR . "Chart.php");
 
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'dompdf.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame_tree.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'stylesheet.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'style.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'attribute_translator.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'frame_factory.cls.php');
-require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'page_frame_decorator.cls.php');
-
 /**
  * Description of ChartController
  *
@@ -66,8 +56,6 @@ class ChartController extends Controller {
      * @Template()
      */
     public function ExportPdfAction() {
-        //$p = new \Chart();
-        //$html = $p->get_content("http://localhost/symfony/web/app_dev.php/chart");
         require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
         spl_autoload_register('DOMPDF_autoload');
         $dompdf = new \DOMPDF();
