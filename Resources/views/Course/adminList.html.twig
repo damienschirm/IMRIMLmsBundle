@@ -3,17 +3,36 @@
 {% block content %} 
 
 {% include "IMRIMLmsBundle::menu.html.twig" %}
-<h2>Mes cours</h2>
+<h1>Mes cours</h1>
+<div id="course-block">
 {% for course in courses %}
-<div class="course_outline">
-	<div class="course_outline_img"><img src="{{ asset('bundles/imrimlms/images/course.png') }}" alt="{{course}}"/></div>
-	<div><span class="course_outline_title"><a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': 1}) }}">{{course}}</a></span> <a href="{{ path("imrim_lms_course_edit", {'id':course.id}) }}">&eacute;diter</a> <a href="{{ path("imrim_lms_course_users", {'courseId':course.id}) }}">Gestion des inscrits</a> <a href="{{ path("imrim_lms_course_teachers", {'courseId':course.id}) }}">Gestion des enseignants</a></div>
-	<div>{{ course.summary | raw }}</div>
-</div>
+        <div class="course_outline">
+            <div class="course_outline_img"><img src="{{ asset('bundles/imrimlms/images/icons/Tag.png') }}" alt="{{course}}"/></div>
+            <div><span class="course_outline_title"><a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': 1}) }}">{{course}}</a></span>
+                <ul><li><a href="{{ path("imrim_lms_course_edit", {'id':course.id}) }}">&eacute;diter</a></li>
+                    <li><a href="{{ path("imrim_lms_course_users", {'courseId':course.id}) }}">Gestion des inscrits</a></li>
+                    <li><a href="{{ path("imrim_lms_course_teachers", {'courseId':course.id}) }}">Gestion des enseignants</a></li>
+                </ul>
+            </div>
+            <div>{{ course.summary | raw }}</div>
+        </div>
 {% endfor %}
+    </div>
+
+    <div id="courses-creation-block">
+        <h1>Cr&eacute;ation d'un cours</h1>
+        <ul>
+            <li>
+                <a href="{{ path('imrim_lms_course_create') }}">
+                    Cr&eacute;er un nouveau cours <img src="{{ asset('bundles/imrimlms/images/add_category.png') }}" alt="Cr&eacute;er"/>
+                </a>
+            </li>
+        </ul>
+    </div>
+
 {% endblock %}
 
 
 {% block menu %} 
-                        <a href="{{ path('welcome_teacher') }}">Accueil</a>
+    <a href="{{ path('welcome_admin') }}">Accueil</a>
 {% endblock %}

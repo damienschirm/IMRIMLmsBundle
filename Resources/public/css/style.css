@@ -56,6 +56,22 @@ body {
         GradientType=0);  
 }
 
+a{
+    color:#297b7c;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+img{
+    border:none;
+}
+
+
+
+/*-------------------Structure of site ----------------*/
 #main-container{
     background-color: #ffffff;
 
@@ -88,16 +104,7 @@ body {
 
 #header{
     background-color: #45b1b3;
-    /*background: url(../images/banner-imrim3.png) no-repeat;*/
-    /* width: 80em;*/
-    /*margin-left: -10em;*/
     height: 120px;
-
-    -webkit-border-radius: 10px 10px 0px 0px;
-    -moz-border-radius: 10px 10px 0px 0px;
-    -o-border-radius: 10px 10px 0px 0px;
-    border-radius: 10px 10px 0px 0px;
-
 
     background-image: -webkit-gradient(
         linear,
@@ -134,7 +141,12 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', 
         startColorstr=#247879,  
         endColorstr=#569697,  
-        GradientType=0);  
+        GradientType=0); 
+
+    -webkit-border-radius: 10px 10px 0px 0px;
+    -moz-border-radius: 10px 10px 0px 0px;
+    -o-border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
 }
 
 #platform-title{
@@ -149,7 +161,7 @@ body {
     color: white;
 
     font-size: 2.5em;
-    font-family: "Comic sans MS",Arial,serif;
+    font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
     text-align: center;
     font-weight: bold;
     text-wrap: normal;
@@ -193,6 +205,8 @@ body {
     background: url(../images/background-banner.png) no-repeat;
 }
 
+/*------------------------------------------------*/
+/*---------------Menu bar-------------------------*/
 #menu {
     background: url(../images/menu.png) repeat-x;
 
@@ -233,6 +247,21 @@ body {
 
 #menu-path a:hover{
     color: rgba(34,59,60,1);
+}
+
+#menu-path ul li{
+
+}
+
+/*------------------------------------------------*/
+
+
+.welcome_message{
+    width: 30em;
+
+    margin-top:2em;
+    margin-left: 3em;
+    font-size: 20px;
 }
 
 .content{
@@ -297,49 +326,15 @@ body {
 
 }
 
- a{
-    color:#297b7c;
-    text-decoration: none;
-}
+.menu-title{
+    width: auto;
 
-a:hover{
-    text-decoration: underline;
-}
-
-
-/*----------------Menu block-------------------*/
-
-#menu-block{
-    float: right;
-    width: 20em;
-    height: auto;
-
-}
-
-#menu-table{
-    width: 20em;
-}
-
-#menu-table td{
-    width: 60px;
-    padding:1em;
-    text-align: center;
-}
-
-#menu-table td:hover{
-    background-color: #83b2b3;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -o-border-radius: 10px;
-    border-radius: 10px; 
-}
-
-#menu-table caption{
     background-color: #297b7c;
 
+    color:white;
+    text-align: center;
     font-size: 30px;
     font-weight: bold;
-    color: white;
 
     -webkit-border-radius: 10px 10px 0 0;
     -moz-border-radius: 10px 10px 0 0;
@@ -347,17 +342,61 @@ a:hover{
     border-radius: 10px 10px 0 0; 
 }
 
-#menu-table a{
-    color:#297b7c;
-    text-decoration: none;
+.menu-content{
+    padding: 10px;
 }
 
-#menu-table a:hover{
-    text-decoration: underline;
+.menu-item{
+    float: left;
+
+    width: 140px;
+    height: 100px;
+
+    text-align: center;
+
+    padding-top: 10px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+
+}
+
+.menu-item:hover{
+    background-color: #83b2b3;
+}
+
+.menu-item img{
+    width: 50px;
+    height: 50px;
+
+    border: none;
+}
+
+/*----------------Right Menu-------------------*/
+
+#menu-block{
+    float: right;
+    width: 10em;
+    height: auto;
+
+}
+#menu-content{
+    height: 330px;
 }
 
 /*-------------------------------------------------*/
+/*---------------Admin Menu------------------------*/
+#admin-menu-block{
+    width: 55em;
+    margin-top: 2em;
+}
 
+#admin-menu-content{
+    height: 200px;
+}
+/*-------------------------------------------------*/
 /*---------------Courses tables--------------------*/
 
 .course-table{
@@ -404,7 +443,6 @@ a:hover{
 }
 
 /*------------------------------------------------*/
-
 /*---------------Admin section--------------------*/
 
 .records_list{
@@ -413,6 +451,7 @@ a:hover{
 
 .records_list thead{
     background-color: #369697;
+    text-align: center;
     color: #ffffff;
 }
 
@@ -420,11 +459,23 @@ a:hover{
     background-color: #c3dada;
 }
 .records_list tbody .positionB{
-   background-color: white; 
+    background-color: white; 
 }
 
 .records_list tbody .positionA:hover,.records_list tbody .positionB:hover {
     background-color: #91bbbb;
+}
+
+.records_list tbody {
+    text-align: center;
+}
+
+.records_list td {
+    padding : 10px;
+}
+
+.records_list a {
+    font-weight: bold;
 }
 
 .admin-buttons {
@@ -441,7 +492,12 @@ a:hover{
     font-weight:bold;
     color:#565656;
     cursor:pointer;
-
+    
+     -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+    
     width:auto;
     overflow:visible;
 }
@@ -450,6 +506,12 @@ a:hover{
     display:block;
     float:left;
     background-color:#64fe2e;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+
     border:1px solid #dedede;
     border-top:1px solid #eee;
     border-left:1px solid #eee;
@@ -467,7 +529,13 @@ a:hover{
 .button_off {
     display:block;
     float:left;
-    background-color:#fe2e2e;
+    background-color:#ff6666;
+
+     -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+
     border:1px solid #dedede;
     border-top:1px solid #eee;
     border-left:1px solid #eee;
@@ -483,7 +551,7 @@ a:hover{
 }
 
 .action_icon_list {
-   
+
     margin: 5px;
     padding: 8px;
     text-align: left;
@@ -501,6 +569,13 @@ a:hover{
     float: left;
 }
 
+
+
+
+#course-block{
+    width: 55em;
+}
+
 .course_outline {
     margin: 5px;
     padding: 8px;
@@ -513,7 +588,7 @@ a:hover{
 
 .course_outline_img {
     width: 100px;
-    height: 80px;
+    height: 100px;
     border:1px solid #c6c6c6;
     margin: 10px;
     float: left;
@@ -522,6 +597,12 @@ a:hover{
 
 .course_outline_title {
     font-weight: bold;
+}
+
+.course_outline img {
+    width: 100px;
+    height: 100px;
+    border: none;
 }
 
 .lesson_title {
@@ -539,6 +620,9 @@ a:hover{
 }
 /*----------------------------------------------*/
 
+#courses-creation-block{
+  clear: left;
+}
 
 /* Faire des bords arrondis
     border: 1px solid #000000;

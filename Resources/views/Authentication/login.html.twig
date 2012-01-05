@@ -4,9 +4,6 @@
 {% if error %}
 <div>{{ error.message }}</div>
 {% endif %}
-<div class="welcome_message">
-    Bienvenue sur l'application d'E-learning, veuillez vous identifiez !
-</div>
 <div id="login-block">
     <div class="block">
         <form action="{{ path('login_check') }}" method="post">
@@ -24,6 +21,9 @@
             <input type="submit" name="login" />
         </form>
     </div>
+</div>
+<div class="welcome_message">
+    Bienvenue sur l'application d'E-learning, veuillez vous identifiez !
 </div>
 
 {% endblock %}
