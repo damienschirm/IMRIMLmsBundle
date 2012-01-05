@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use IMRIM\Bundle\LmsBundle\Form\MyProfileType;
 
 /**
  * Welcome Controller
@@ -21,15 +22,14 @@ class WelcomeController extends Controller {
      */
     public function indexAction() {
         $user = $this->get('security.context')->getToken()->getUser();
-	if(!$user) {
-		$this->redirect($this->generateUrl('login'));
-	}
-	$OrderingRoles = array('admin', 'teacher', 'student');
+        if (!$user) {
+            $this->redirect($this->generateUrl('login'));
+        }
+        $OrderingRoles = array('admin', 'teacher', 'student');
         // for each role if user has role redirect to role welcome page
-	foreach($OrderingRoles as $role) {
+        foreach ($OrderingRoles as $role) {
             $getter = 'get' . ucfirst($role) . 'Role';
-	    if( $user->$getter() != null)
-            {
+            if ($user->$getter() != null) {
                 return $this->redirect($this->generateUrl('welcome_' . $role));
             }
         }
@@ -44,7 +44,7 @@ class WelcomeController extends Controller {
      * @Template()
      */
     public function welcomeAdminAction() {
-    
+
         return array();
     }
 
@@ -64,7 +64,37 @@ class WelcomeController extends Controller {
      * @Route("/student", name="welcome_student")
      * @Secure(roles="ROLE_STUDENT")
      */
-    public function welcomeStudentAction() { 
+    public function welcomeStudentAction() {
         return $this->redirect($this->generateUrl("imrim_lms_course_list"));
     }
+
+    /**
+     * Profile editing view
+     * 
+     * @Route("/profil", name="user_profile")
+     * @Template()
+     */
+    public function userProfileAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->getRequest();
+
+        if($user == null) {
+            return $this->redirect($this->generateUrl("login"));
+        }
+
+        $form = $this->createForm(new MyProfileType(), $user);
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($user);
+                $em->flush();
+            }
+        }
+        return array(
+            'user' => $user,
+            'form' => $form->createView(),
+        );
+    }
+
 }

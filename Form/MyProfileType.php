@@ -5,15 +5,11 @@ namespace IMRIM\Bundle\LmsBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class UserType extends AbstractType
+class MyProfileType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('login', 'text', array(
-                'label' => "Nom de connexion",
-                'required' => true,
-            ))
             ->add('firstName', 'text', array(
                 'label' => "Prénom",
                 'required' => true,

@@ -1,0 +1,13 @@
+{% extends "IMRIMLmsBundle::layout.html.twig" %}
+
+{% block content %} 
+
+<h1>Mon profil</h1>
+
+<form action="{{ path('user_profile') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+        <p>
+            <button type="submit">Editer</button>
+        </p>
+    </form>
+{% endblock %}
