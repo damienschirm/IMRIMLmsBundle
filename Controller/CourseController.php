@@ -478,7 +478,7 @@ class CourseController extends Controller {
                     //return new Response('L\'utilisateur ' . $userToEnrol->getLogin() . ' suit d&eacute;j&agrave; ce cours');
                 }
                 $course->enrolUser($userToEnrol, true);
-		if( $userToEnrol->getStudentRole() != null) {
+		if( $userToEnrol->getStudentRole() == null) {
 			$userToEnrol->setStudentRole(new StudentRole());
                 }
                 $em->persist($course); // TODO check if user is allowed to enrol
