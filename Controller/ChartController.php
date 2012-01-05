@@ -5,8 +5,7 @@ namespace IMRIM\Bundle\LmsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
-include('Chart' . DIRECTORY_SEPARATOR . "Chart.php");
+use IMRIM\Bundle\LmsBundle\Chart\Chart;
 
 /**
  * Description of ChartController
@@ -56,7 +55,7 @@ class ChartController extends Controller {
      * @Template()
      */
     public function ExportPdfAction() {
-        require_once('lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
+        require_once(dirname(__FILE__).  DIRECTORY_SEPARATOR. '..' . DIRECTORY_SEPARATOR. 'lib' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'dompdf_config.inc.php');
         spl_autoload_register('DOMPDF_autoload');
         $dompdf = new \DOMPDF();
         $dompdf->load_html($this->ChartAction()->getContent());//$html);
@@ -67,5 +66,3 @@ class ChartController extends Controller {
     }
 
 }
-
-?>

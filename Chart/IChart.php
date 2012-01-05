@@ -1,5 +1,6 @@
 <?php
 
+namespace IMRIM\Bundle\LmsBundle\Chart;
 /**
  *
  * @author Damien
@@ -12,5 +13,3 @@ interface IChart {
     function averageOfTimeSpentByCourse(Controller $ctrl);
     function listOfUsersNotHavingFinishedCourse(Controller $ctrl);
 }
-
-?>

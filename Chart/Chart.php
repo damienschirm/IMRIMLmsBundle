@@ -1,8 +1,7 @@
 <?php
 
+namespace IMRIM\Bundle\LmsBundle\Chart;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-include('Chart' . DIRECTORY_SEPARATOR . "IChart.php");
 
 /**
  * Description of Chart
