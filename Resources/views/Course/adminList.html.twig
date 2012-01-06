@@ -9,12 +9,15 @@
         <div class="course_outline">
             <div class="course_outline_img"><img src="{{ asset('bundles/imrimlms/images/icons/Tag.png') }}" alt="{{course}}"/></div>
             <div><span class="course_outline_title"><a href="{{ path("imrim_lms_course_view", {'courseId': course.id, 'position': 1}) }}">{{course}}</a></span>
-                <ul><li><a href="{{ path("imrim_lms_course_edit", {'id':course.id}) }}">&eacute;diter</a></li>
-                    <li><a href="{{ path("imrim_lms_course_users", {'courseId':course.id}) }}">Gestion des inscrits</a></li>
-                    <li><a href="{{ path("imrim_lms_course_teachers", {'courseId':course.id}) }}">Gestion des enseignants</a></li>
+                <ul>
+                    <li class="course_outline_menu_item"><a href="{{ path("imrim_lms_course_edit", {'id':course.id}) }}"><img src="{{ asset('bundles/imrimlms/images/icons/edit.png') }}" alt="Editer"/></a></li>
+                    <li class="seperate"></li>
+                    <li class="course_outline_menu_item"><a href="{{ path("imrim_lms_course_users", {'courseId':course.id}) }}"><img src="{{ asset('bundles/imrimlms/images/icons/buddy_group.png') }}" alt="Gestion des inscrits"/></a></li>
+                    <li class="seperate"></li>
+                    <li class="course_outline_menu_item"><a href="{{ path("imrim_lms_course_teachers", {'courseId':course.id}) }}"><img src="{{ asset('bundles/imrimlms/images/icons/buddy.png') }}" alt="Gestion des enseignants"/></a></li>
                 </ul>
             </div>
-            <div>{{ course.summary | raw }}</div>
+                <div id="course_outline_summary">{{ course.summary | raw }}</div>
         </div>
 {% endfor %}
     </div>

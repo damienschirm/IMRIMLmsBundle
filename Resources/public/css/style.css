@@ -492,12 +492,12 @@ img{
     font-weight:bold;
     color:#565656;
     cursor:pointer;
-    
-     -webkit-border-radius: 10px;
+
+    -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -o-border-radius: 10px;
     border-radius: 10px; 
-    
+
     width:auto;
     overflow:visible;
 }
@@ -531,7 +531,7 @@ img{
     float:left;
     background-color:#ff6666;
 
-     -webkit-border-radius: 10px;
+    -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -o-border-radius: 10px;
     border-radius: 10px; 
@@ -570,7 +570,7 @@ img{
 }
 
 
-
+/*---------------------Courses--------------------*/
 
 #course-block{
     width: 55em;
@@ -584,6 +584,36 @@ img{
     border:1px solid #c6c6c6;
     width:650px;
     float: left;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+}
+
+.course_outline ul{
+    float: right;
+}
+
+.course_outline ul li{
+    float: left;
+    list-style-type: none;
+    margin-right: 5px;
+}
+
+.course_outline_menu_item:hover{
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px; 
+
+    background-color: #83b2b3;
+}
+
+.course_outline img{
+    width: 25px;
+    height: 25px;
+    border: none;
 }
 
 .course_outline_img {
@@ -593,15 +623,29 @@ img{
     margin: 10px;
     float: left;
     position: relative;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px; 
+}
+
+.course_outline_img img {
+    width: 100px;
+    height: 100px;
+    border: none;
 }
 
 .course_outline_title {
     font-weight: bold;
 }
 
-.course_outline img {
-    width: 100px;
-    height: 100px;
+
+.seperate{
+    height: 25px;
+    width : 3px;
+
+    background: url('../images/seperate.png') no-repeat;
     border: none;
 }
 
@@ -618,12 +662,33 @@ img{
     text-decoration:none;
     font-weight:bold;
 }
-/*----------------------------------------------*/
+
 
 #courses-creation-block{
-  clear: left;
+    clear: left;
+}
+/*----------------------------------------------*/
+/*-------------------Lessons----------------------*/
+
+#lessonList{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    
 }
 
+.addImg{
+    width: 30px;
+    height: 30px;
+}
+
+/*----------------------------------------------*/
+/*-------------------Users----------------------*/
+
+.userList{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    
+}
 /* Faire des bords arrondis
     border: 1px solid #000000;
     -webkit-border-radius: 10px;

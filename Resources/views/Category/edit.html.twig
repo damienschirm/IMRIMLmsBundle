@@ -5,22 +5,23 @@
 
 <form action="{{ path('admin_category_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Editer</button>
-    </p>
-</form>
-
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_category') }}">
-            Retour aux catégories
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('admin_category_delete', { 'id': entity.id }) }}" method="post">
+        <p>
+            <button type="submit">Editer</button>
+        </p>
+    </form>
+    <ul class="record_actions">
+        <li>
+            <form action="{{ path('admin_category_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Supprimer</button>
-        </form>
-    </li>
-</ul>
+                    <button type="submit">Supprimer</button>
+                </form>
+
+            </li>
+            <li>
+                <a href="{{ path('admin_category') }}">
+                    Retour aux catégories
+                </a>
+            </li>
+        </ul>
+
 {% endblock %}

@@ -2,8 +2,8 @@
 
 {% block css %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/jquery.autocomplete.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/humanmsg.css') }}"/>
+<link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/jquery.autocomplete.css') }}"/>
+<link rel="stylesheet" href="{{ asset('bundles/imrimlms/css/humanmsg.css') }}"/>
 {% endblock %}
 
 {% block js %}
@@ -25,16 +25,16 @@ $(document).ready( function() {
     {
       // on envoie la valeur recherchée en POST au fichier de traitement
       $.ajax({
-  	type : 'POST', // envoi des données en POST
-	url : '{{ path('imrim_lms_course_users_search', {'courseId': id}) }}' , // url du fichier de traitement
+        type : 'POST', // envoi des données en POST
+        url : '{{ path('imrim_lms_course_users_search', {'courseId': id}) }}' , // url du fichier de traitement
         dataType: 'json',
-	data : 'form[searchText]='+$(this).val() , // données à envoyer en POST
-	beforeSend : function() { // traitements JS à faire AVANT l'envoi
-		$field.after('<img src="ajax-loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
-	},
-	success : function(data){ // traitements JS à faire APRES le retour de la fonction
-		$('#ajax-loader').remove(); // on enleve le loader
-		 $('#form_searchText').autocomplete(data, {
+        data : 'form[searchText]='+$(this).val() , // données à envoyer en POST
+        beforeSend : function() { // traitements JS à faire AVANT l'envoi
+                $field.after('<img src="ajax-loader.gif" alt="loader" id="ajax-loader" />'); // ajout d'un loader pour signifier l'action
+        },
+        success : function(data){ // traitements JS à faire APRES le retour de la fonction
+                $('#ajax-loader').remove(); // on enleve le loader
+                 $('#form_searchText').autocomplete(data, {
                     formatItem: function(item) {
                     return item.text;
                  }}).result(function(event, item) {
@@ -47,32 +47,41 @@ $(document).ready( function() {
                             $('#userList').append('<tr><td>'+item.login+'</td><td>'+item.firstName+'</td><td>'+item.lastName+'</td><td>Oui</td></tr>');
                         }});
                 }); // affiche les resultats dans l'autocompletion
-	}
+        }
       });
     }		
   });
 });
-</script>
+    </script>
 {% endblock %}
 
 {% block content %}
-<form action="{{ path('imrim_lms_course_users', {'courseId': id, 'searchForm': searchForm }) }}" method="post" {{ form_enctype(searchForm) }}>
+    <form action="{{ path('imrim_lms_course_users', {'courseId': id, 'searchForm': searchForm }) }}" method="post" {{ form_enctype(searchForm) }}>
     {{ form_widget(searchForm) }}
-<div id="results"></div>
-</form>
-<table id='userList'>
-    <tr>
-        <th>Login</th>
-        <th>Prénom</th>
-        <th>NOM</th>
-        <th>Inscription forcée</th> 
-    </tr>
+            <div id="results"></div>
+        </form>
+        <table class='userList'>
+            <tr>
+                <th>Login</th>
+                <th>Prénom</th>
+                <th>NOM</th>
+                <th>Inscription forcée</th> 
+            </tr>
  {% for enrolledUser in usersEnrolled %}
-    <tr>
-        <td>{{ enrolledUser.getUser().getLogin() }}</td>
-        <td>{{ enrolledUser.getUser().getFirstName() }}</td>
-        <td>{{ enrolledUser.getUser().getLastName() }}</td>
-        <td>{% if enrolledUser.getIsForced()==1 %} Oui {% else %} Non {% endif %}</td> 
-    </tr>
+            <tr>
+                <td>{{ enrolledUser.getUser().getLogin() }}</td>
+                <td>{{ enrolledUser.getUser().getFirstName() }}</td>
+                <td>{{ enrolledUser.getUser().getLastName() }}</td>
+                <td>{% if enrolledUser.getIsForced()==1 %} Oui {% else %} Non {% endif %}</td> 
+            </tr>
     {% endfor %}
+
+        </table>
+        <ul class="record_actions">
+            <li>
+                <a href="{% if is_granted('ROLE_ADMIN')%}{{ path('imrim_lms_course_list_admin') }} {% else %}{{ path('imrim_lms_course_list') }} {% endif %}">
+                    Retour aux cours
+                </a>
+            </li>
+        </ul>
 {% endblock %}

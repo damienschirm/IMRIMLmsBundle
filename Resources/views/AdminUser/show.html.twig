@@ -59,11 +59,6 @@
 
 <ul class="record_actions">
     <li>
-        <a href="{{ path('admin_user') }}">
-            Retour aux utilisateurs
-        </a>
-    </li>
-    <li>
         <a href="{{ path('admin_user_edit', { 'id': entity.id }) }}">
             Editer
         </a>
@@ -71,8 +66,13 @@
     <li>
         <form action="{{ path('admin_user_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Supprimer</button>
-        </form>
-    </li>
-</ul>
+                <button type="submit">Supprimer</button>
+            </form>
+        </li>
+        <li>
+            <a href="{{ path('admin_user') }}">
+                Retour aux utilisateurs
+            </a>
+        </li>
+    </ul>
 {% endblock %}

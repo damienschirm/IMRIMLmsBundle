@@ -13,12 +13,19 @@
         $("#imrim_bundle_lmsbundle_coursetype_startDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
         $("#imrim_bundle_lmsbundle_coursetype_expirationDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
     });
-</script>
+    </script>
 {% endblock %}
 
 {% block content %} 
-<form action="{{ path('imrim_lms_course_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('imrim_lms_course_create') }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
-<input name="submit" type="submit">
-</form>
+            <input name="submit" type="submit">
+        </form>
+        <ul class="record_actions">
+            <li>
+                <a href="{% if is_granted('ROLE_ADMIN')%}{{ path('imrim_lms_course_list_admin') }} {% else %}{{ path('imrim_lms_course_list') }} {% endif %}">
+                    Retour aux cours
+                </a>
+            </li>
+        </ul>
 {% endblock %}

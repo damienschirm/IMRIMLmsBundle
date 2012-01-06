@@ -13,37 +13,41 @@
         $("#imrim_bundle_lmsbundle_coursetype_startDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
         $("#imrim_bundle_lmsbundle_coursetype_expirationDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
     });
-</script>
+    </script>
 {% endblock %}
 
 {% block content %} 
-<h2> &Eacute;dition du cours </h2>
-<form action="{{ path('imrim_lms_course_edit', { 'id':id } ) }}" method="post" {{ form_enctype(form) }}>
+    <h2> &Eacute;dition du cours </h2>
+    <form action="{{ path('imrim_lms_course_edit', { 'id':id } ) }}" method="post" {{ form_enctype(form) }}>
 {{ form_widget(form) }}
-<input name="submit" type="submit">
-</form>
-<form action="{{ path('imrim_lms_course_delete', { 'id': id }) }}" method="post">
+            <input name="submit" type="submit">
+        </form>
+        <form action="{{ path('imrim_lms_course_delete', { 'id': id }) }}" method="post">
             {{ form_widget(deleteCourseForm) }}
-            <button name="delete" type="submit">Supprimer</button>
-</form>
+                <button name="delete" type="submit">Supprimer</button>
+            </form>
 
-<a href="{{ path('imrim_lms_course_list') }}">
-                Retour aux cours
-            </a>
-<h2>D&eacute;roulement du cours </h2>
-<a href="{{ path('imrim_lms_lesson_create', {'courseId': id}) }}">Ajouter une le&ccedil;on</a>
-<table>
-    <tr>
-        <th>Position</th>
-        <th>Titre</th>
-        <th>Type</th>
-    </tr>
+            <h2>D&eacute;roulement du cours </h2>
+            <a href="{{ path('imrim_lms_lesson_create', {'courseId': id}) }}">Ajouter une le&ccedil;on <img class="addImg" src="{{ asset('bundles/imrimlms/images/symbol_add.png') }}" alt="Ajouter une le&ccedil;on "/></a>
+            <table id="lessonList">
+                <tr>
+                    <th>Position</th>
+                    <th>Titre</th>
+                    <th>Type</th>
+                </tr>
     {% for item in associatedRessources %}
-    <tr>
-        <td>{{ item.getCoursePosition() }}</td>
-        <td><a href="{{ path('imrim_lms_lesson_edit', {'courseId' : id, 'lessonId' : item.getId})}}">{{ item.getTitle() }}</a></td>
-        <td>{{ item.getType() }}</td>
-    </tr>
+                <tr>
+                    <td>{{ item.getCoursePosition() }}</td>
+                    <td><a href="{{ path('imrim_lms_lesson_edit', {'courseId' : id, 'lessonId' : item.getId})}}">{{ item.getTitle() }}</a></td>
+                    <td>{{ item.getType() }}</td>
+                </tr>
     {% endfor %}
-</table>
+            </table>
+            <ul class="record_actions">
+                <li>
+                    <a href="{% if is_granted('ROLE_ADMIN')%}{{ path('imrim_lms_course_list_admin') }} {% else %}{{ path('imrim_lms_course_list') }} {% endif %}">
+                        Retour aux cours
+                    </a>
+                </li>
+            </ul>
 {% endblock %}

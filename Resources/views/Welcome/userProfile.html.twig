@@ -11,3 +11,7 @@
         </p>
     </form>
 {% endblock %}
+
+{% block menu %} 
+    <a href="{% if is_granted('ROLE_ADMIN')%}{{ path('welcome_admin') }} {% else %}{{ path('imrim_lms_course_list') }} {% endif %}">Accueil</a>
+{% endblock %}
